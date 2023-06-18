@@ -1,0 +1,150 @@
+html{
+  scroll-behavior: smooth;
+}
+
+
+.header{
+  background-color: rgb(255, 253, 253);
+  position:fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+.container {
+  margin-top: 80px;
+  top: 0;
+  left: 0;
+  right:0;
+  background-color: rgb(255, 255, 255);
+  width: 1fr;
+  height: auto;
+}
+.dreamhome2 {
+  position: absolute;
+width: 212px;
+height: 35px;
+left: 31px;
+top: 50px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 800;
+font-size: 32px;
+line-height: 35px;
+/* identical to box height, or 109% */
+
+text-align: center;
+text-decoration-line: underline;
+
+color: #DA291C;
+
+backdrop-filter: blur(2px);
+}
+.co-living1,
+.dch-v1,
+.gii-thiu1,
+.i-tc1,
+.loi-phng1,
+.tin-tc1 {
+  position: absolute;
+width: 121px;
+height: 31px;
+left: 310px;
+top: 54px;
+
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+line-height: 31px;
+text-decoration: none;
+color: #000000;
+
+backdrop-filter: blur(2px);
+}
+.co-living1,
+.dch-v1,
+.i-tc1,
+.loi-phng1,
+.tin-tc1 {
+  left: 454px;
+}
+.dch-v1,
+.i-tc1,
+.loi-phng1,
+.tin-tc1 {
+  left: 600px;
+}
+.dch-v1,
+.loi-phng1,
+.tin-tc1 {
+  left: 711px;
+}
+.dch-v1,
+.loi-phng1 {
+  left: 823px;
+}
+.loi-phng1 {
+  left: 940px;
+}
+.group-child39 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--color-tomato);
+  width: 196px;
+  height: 68px;
+}
+.ng-nhp2 {
+  
+  position: absolute;
+  top: 18px;
+  left: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  color:#FFFFFF;
+  width: 196px;
+  height: 68px;
+  /* backdrop-filter: blur(4px); */
+}
+.rectangle-parent23 {
+  position: absolute;
+  top: 36px;
+  left: 1200px;
+  width: 160px;
+  height: 60px;
+
+  background-color: #DA291C;
+}
+.ng-k2 {
+  position: absolute;
+  top: 18px;
+  left: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  color:black;
+  /* backdrop-filter: blur(4px); */
+}
+.rectangle-parent24 {
+  position: absolute;
+  top: 36px;
+  left: 1320px;
+  width: 110px;
+  height: 68px;
+  color: var(--color-white);
+  
+}
+.desktop-9 {
+  position: relative;
+  background-color: var(--color-white);
+  box-shadow: 0 4px 4px #d9d9d9;
+  width: 100%;
+  height: 139px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-7xl);
+  color: var(--color-black);
+  font-family: 'Roboto';
+  font-size: 22px;
+}

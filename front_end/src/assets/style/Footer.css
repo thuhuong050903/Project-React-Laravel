@@ -1,0 +1,135 @@
+.image-4-icon {
+  position: absolute;
+  top: 102px;
+  left: 65px;
+  width: 102px;
+  height: 106px;
+  object-fit: cover;
+}
+.cng-ty-tnhh,
+.do-s-k,
+.giy-chng-nhn {
+  position: absolute;
+  top: 50px;
+  left: 90px;
+  font-weight: 300;
+}
+.do-s-k,
+.giy-chng-nhn {
+  top: 104px;
+}
+.do-s-k {
+  top: 158px;
+}
+.bis-nguyn-vn,
+.div12,
+.infodreamhomecom {
+  position: absolute;
+  top: 225px;
+  left: 157px;
+  font-weight: 300;
+}
+.div12,
+.infodreamhomecom {
+  top: 290px;
+}
+.div12 {
+  top: 358px;
+}
+.dch-v2,
+.v-dreamhome {
+  position: absolute;
+  top: 50px;
+  left: 894px;
+  font-size: var(--font-size-5xl);
+  font-weight: 600;
+  color: #000000;
+}
+.dch-v2 {
+  left: 1168px;
+}
+.tuyn-dng {
+  margin-block-start: 0;
+  margin-block-end: 25px;
+}
+.chnh-sch-iu {
+  margin: 0;
+}
+.gii-thiu-tin-container,
+.qun-l-bt-container {
+  position: absolute;
+  top: 111px;
+  left: 894px;
+  font-weight: 300;
+}
+.qun-l-bt-container {
+  left: 1168px;
+}
+.group-child40,
+.icons8-address-64-1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35.06px;
+  height: 43.15px;
+}
+.group-child40 {
+  top: 30.56px;
+  left: 30.56px;
+  border-radius: 50%;
+  background-color: var(--color-tomato);
+  width: 49.44px;
+  height: 49.44px;
+}
+.icons8-address-64-2-1 {
+  position: absolute;
+  top: 36.85px;
+  left: 35.96px;
+  width: 38.65px;
+  height: 38.65px;
+  object-fit: cover;
+}
+.icons8-address-64-1-parent {
+  position: absolute;
+  top: 188px;
+  left: 50px;
+  width: 80px;
+  height: 80px;
+}
+.icons8-address-64-1-container,
+.icons8-address-64-1-group {
+  position: absolute;
+  top: 253px;
+  left: 50px;
+  width: 80px;
+  height: 80px;
+}
+.icons8-address-64-1-container {
+  top: 318px;
+}
+.icons8-email-50-1,
+.icons8-phone-50-1 {
+  position: absolute;
+  top: 294px;
+  left: 90px;
+  width: 28px;
+  height: 28px;
+  object-fit: cover;
+}
+.icons8-phone-50-1 {
+  top: 355px;
+  left: 87px;
+  width: 36px;
+  height: 36px;
+}
+.footer {
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  width: 100%;
+  height: 464px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-xl);
+  color: var(--color-black);
+  font-family: var(--font-poppins);
+}

@@ -1,0 +1,1254 @@
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import "../../assets/css/Home.css";
+
+
+
+const Home = () => {
+  const slideImages = [
+    'https://static1.cafeland.vn/cafelandnew/hinh-anh/2021/01/06/124/can---ho---chung-cu.jpg',
+    'https://media.vneconomy.vn/w800/images/upload/2021/04/20/pic-13-15367166803231878511339-105-0-1229-2000-crop-1536716689366457700181.jpg',
+    'https://media.vneconomy.vn/w800/images/upload/2021/04/20/pic-13-15367166803231878511339-105-0-1229-2000-crop-1536716689366457700181.jpg',
+    // Add other image URLs here
+  ];
+  let slideIndex = 0;
+
+  function showSlides() {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+
+    if (slides.length === 0) {
+      return;
+    }
+
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+
+    slideIndex++;
+    if (slideIndex > slides.length) {
+      slideIndex = 1;
+    }
+
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+    setTimeout(showSlides, 1500);
+  }
+
+  useEffect(() => {
+    showSlides();
+  }, []);
+
+
+  const [apartments, setApartments] = useState([]);
+  const sliderRef = useRef(null);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/get-apartment')
+      .then(response => response.json())
+      .then(data => setApartments(data));
+  }, []);
+
+  const handleAddToCart = (apartment) => {
+    addToCart(apartment);
+  };
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    centerMode: true,
+    centerPadding: '100px',
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          centerMode: false
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          centerMode: false
+        }
+      }
+    ]
+  };
+
+
+
+
+  return (
+    
+    <div className="home">
+      <div className="slideshow-container">
+          <div className="mySlides">
+            <img src="https://static1.cafeland.vn/cafelandnew/hinh-anh/2021/01/06/124/can---ho---chung-cu.jpg" style={{width: '100%', height: '105vh', objectFit: 'cover', objectPosition: 'center'}} />          
+          </div>
+          <div className="mySlides">
+            <img src="https://media.vneconomy.vn/w800/images/upload/2021/04/20/pic-13-15367166803231878511339-105-0-1229-2000-crop-1536716689366457700181.jpg" style={{width: '100%', height: '105vh', objectFit: 'cover', objectPosition: 'center'}} />
+          </div>
+          <div className="mySlides">
+<img src="https://media.vneconomy.vn/w800/images/upload/2021/04/20/pic-13-15367166803231878511339-105-0-1229-2000-crop-1536716689366457700181.jpg" style={{width: '100%', height: '105vh', objectFit: 'cover', objectPosition: 'center'}} />
+          </div>
+        </div>
+        <br />      
+        <div style={{textAlign: 'center'}}>
+          <span className="dot" /> 
+          <span className="dot" /> 
+          <span className="dot" /> 
+        </div>
+  
+        
+        <div>
+        <div>
+        <h1 className="title">Danh Sách Sản Phẩm Nổi Bật</h1>
+        <br /> <br /> <br />
+        <Slider {...settings} ref={sliderRef}>
+          {apartments.map(apartment => (
+            <div className="col-md-3 mb-3" key={apartment.id}>
+              <div className="card">
+                <img src="https://danhkhoireal.vn/wp-content/uploads/2022/03/Can-ho-Calla-Apartment-Quy-Nhon.jpg" className="card-img-top" alt={apartment.description} />
+                <div className="card-body">
+                  <h5 className="card-text">{apartment.address_id}</h5>
+                  <p className="card-text">NumberRoom: {apartment.number_room}</p>
+                  <p className="card-text">TypeRoom: {apartment.typeroom}</p>
+                  <p className="card-text">Giá: {apartment.price}</p>
+                  <p className="card-text">Area: {apartment.area}</p>
+                  <div className="card-buttons">
+                    <button className="btn btn-primary" onClick={() => handleAddToCart(product)}>
+                      Add Cart
+                    </button>
+                    <button className="btn btn-secondary">Detail</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </div>
+      {/* <div className="desktop-12">
+      <div className="desktop-12-child" />
+      <img className="image-24-icon" alt="" src="/image-24@2x.png" />
+      <div className="room-for-rent-container4">
+        <p className="room-for-rent4">Room for rent - JinJoo</p>
+        <p className="room-for-rent4">{`Home - Ky Con, P.Nguyen Thai `}</p>
+        <p className="room-for-rent4">Binh, District 1</p>
+      </div>
+      <div className="div4">10.000.000</div>
+      <div className="s-phng-054">Số Phòng: 05</div>
+      <div className="district-1-ho4">District 1, Ho Chi Minh</div>
+      <img className="image-25-icon" alt="" src="/image-36@2x.png" />
+      <img className="image-26-icon" alt="" src="/image-37@2x.png" />
+      <div className="phng-dch-v4"> Phòng dịch vụ</div>
+      <div className="desktop-12-item" />
+      <img className="image-27-icon" alt="" src="/image-24@2x.png" />
+      <div className="room-for-rent-container5">
+        <p className="room-for-rent4">Room for rent - JinJoo</p>
+        <p className="room-for-rent4">{`Home - Ky Con, P.Nguyen Thai `}</p>
+        <p className="room-for-rent4">Binh, District 1</p>
+      </div>
+<div className="div5">10.000.000</div>
+      <div className="s-phng-055">Số Phòng: 05</div>
+      <div className="district-1-ho5">District 1, Ho Chi Minh</div>
+      <img className="image-28-icon" alt="" src="/image-36@2x.png" />
+      <img className="image-29-icon" alt="" src="/image-37@2x.png" />
+      <div className="phng-dch-v5"> Phòng dịch vụ</div>
+      <div className="desktop-12-inner" />
+      <img className="image-30-icon" alt="" src="/image-24@2x.png" />
+      <div className="room-for-rent-container6">
+        <p className="room-for-rent4">Room for rent - JinJoo</p>
+        <p className="room-for-rent4">{`Home - Ky Con, P.Nguyen Thai `}</p>
+        <p className="room-for-rent4">Binh, District 1</p>
+      </div>
+      <div className="div6">10.000.000</div>
+      <div className="s-phng-056">Số Phòng: 05</div>
+      <div className="district-1-ho6">District 1, Ho Chi Minh</div>
+      <img className="image-31-icon" alt="" src="/image-36@2x.png" />
+      <img className="image-32-icon" alt="" src="/image-37@2x.png" />
+      <div className="phng-dch-v6"> Phòng dịch vụ</div>
+      <div className="desktop-12-child1" />
+      <img className="image-33-icon" alt="" src="/image-24@2x.png" />
+      <div className="room-for-rent-container7">
+        <p className="room-for-rent4">Room for rent - JinJoo</p>
+        <p className="room-for-rent4">{`Home - Ky Con, P.Nguyen Thai `}</p>
+        <p className="room-for-rent4">Binh, District 1</p>
+      </div>
+      <div className="div7">10.000.000</div>
+      <div className="s-phng-057">Số Phòng: 05</div>
+      <div className="district-1-ho7">District 1, Ho Chi Minh</div>
+      <img className="image-34-icon" alt="" src="/image-36@2x.png" />
+      <img className="image-35-icon" alt="" src="/image-37@2x.png" />
+      <div className="phng-dch-v7"> Phòng dịch vụ</div>
+      <div className="desktop-12-child2" />
+      <div className="room-for-rent-container8">
+        <p className="room-for-rent4">Room for rent - JinJoo</p>
+        <p className="room-for-rent4">{`Home - Ky Con, P.Nguyen Thai `}</p>
+        <p className="room-for-rent4">Binh, District 1</p>
+      </div>
+      <div className="div8">10.000.000</div>
+      <div className="s-phng-058">Số Phòng: 05</div>
+      <div className="district-1-ho8">District 1, Ho Chi Minh</div>
+      <img className="image-36-icon4" alt="" src="/image-36@2x.png" />
+      <img className="image-37-icon4" alt="" src="/image-37@2x.png" />
+      <div className="phng-dch-v8"> Phòng dịch vụ</div>
+      <div className="desktop-12-child3" />
+      <img className="image-38-icon" alt="" src="/image-24@2x.png" />
+      <img className="image-47-icon4" alt="" src="/image-24@2x.png" />
+      <div className="room-for-rent-container9">
+        <p className="room-for-rent4">Room for rent - JinJoo</p>
+        <p className="room-for-rent4">{`Home - Ky Con, P.Nguyen Thai `}</p>
+        <p className="room-for-rent4">Binh, District 1</p>
+</div>
+      <div className="div9">10.000.000</div>
+      <div className="s-phng-059">Số Phòng: 05</div>
+      <div className="district-1-ho9">District 1, Ho Chi Minh</div>
+      <img className="image-39-icon" alt="" src="/image-36@2x.png" />
+      <img className="image-40-icon" alt="" src="/image-37@2x.png" />
+      <div className="phng-dch-v9"> Phòng dịch vụ</div>
+      <div className="desktop-12-child4" />
+      <img className="image-41-icon" alt="" src="/image-24@2x.png" />
+      <div className="room-for-rent-container10">
+        <p className="room-for-rent4">Room for rent - JinJoo</p>
+        <p className="room-for-rent4">{`Home - Ky Con, P.Nguyen Thai `}</p>
+        <p className="room-for-rent4">Binh, District 1</p>
+      </div>
+      <div className="div10">10.000.000</div>
+      <div className="s-phng-0510">Số Phòng: 05</div>
+      <div className="district-1-ho10">District 1, Ho Chi Minh</div>
+      <img className="image-42-icon" alt="" src="/image-36@2x.png" />
+      <img className="image-43-icon" alt="" src="/image-37@2x.png" />
+      <div className="phng-dch-v10"> Phòng dịch vụ</div>
+      <div className="desktop-12-child5" />
+      <img className="image-44-icon" alt="" src="/image-24@2x.png" />
+      <div className="room-for-rent-container11">
+        <p className="room-for-rent4">Room for rent - JinJoo</p>
+        <p className="room-for-rent4">{`Home - Ky Con, P.Nguyen Thai `}</p>
+        <p className="room-for-rent4">Binh, District 1</p>
+      </div>
+      <div className="div11">10.000.000</div>
+      <div className="s-phng-0511">Số Phòng: 05</div>
+      <div className="district-1-ho11">District 1, Ho Chi Minh</div>
+      <img className="image-45-icon" alt="" src="/image-36@2x.png" />
+      <img className="image-46-icon" alt="" src="/image-37@2x.png" />
+      <div className="phng-dch-v11"> Phòng dịch vụ</div>
+      <b className="chung-c-phng">CHUNG CƯ/ PHÒNG CHO THUÊ DÀI HẠN</b>
+      <b className="chung-c-phng1">CHUNG CƯ/ PHÒNG CHO THUÊ NGẮN HẠN</b>
+    </div> */}
+    <div className="desktop-13">
+      <b className="v-sao-jinjoo">
+        VÌ SAO JINJOO HOME PHÁT TRIỂN MÔ HÌNH SỐNG CO-LIVING?
+      </b>
+      
+      <img className="image-48-icon" alt="" src="/image-48@2x.png" />
+      <b className="khng-gian-thoi">Không gian thoải mái và tiện lợi</b>
+      <img className="image-49-icon" alt="" src="/image-49@2x.png" />
+      <img className="image-50-icon" alt="" src="/image-50@2x.png" />
+      <img className="image-51-icon" alt="" src="/image-51@2x.png" />
+      <b className="nhiu-nim-vui-container">
+        <p className="nhiu-nim-vui">{`Nhiều niềm vui hơn khi sống `}</p>
+        <p className="nhiu-nim-vui">cùng nhau</p>
+      </b>
+      <b className="ngun-nng-lng-container">
+        <p className="nhiu-nim-vui">{`Nguồn năng lượng mới từ những `}</p>
+        <p className="nhiu-nim-vui">người bạn mới.</p>
+      </b>
+<b className="cng-nhau-khm">Cùng nhau khám phá thế giới.</b>
+      <div className="desktop-13-child" />
+      <div className="tm-hiu-thm">Tìm hiểu thêm</div>
+      
+    </div>
+    <div className="desktop-14">
+      <div className="tin-tc-ni">TIN TỨC NỔI BẬT</div>
+      <div className="desktop-14-child" />
+      <img className="image-52-icon" alt="" src="/image-52@2x.png" />
+      <div className="desktop-14-item" />
+      <div className="desktop-14-inner" />
+      <img className="image-53-icon" alt="" src="/image-53@2x.png" />
+      <img className="image-54-icon" alt="" src="/image-53@2x.png" />
+    </div>
+    </div>
+    
+  );
+};
+
+
+export default Home;
+.home {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .slideshow-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .each-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .each-slide > div {
+    width: 100%;
+    height: 100%;
+  }
+  .desktop-12-child,
+.image-24-icon {
+  position: absolute;
+  top: 116px;
+  width: 255px;
+}
+.desktop-12-child {
+  left: calc(50% - 590px);
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gainsboro-300);
+  height: 422px;
+}
+.image-24-icon {
+  left: calc(50% - 589px);
+  border-radius: var(--br-3xs) var(--br-3xs) 0 0;
+  height: 226.67px;
+  object-fit: cover;
+}
+.room-for-rent4 {
+  margin: 0;
+}
+.district-1-ho4,
+.div4,
+.room-for-rent-container4,
+.s-phng-054 {
+  position: absolute;
+  left: calc(50% - 585px);
+  font-weight: 300;
+  display: inline-block;
+}
+.room-for-rent-container4 {
+  top: 349px;
+  width: 241px;
+  height: 57px;
+}
+.district-1-ho4,
+.div4,
+.s-phng-054 {
+  height: 19px;
+}
+.div4 {
+  top: 416px;
+  color: var(--color-tomato);
+  width: 87px;
+  -webkit-text-stroke: 1px #da291c;
+}
+.district-1-ho4,
+.s-phng-054 {
+  top: 443px;
+  width: 100px;
+}
+.district-1-ho4 {
+  top: 471px;
+  left: calc(50% - 556px);
+  width: 165px;
+}
+.image-25-icon,
+.image-26-icon {
+  position: absolute;
+  top: 468px;
+  left: calc(50% - 585px);
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+.image-26-icon {
+  top: 501px;
+}
+.phng-dch-v4 {
+  position: absolute;
+  top: 505px;
+  left: calc(50% - 560px);
+  font-weight: 300;
+  display: inline-block;
+  width: 111px;
+  height: 19px;
+}
+.desktop-12-item,
+.image-27-icon {
+  position: absolute;
+  top: 116px;
+  left: calc(50% - 285px);
+  width: 255px;
+}
+.desktop-12-item {
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gainsboro-300);
+  height: 422px;
+}
+.image-27-icon {
+  border-radius: var(--br-3xs) var(--br-3xs) 0 0;
+  height: 226.67px;
+  object-fit: cover;
+}
+.district-1-ho5,
+.div5,
+.room-for-rent-container5,
+.s-phng-055 {
+  position: absolute;
+  left: calc(50% - 281px);
+  font-weight: 300;
+  display: inline-block;
+}
+.room-for-rent-container5 {
+  top: 349px;
+  width: 241px;
+  height: 57px;
+}
+.district-1-ho5,
+.div5,
+.s-phng-055 {
+  height: 19px;
+}
+.div5 {
+  top: 416px;
+  color: var(--color-tomato);
+  width: 87px;
+  -webkit-text-stroke: 1px #da291c;
+}
+.district-1-ho5,
+.s-phng-055 {
+  top: 443px;
+  width: 100px;
+}
+.district-1-ho5 {
+  top: 471px;
+  left: calc(50% - 252px);
+  width: 165px;
+}
+.image-28-icon,
+.image-29-icon {
+  position: absolute;
+  top: 468px;
+  left: calc(50% - 281px);
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+.image-29-icon {
+  top: 501px;
+}
+.phng-dch-v5 {
+  position: absolute;
+  top: 505px;
+  left: calc(50% - 256px);
+  font-weight: 300;
+  display: inline-block;
+  width: 111px;
+  height: 19px;
+}
+.desktop-12-inner,
+.image-30-icon {
+  position: absolute;
+  top: 116px;
+  left: calc(50% + 29px);
+width: 255px;
+}
+.desktop-12-inner {
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gainsboro-300);
+  height: 422px;
+}
+.image-30-icon {
+  border-radius: var(--br-3xs) var(--br-3xs) 0 0;
+  height: 226.67px;
+  object-fit: cover;
+}
+.district-1-ho6,
+.div6,
+.room-for-rent-container6,
+.s-phng-056 {
+  position: absolute;
+  left: calc(50% + 33px);
+  font-weight: 300;
+  display: inline-block;
+}
+.room-for-rent-container6 {
+  top: 349px;
+  width: 241px;
+  height: 57px;
+}
+.district-1-ho6,
+.div6,
+.s-phng-056 {
+  height: 19px;
+}
+.div6 {
+  top: 416px;
+  color: var(--color-tomato);
+  width: 87px;
+  -webkit-text-stroke: 1px #da291c;
+}
+.district-1-ho6,
+.s-phng-056 {
+  top: 443px;
+  width: 100px;
+}
+.district-1-ho6 {
+  top: 471px;
+  left: calc(50% + 62px);
+  width: 165px;
+}
+.image-31-icon,
+.image-32-icon {
+  position: absolute;
+  top: 468px;
+  left: calc(50% + 33px);
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+.image-32-icon {
+  top: 501px;
+}
+.phng-dch-v6 {
+  position: absolute;
+  top: 505px;
+  left: calc(50% + 58px);
+  font-weight: 300;
+  display: inline-block;
+  width: 111px;
+  height: 19px;
+}
+.desktop-12-child1,
+.image-33-icon {
+  position: absolute;
+  top: 116px;
+  width: 255px;
+}
+.desktop-12-child1 {
+  left: calc(50% + 323px);
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gainsboro-300);
+  height: 422px;
+}
+.image-33-icon {
+  left: calc(50% + 324px);
+  border-radius: var(--br-3xs) var(--br-3xs) 0 0;
+  height: 226.67px;
+  object-fit: cover;
+}
+.district-1-ho7,
+.div7,
+.room-for-rent-container7,
+.s-phng-057 {
+  position: absolute;
+  left: calc(50% + 328px);
+  font-weight: 300;
+  display: inline-block;
+}
+.room-for-rent-container7 {
+  top: 349px;
+  width: 241px;
+  height: 57px;
+}
+.district-1-ho7,
+.div7,
+.s-phng-057 {
+  height: 19px;
+}
+.div7 {
+  top: 416px;
+  color: var(--color-tomato);
+  width: 87px;
+  -webkit-text-stroke: 1px #da291c;
+}
+.district-1-ho7,
+.s-phng-057 {
+  top: 443px;
+  width: 100px;
+}
+.district-1-ho7 {
+  top: 471px;
+  left: calc(50% + 357px);
+  width: 165px;
+}
+.image-34-icon,
+.image-35-icon {
+  position: absolute;
+  top: 468px;
+  left: calc(50% + 328px);
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+.image-35-icon {
+  top: 501px;
+}
+.phng-dch-v7 {
+  position: absolute;
+  top: 505px;
+  left: calc(50% + 353px);
+  font-weight: 300;
+  display: inline-block;
+  width: 111px;
+  height: 19px;
+}
+.desktop-12-child2 {
+  position: absolute;
+  top: 703px;
+  left: calc(50% - 590px);
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gainsboro-300);
+  width: 255px;
+  height: 422px;
+}
+.district-1-ho8,
+.div8,
+.room-for-rent-container8,
+.s-phng-058 {
+  position: absolute;
+  left: calc(50% - 585px);
+  font-weight: 300;
+  display: inline-block;
+}
+.room-for-rent-container8 {
+  top: 936px;
+  width: 241px;
+  height: 57px;
+}
+.district-1-ho8,
+.div8,
+.s-phng-058 {
+  height: 19px;
+}
+.div8 {
+  top: 1003px;
+  color: var(--color-tomato);
+  width: 87px;
+  -webkit-text-stroke: 1px #da291c;
+}
+.district-1-ho8,
+.s-phng-058 {
+top: 1030px;
+  width: 100px;
+}
+.district-1-ho8 {
+  top: 1058px;
+  left: calc(50% - 556px);
+  width: 165px;
+}
+.image-36-icon4,
+.image-37-icon4 {
+  position: absolute;
+  top: 1055px;
+  left: calc(50% - 585px);
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+.image-37-icon4 {
+  top: 1088px;
+}
+.phng-dch-v8 {
+  position: absolute;
+  top: 1092px;
+  left: calc(50% - 560px);
+  font-weight: 300;
+  display: inline-block;
+  width: 111px;
+  height: 19px;
+}
+.desktop-12-child3,
+.image-38-icon,
+.image-47-icon4 {
+  position: absolute;
+  top: 703px;
+  left: calc(50% - 285px);
+  width: 255px;
+}
+.desktop-12-child3 {
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gainsboro-300);
+  height: 422px;
+}
+.image-38-icon,
+.image-47-icon4 {
+  border-radius: var(--br-3xs) var(--br-3xs) 0 0;
+  height: 226.67px;
+  object-fit: cover;
+}
+.image-47-icon4 {
+  left: calc(50% - 590px);
+}
+.district-1-ho9,
+.div9,
+.room-for-rent-container9,
+.s-phng-059 {
+  position: absolute;
+  left: calc(50% - 281px);
+  font-weight: 300;
+  display: inline-block;
+}
+.room-for-rent-container9 {
+  top: 936px;
+  width: 241px;
+  height: 57px;
+}
+.district-1-ho9,
+.div9,
+.s-phng-059 {
+  height: 19px;
+}
+.div9 {
+  top: 1003px;
+  color: var(--color-tomato);
+  width: 87px;
+  -webkit-text-stroke: 1px #da291c;
+}
+.district-1-ho9,
+.s-phng-059 {
+  top: 1030px;
+  width: 100px;
+}
+.district-1-ho9 {
+  top: 1058px;
+  left: calc(50% - 252px);
+  width: 165px;
+}
+.image-39-icon,
+.image-40-icon {
+  position: absolute;
+  top: 1055px;
+  left: calc(50% - 281px);
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+.image-40-icon {
+  top: 1088px;
+}
+.phng-dch-v9 {
+  position: absolute;
+  top: 1092px;
+  left: calc(50% - 256px);
+  font-weight: 300;
+  display: inline-block;
+  width: 111px;
+  height: 19px;
+}
+.desktop-12-child4,
+.image-41-icon {
+  position: absolute;
+  top: 703px;
+  left: calc(50% + 29px);
+  width: 255px;
+}
+.desktop-12-child4 {
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gainsboro-300);
+  height: 422px;
+}
+.image-41-icon {
+  border-radius: var(--br-3xs) var(--br-3xs) 0 0;
+  height: 226.67px;
+  object-fit: cover;
+}
+.district-1-ho10,
+.div10,
+.room-for-rent-container10,
+.s-phng-0510 {
+  position: absolute;
+  left: calc(50% + 33px);
+  font-weight: 300;
+  display: inline-block;
+}
+.room-for-rent-container10 {
+  top: 936px;
+  width: 241px;
+  height: 57px;
+}
+.district-1-ho10,
+.div10,
+.s-phng-0510 {
+  height: 19px;
+}
+.div10 {
+  top: 1003px;
+  color: var(--color-tomato);
+  width: 87px;
+  -webkit-text-stroke: 1px #da291c;
+}
+.district-1-ho10,
+.s-phng-0510 {
+  top: 1030px;
+  width: 100px;
+}
+.district-1-ho10 {
+  top: 1058px;
+  left: calc(50% + 62px);
+  width: 165px;
+}
+.image-42-icon,
+.image-43-icon {
+  position: absolute;
+  top: 1055px;
+  left: calc(50% + 33px);
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+.image-43-icon {
+  top: 1088px;
+}
+.phng-dch-v10 {
+  position: absolute;
+  top: 1092px;
+  left: calc(50% + 58px);
+  font-weight: 300;
+  display: inline-block;
+  width: 111px;
+height: 19px;
+}
+.desktop-12-child5,
+.image-44-icon {
+  position: absolute;
+  top: 703px;
+  width: 255px;
+}
+.desktop-12-child5 {
+  left: calc(50% + 323px);
+  border-radius: var(--br-3xs);
+  background-color: var(--color-gainsboro-300);
+  height: 422px;
+}
+.image-44-icon {
+  left: calc(50% + 324px);
+  border-radius: var(--br-3xs) var(--br-3xs) 0 0;
+  height: 226.67px;
+  object-fit: cover;
+}
+.district-1-ho11,
+.div11,
+.room-for-rent-container11,
+.s-phng-0511 {
+  position: absolute;
+  left: calc(50% + 328px);
+  font-weight: 300;
+  display: inline-block;
+}
+.room-for-rent-container11 {
+  top: 936px;
+  width: 241px;
+  height: 57px;
+}
+.district-1-ho11,
+.div11,
+.s-phng-0511 {
+  height: 19px;
+}
+.div11 {
+  top: 1003px;
+  color: var(--color-tomato);
+  width: 87px;
+  -webkit-text-stroke: 1px #da291c;
+}
+.district-1-ho11,
+.s-phng-0511 {
+  top: 1030px;
+  width: 100px;
+}
+.district-1-ho11 {
+  top: 1058px;
+  left: calc(50% + 357px);
+  width: 165px;
+}
+.image-45-icon,
+.image-46-icon {
+  position: absolute;
+  top: 1055px;
+  left: calc(50% + 328px);
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+.image-46-icon {
+  top: 1088px;
+}
+.phng-dch-v11 {
+  position: absolute;
+  top: 1092px;
+  left: calc(50% + 353px);
+  font-weight: 300;
+  display: inline-block;
+  width: 111px;
+  height: 19px;
+}
+.chung-c-phng,
+.chung-c-phng1 {
+  position: absolute;
+  top: 37px;
+  left: 113px;
+  font-size: var(--font-size-5xl);
+}
+.chung-c-phng1 {
+  top: 600px;
+}
+.desktop-12 {
+  position: relative;
+  background-color: var(--color-white);
+  width: 100%;
+  height: 1182px;
+  overflow: hidden;
+  text-align: left;
+  font-size: var(--font-size-base);
+  color: var(--color-black);
+  font-family: 'Roboto';
+  font-size: 20px;
+}
+.v-sao-jinjoo {
+    position: absolute;
+    top: 37px;
+    left: 113px;
+    font-size: var(--font-size-5xl);
+  }
+  .image-48-icon {
+    position: absolute;
+    top: 137px;
+    left: 219px;
+    width: 150px;
+    height: 153.64px;
+    object-fit: cover;
+  }
+  .khng-gian-thoi {
+    position: absolute;
+    top: 322px;
+    left: 178px;
+  }
+  .image-49-icon,
+  .image-50-icon,
+  .image-51-icon {
+    position: absolute;
+    top: 137px;
+    left: 506px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+  .image-50-icon,
+  .image-51-icon {
+    left: 793px;
+  }
+  .image-51-icon {
+    left: 1070px;
+    height: 153.64px;
+  }
+  .nhiu-nim-vui {
+    margin: 0;
+  }
+  .ngun-nng-lng-container,
+  .nhiu-nim-vui-container {
+    position: absolute;
+    top: 322px;
+    left: 453px;
+    text-align: center;
+  }
+  .ngun-nng-lng-container {
+    left: 749px;
+  }
+  .cng-nhau-khm {
+    position: absolute;
+    top: 322px;
+    left: 1038px;
+  }
+  .desktop-13-child {
+    position: absolute;
+    top: 672px;
+    left: 645px;
+    border-radius: var(--br-3xs);
+    background-color: var(--color-tomato);
+    width: 160px;
+    height: 50px;
+    background-color: #da291c;
+    border-radius: 10px;
+    
+  }
+  .tm-hiu-thm {
+    position: absolute;
+    top: 682px;
+    left: 665px;
+    color:#FFFFFF;
+font-size: var(--font-size-5xl);
+    font-weight: 300;
+    font-family: 'Roboto';
+    font-size: 20px;
+    
+    
+  }
+  .icons8-email-50-2 {
+    position: absolute;
+    top: 569px;
+    left: 451px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+  .desktop-13 {
+    position: relative;
+    background-color: var(--color-white);
+    width: 100%;
+    height: 770px;
+    overflow: hidden;
+    text-align: left;
+    font-size: var(--font-size-base);
+    color: var(--color-black);
+    font-family: 'Roboto';
+    font-size: 18px;
+  }
+  
+  
+
+  .tin-tc-ni {
+    position: absolute;
+    top: 37px;
+    left: 113px;
+    font-weight: 300;
+    -webkit-text-stroke: 1px #da291c;
+  }
+  .desktop-14-child,
+  .image-52-icon {
+    position: absolute;
+    left: 138px;
+    width: 700px;
+  }
+  .desktop-14-child {
+    top: 113px;
+    background-color: var(--color-gainsboro-300);
+    height: 500px;
+  }
+  .image-52-icon {
+    top: 103px;
+    height: 381.73px;
+    object-fit: cover;
+  }
+  .desktop-14-inner,
+  .desktop-14-item {
+    position: absolute;
+    top: 103px;
+    left: 892px;
+    background-color: var(--color-gainsboro-300);
+    width: 400px;
+    height: 240px;
+  }
+  .desktop-14-inner {
+    top: 373px;
+  }
+  .image-53-icon,
+  .image-54-icon {
+    position: absolute;
+    top: 103px;
+    left: 892px;
+    width: 400px;
+    height: 168px;
+    object-fit: cover;
+  }
+  .image-54-icon {
+    top: 315px;
+  }
+  .desktop-14 {
+    position: relative;
+    background-color: var(--color-white);
+    width: 100%;
+    height: 699px;
+    overflow: hidden;
+    text-align: left;
+    font-size: var(--font-size-5xl);
+    color: var(--color-tomato);
+    font-family: 'Roboto';
+    font-size: 16px;
+  }
+  
+  .dot {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    /* background-color: #bbb; */
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+  .slideshow-container{
+    width: 100%;
+    height: 95vh;
+  }
+  /* PageUser.css */
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  width: 300px;
+  height: 440px;
+  /* width: 100%; */
+  /* max-width: 300px; */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* overflow: hidden; */
+  margin-bottom: 20px;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 10px;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+/* Slick Slider CSS */
+
+.slick-slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.slick-list {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.slick-slide {
+  float: left;
+  height: 100%;
+  min-height: 1px;
+display: none;
+}
+
+.slick-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.slick-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slick-dots li {
+  margin: 0 5px;
+}
+
+.slick-dots li button {
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+  display:none;
+}
+
+.slick-dots li.slick-active button {
+  color: #333;
+}
+
+.slick-prev,
+.slick-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.slick-prev {
+  left: 10px;
+}
+
+.slick-next {
+  right: 10px;
+}
+.dot {
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  /* background-color: #bbb; */
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+.slideshow-container{
+  width: 100%;
+  height: 95vh;
+}
