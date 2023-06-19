@@ -10,9 +10,19 @@ export default function Sign_in() {
   const submitForm = () => {
     // api call
     http.post('/login', { email: email, password: password }).then((res) => {
-      setToken(res.data.user, res.data.access_token);
+      const { user, access_token } = res.data;
+      setToken(user, access_token);
+  
+      if (user.role === 'Nguoi cho thue') {
+        
+        window.location.href = '/home';
+      } else {
+        
+        window.location.href = '/introduce';
+      }
     });
   };
+  
   const handleForgotPassword = () => {
     setIsForgotPassword(true);
   };

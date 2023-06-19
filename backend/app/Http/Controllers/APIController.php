@@ -6,12 +6,14 @@ use App\Models\users;
 use App\Models\book_apartments;						
 use Illuminate\Http\Request;							
 use Illuminate\Support\Facades\File;	
-use App\Models\Images;												
+use App\Models\apartmentImages;												
 class APIController extends Controller							
 {							
 public function getApartments()							
 {							
-$apartments = apartments::all();							
+    $apartments = apartments::with(['apartmentImage' => function ($query) {
+        $query->select('apartment_id', 'image_path');
+    }])->get();  
 return response()->json($apartments);							
 }							
 public function getOneApartments($id)							

@@ -30,13 +30,17 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
-
+    
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
+    
+        $user = auth()->user();
+        $role = $user->role; // Retrieve the role of the authenticated user
+    
+        return $this->respondWithToken($token, $role);
     }
+    
 
     public function register()
     {
@@ -119,12 +123,14 @@ class AuthController extends Controller
 {
     try {
         $newToken = JWTAuth::refresh(JWTAuth::getToken());
-
-        return $this->respondWithToken($newToken);
+        $role = auth()->user()->role; // Retrieve the role of the authenticated user
+    
+        return $this->respondWithToken($newToken, $role);
     } catch (JWTException $e) {
         return response()->json(['error' => 'Failed to refresh token'], 401);
     }
 }
+
 
     /**
      * Get the token array structure.
@@ -133,16 +139,18 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
-{
-    $expiration = JWTAuth::factory()->getTTL() * 60; // Expiration time in seconds
-
-    return response()->json([
-        'access_token' => $token,
-        'token_type' => 'bearer',
-        'expires_in' => $expiration,
-        'user' => auth()->user()
-    ]);
-}
+    protected function respondWithToken($token, $role)
+    {
+        $expiration = JWTAuth::factory()->getTTL() * 60; // Expiration time in seconds
+    
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'role' => $role, // Include the role in the response
+            'expires_in' => $expiration,
+            'user' => auth()->user()
+        ]);
+    }
+    
 
 }
