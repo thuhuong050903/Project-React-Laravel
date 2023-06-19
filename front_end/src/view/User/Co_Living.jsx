@@ -1,6 +1,77 @@
-import React from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
+import axios from "axios";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import '../../assets/style/Co_Living.css';
 const Co_Living = () => {
+  const [apartments, setApartments] = useState([]);
+  const sliderRef = useRef(null);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/get-apartment')
+      .then(response => response.json())
+      .then(data => setApartments(data));
+  }, []);
+
+  const handleAddToCart = (apartment) => {
+    addToCart(apartment);
+  };
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    centerMode: true,
+    centerPadding: '100px',
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          centerMode: false
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          centerMode: false
+        }
+      }
+    ]
+  };
+  const [slidesData, setSlidesData] = useState([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    axios
+      .get("https://648a7ed717f1536d65e92e4e.mockapi.io/service")
+      .then((response) => {
+        setSlidesData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? slidesData.length - 1 : prev - 1));
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === slidesData.length - 1 ? 0 : prev + 1));
+  };
+
+  if (slidesData.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+
       return (
         <div className="desktop-6">
           <iframe className='video_2' width="527" height="298" src="https://www.youtube.com/embed/-Xf-3IrIkOk" title="[JinJoo Home] Dự án phòng Co-living (D72) - Cao Lỗ || Cho thuê phòng - Căn hộ dịch vụ tại TP.HCM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -79,7 +150,7 @@ Châu Âu. Nhưng ở Việt Nam thì đây là một lĩnh vực mới đáng �
             hướng những năm gần đây. Hợp đồng thuê căn hộ co-living có thể linh hoạt
             kéo dài 3 tháng đến 1 năm. Điều này sẽ tạo điều kiện trong việc linh
             hoạt về chỗ ở của khách hàng.
-          </div>
+           </div>
           <div className="cc-thnh-vin-container">
             <p className="nu-co-working-l">
               Các thành viên của Co-living space sống và chia sẻ những sở thích, giá
@@ -116,13 +187,43 @@ mới. Đây là cơ hợi tốt khi bạn muốn kết bạn, mở rộng mạn
               của nhân viên và hệ thống an ninh trong tòa nhà khi khảo sát địa điểm
               cho thuê.
             </p>
+            <div>
+        <div>
+        <h1 className="title">Danh Sách Sản Phẩm Nổi Bật</h1>
+        <br /> <br /> <br />
+        <Slider {...settings} ref={sliderRef}>
+          {apartments.map(apartment => (
+            <div className="col-md-3 mb-3" key={apartment.id}>
+              <div className="card">
+                <img src="https://danhkhoireal.vn/wp-content/uploads/2022/03/Can-ho-Calla-Apartment-Quy-Nhon.jpg" className="card-img-top" alt={apartment.description} />
+                <div className="card-body">
+                  <h5 className="card-text">{apartment.address_id}</h5>
+                  <p className="card-text">NumberRoom: {apartment.number_room}</p>
+                  <p className="card-text">TypeRoom: {apartment.typeroom}</p>
+                  <p className="card-text">Giá: {apartment.price}</p>
+                  <p className="card-text">Area: {apartment.area}</p>
+                  <div className="card-buttons">
+                    <button className="btn btn-primary" onClick={() => handleAddToCart(product)}>
+                      Add Cart
+                    </button>
+                    <button href="./Detail.jsx"  className="btn btn-secondary">Detail</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
+    </div>
+            
           </div>
           <div className="cm-t-co-living">
             Cụm từ Co-living có phổ biến ở Việt Nam?
           </div>
           <div className="u-im-ca">Ưu điểm của Co-living là gì ?</div>
           <div className="nhc-im-ca">Nhược điểm của Co-living là gì ?</div>
-          <div className="cc-d-n">
+          
+          {/* <div className="cc-d-n">
             Các dự án theo mô hình Co-living tiêu biểu tại JinJoo Home
           </div>
           <div className="tnh-gim-chi">Tính giảm chi phí</div>
@@ -159,7 +260,6 @@ className="artboard-11-150x150-1-1-icon"
             alt=""
             src="/artboard14150x1501-1@2x.png"
           />
-          <iframe className='video_3' width="862" height="452" src="https://www.youtube.com/embed/vVkLE6qXz0s" title="[Event Nov] &quot;Green Tree - Green Life&quot; cùng với cư dân của JinJoo Home !!!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           <div className="v-sao-jinjoo-container">
             <p className="nu-co-working-l"> Vì sao JinJoo Home</p>
             <p className="nu-co-working-l">
@@ -182,163 +282,26 @@ className="artboard-11-150x150-1-1-icon"
               Với mong muốn kiến tạo một cộng đồng với phong cách sống tươi trẻ và
               hiện đại, JinJoo Home là một trong những đơn vị tiên phong mang lối
               sống Co-living đến với Việt Nam.
-            </p>
-          </div>
-          <div className="desktop-6-inner">
-            <div className="group-parent32">
-              <div className="group-parent33">
-                <div className="group-parent33">
-                  <div className="rectangle-parent25">
-                    <div className="group-child44" />
-                    <div className="room-for-rent-jinjoo-home-parent2">
-                      <div className="room-for-rent-container12">
-                        <p className="nu-co-working-l">Room for rent – JinJoo</p>
-                        <p className="nu-co-working-l">{`Home – Ky Con, P.
-    Nguyen Thai `}</p>
-<p className="nu-co-working-l">Binh, District 1</p>
-                      </div>
-                      <div className="div13">10.000.000 </div>
-                      <div className="s-phng-0512">Số Phòng: 05</div>
-                      <div className="district-1-ho12">District 1, Ho Chi Minh</div>
-                      <img
-                        className="image-36-icon5"
-                        alt=""
-                        src="/image-361@2x.png"
-                      />
-                      <img
-                        className="image-37-icon5"
-                        alt=""
-                        src="/image-371@2x.png"
-                      />
-                      <div className="phng-dch-v12"> Phòng dịch vụ</div>
-                    </div>
-                  </div>
-                  <img className="image-47-icon5" alt="" src="/image-471@2x.png" />
-                </div>
-                <div className="rectangle-parent26">
-                  <div className="group-child45" />
-                  <div className="cn-phng5">Còn Phòng</div>
-                </div>
-              </div>
-              <div className="group-parent35">
-                <div className="group-parent36">
-                  <div className="rectangle-parent25">
-                    <div className="group-child44" />
-                    <div className="room-for-rent-jinjoo-home-parent2">
-                      <div className="room-for-rent-container12">
-                        <p className="nu-co-working-l">Room for rent – JinJoo</p>
-                        <p className="nu-co-working-l">{`Home – Ky Con, P.
-    Nguyen Thai `}</p>
-                        <p className="nu-co-working-l">Binh, District 1</p>
-                      </div>
-                      <div className="div13">10.000.000 </div>
-                      <div className="s-phng-0512">Số Phòng: 05</div>
-                      <div className="district-1-ho12">District 1, Ho Chi Minh</div>
-                      <img
-                        className="image-36-icon5"
-                        alt=""
-                        src="/image-361@2x.png"
-                      />
-                      <img
-                        className="image-37-icon5"
-                        alt=""
-                        src="/image-371@2x.png"
-                      />
-                      <div className="phng-dch-v12"> Phòng dịch vụ</div>
-                    </div>
-                  </div>
-                  <div className="rectangle-parent28">
-                    <div className="group-child44" />
-                    <div className="room-for-rent-jinjoo-home-parent2">
-                      <div className="room-for-rent-container12">
-                        <p className="nu-co-working-l">Room for rent – JinJoo</p>
-                        <p className="nu-co-working-l">{`Home – Ky Con, P.
-    Nguyen Thai `}</p>
-                        <p className="nu-co-working-l">Binh, District 1</p>
-</div>
-                      <div className="div13">10.000.000 </div>
-                      <div className="s-phng-0512">Số Phòng: 05</div>
-                      <div className="district-1-ho12">District 1, Ho Chi Minh</div>
-                      <img
-                        className="image-36-icon5"
-                        alt=""
-                        src="/image-361@2x.png"
-                      />
-                      <img
-                        className="image-37-icon5"
-                        alt=""
-                        src="/image-371@2x.png"
-                      />
-                      <div className="phng-dch-v12"> Phòng dịch vụ</div>
-                    </div>
-                  </div>
-                  <img className="image-47-icon6" alt="" src="/image-472@2x.png" />
-                </div>
-                <div className="rectangle-parent29">
-                  <div className="group-child45" />
-                  <div className="cn-phng5">Còn Phòng</div>
-                </div>
-              </div>
-              <div className="group-parent37">
-                <div className="image-47-wrapper">
-                  <img className="image-47-icon7" alt="" src="/image-473@2x.png" />
-                </div>
-                <div className="rectangle-parent30">
-                  <div className="group-child45" />
-                  <div className="cn-phng5">Còn Phòng</div>
-                </div>
-              </div>
-              <div className="group-wrapper4">
-                <div className="group-parent38">
-                  <div className="group-parent38">
-                    <div className="rectangle-parent31">
-                      <div className="group-child44" />
-                      <div className="room-for-rent-jinjoo-home-parent2">
-                        <div className="room-for-rent-container12">
-                          <p className="nu-co-working-l">Room for rent – JinJoo</p>
-                          <p className="nu-co-working-l">{`Home – Ky Con, P.
-    Nguyen Thai `}</p>
-                          <p className="nu-co-working-l">Binh, District 1</p>
-                        </div>
-                        <div className="div13">10.000.000 </div>
-                        <div className="s-phng-0512">Số Phòng: 05</div>
-                        <div className="district-1-ho12">
-                          District 1, Ho Chi Minh
-                        </div>
-                        <img
-                          className="image-36-icon5"
-                          alt=""
-                          src="/image-361@2x.png"
-                        />
-                        <img
-                          className="image-37-icon5"
-                          alt=""
-                          src="/image-371@2x.png"
-                        />
-                        <div className="phng-dch-v12"> Phòng dịch vụ</div>
-                      </div>
-                    </div>
-                    <img
-className="image-47-icon8"
-                      alt=""
-                      src="/image-474@2x.png"
-                    />
-                  </div>
-                  <div className="rectangle-parent32">
-                    <div className="group-child45" />
-                    <div className="cn-phng5">Còn Phòng</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
+            </p> */}
+                      <iframe className='video_3' width="862" height="452" src="https://www.youtube.com/embed/vVkLE6qXz0s" title="[Event Nov] &quot;Green Tree - Green Life&quot; cùng với cư dân của JinJoo Home !!!" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           <div className="s-kin-c">
             Sự kiện độc quyền dành riêng cho cư dân của JinJoo Home
           </div>
-          <img className="image-72-icon" alt="" src="/image-72@2x.png" />
+          <div className="slideshow">
+      <div className="slide">
+        <img src={slidesData[currentSlide].image} alt="Hình ảnh" />
+        <h2>{slidesData[currentSlide].content}</h2>
+      </div>
+
+      <div className="navigation">
+        <button onClick={prevSlide}>Prev</button>
+        <button onClick={nextSlide}>Next</button>
+      </div>
+    </div>
+          {/* <img className="image-72-icon" alt="" src="/image-72@2x.png" />
           <img className="image-73-icon" alt="" src="/image-73@2x.png" />
           <img className="image-75-icon" alt="" src="/image-75@2x.png" />
+          
           <div className="s-kin-kt-container">
             <p className="nu-co-working-l">Sự Kiện Kết Nối Cộng Đồng Co-Living</p>
             <p className="nu-co-working-l"> JinJooo Home</p>
@@ -355,11 +318,11 @@ className="image-47-icon8"
             <p className="nu-co-working-l"> Cho Người Yêu Nghệ Thuật</p>
           </div>
           <div className="div17">{`<`}</div>
-          <div className="div18">{`<`}</div>
-          <img className="image-76-icon" alt="" src="/image-76@2x.png" />
+          <div className="div18">{`<`}</div> */}
+          {/* <img className="image-76-icon" alt="" src="/image-76@2x.png" />
           <img className="image-77-icon" alt="" src="/image-77@2x.png" />
           <img className="image-78-icon" alt="" src="/image-78@2x.png" />
-          <img className="image-79-icon" alt="" src="/image-79@2x.png" />
+          <img className="image-79-icon" alt="" src="/image-79@2x.png" /> */}
         </div>
       );
     };
