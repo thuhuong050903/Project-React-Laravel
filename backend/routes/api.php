@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmailController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;	
@@ -55,3 +56,19 @@ Route::group(['middleware'=>'api'],function(){
 
 
 Route::post('/upload',[\App\Http\Controllers\ImagesController::class,'upload']);
+
+
+///--------------Đoạn này của Đi-----------////
+Route::get('/get-appointment',[App\Http\Controllers\ApointmentController::class,'getApartments']);					
+Route::get('/get-appointment/{appointment}', [App\Http\Controllers\ApointmentController::class,'getOneApartments']);								
+Route::post('/add-appointment',[App\Http\Controllers\ApointmentController::class,'addApartments']);								
+Route::delete('/delete-appointment/{appointment}', [App\Http\Controllers\ApointmentController::class,'deleteApartments']);
+Route::put('/edit-appointment/{appointment}',[App\Http\Controllers\ApointmentController::class,'editApartments']);	
+
+
+///------------------------- của ĐI nhớ bỏ vô Apointment-------------------------///
+Route::get('/get-confirmappointment',[App\Http\Controllers\ApointmentController::class,'getAppointment']);	
+Route::get('/get-confirmappointment/{appointment_id}', [App\Http\Controllers\ApointmentController::class,'getOneAppointment']);	
+
+//---------------gửi email xạc nhận--------------//
+Route::get('/send-email', [App\Http\Controllers\EmailController::class, 'sendEmail'])->name('sendEmail');
