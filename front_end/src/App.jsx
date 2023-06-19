@@ -45,6 +45,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AuthUser from './component/AuthUser';
 import List_Apartment from './view/User/List_Apartment';
 import Auth from './navbar/auth';
+import Detail from './view/User/Detail';
 import ResetPasswordForm from './component/Account/ResetPasswordPage';
 function App() {
   const {getToken} = AuthUser();
@@ -60,6 +61,7 @@ function App() {
            <Route path="/Sign_in" element={<Sign_in/>} />
            <Route path="/Sign_up" element={<Sign_up/>} />
            <Route path="/ResetPasswordForm" element={<ResetPasswordForm/>} />
+           <Route path="/apartment/:id" element={<Detail/>} />
          </Routes>
          <Footer></Footer>
      </div>

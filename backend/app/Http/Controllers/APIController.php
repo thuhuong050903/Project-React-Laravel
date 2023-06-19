@@ -11,9 +11,14 @@ class APIController extends Controller
 {							
 public function getApartments()							
 {							
-    $apartments = apartments::with(['apartmentImage' => function ($query) {
-        $query->select('apartment_id', 'image_path');
-    }])->get();  
+    $apartments = Apartments::with([
+        'apartmentImage' => function ($query) {
+            $query->select('apartment_id', 'image_path');
+        },
+        'addresses' => function ($query) {
+            $query->select('address_id', 'number', 'street', 'ward', 'district');
+        }
+    ])->get();
 return response()->json($apartments);							
 }							
 public function getOneApartments($id)							
