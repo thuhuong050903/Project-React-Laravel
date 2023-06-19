@@ -43,7 +43,7 @@ import Sign_in from './component/Account/Sign_in';
 import Sign_up from './component/Account/Sign_up';
 import "bootstrap/dist/css/bootstrap.min.css";
 import AuthUser from './component/AuthUser';
-
+import List_Apartment from './view/User/List_Apartment';
 import Auth from './navbar/auth';
 import ResetPasswordForm from './component/Account/ResetPasswordPage';
 function App() {
@@ -56,6 +56,7 @@ function App() {
          <Route path="/Home" element={<Home/>} />
           <Route path="/Introduce" element={<Introduce/>} />
            <Route path="/Co_Living" element={<Co_Living/>} />
+           <Route path='/ShowApartment' element={<List_Apartment/>}></Route>
            <Route path="/Sign_in" element={<Sign_in/>} />
            <Route path="/Sign_up" element={<Sign_up/>} />
            <Route path="/ResetPasswordForm" element={<ResetPasswordForm/>} />

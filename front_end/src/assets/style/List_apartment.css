@@ -6,3 +6,54 @@
     width: 82%;
     height: 70%;
 }
+.apartment-list {
+    /* Áp dụng kiểu cho danh sách căn hộ */
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .show-apartment {
+    display: block;
+  }
+  .card {
+    /* Áp dụng kiểu cho mỗi căn hộ */
+    border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
+  flex-basis: calc(25% - 20px);
+  }
+  
+  .image-gallery {
+    width: 299px;
+    border-radius: 10px;
+  }
+  
+  .image-gallery img {
+    /* Áp dụng kiểu cho từng ảnh */
+    width: 100%;
+    height: auto;
+    border-radius: 7px;
+
+  }
+  
+  h1 {
+    /* Áp dụng kiểu cho tiêu đề */
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  h2 {
+    /* Áp dụng kiểu cho tiêu đề căn hộ */
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  p {
+    /* Áp dụng kiểu cho đoạn văn bản */
+    margin-bottom: 5px;
+  }
+  
+  /* Thêm các kiểu tùy chỉnh khác theo ý muốn */
+  
