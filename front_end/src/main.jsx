@@ -9,9 +9,9 @@ import {BrowserRouter} from "react-router-dom";
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
-    <App></App>
+    {/* <App></App> */}
     {/* <App_admin></App_admin> */}
-    {/* <UploadImage></UploadImage> */}
+    <UploadImage></UploadImage>
     </BrowserRouter>
   </React.StrictMode>,
 )

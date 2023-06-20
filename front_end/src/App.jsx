@@ -46,6 +46,7 @@ import AuthUser from './component/AuthUser';
 import List_Apartment from './view/User/List_Apartment';
 import Auth from './navbar/auth';
 import ResetPasswordForm from './component/Account/ResetPasswordPage';
+import ConfirmPasswordResetPage from './component/Account/ConfirmPasswordResetPage';
 function App() {
   const {getToken} = AuthUser();
   if(!getToken()){
@@ -60,6 +61,7 @@ function App() {
            <Route path="/Sign_in" element={<Sign_in/>} />
            <Route path="/Sign_up" element={<Sign_up/>} />
            <Route path="/ResetPasswordForm" element={<ResetPasswordForm/>} />
+           <Route path="/ConfirmPasswordResetPage" element={<ConfirmPasswordResetPage/>} />
          </Routes>
          <Footer></Footer>
      </div>

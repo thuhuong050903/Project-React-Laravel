@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import '../../assets/style/Form.css';
+
 export default function ResetPasswordPage() {
+ 
   const [email, setEmail] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -10,8 +12,9 @@ export default function ResetPasswordPage() {
     // Gửi yêu cầu đặt lại mật khẩu tới server
     axios
       .post("http://localhost:8000/api/reset-password", { email })
-      .then((response) => {
+      .then((response) =>{
         setSuccessMessage("Vui lòng kiểm tra email để lấy mã xác nhận.");
+        window.location.href='ConfirmPasswordResetPage';
       })
       .catch((error) => {
         setErrorMessage("Đã xảy ra lỗi khi đặt lại mật khẩu.");
