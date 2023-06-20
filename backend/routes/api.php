@@ -57,3 +57,4 @@ Route::group(['middleware'=>'api'],function(){
 Route::post('/upload',[\App\Http\Controllers\ImagesController::class,'upload']);
 
 Route::post('/bookings',[App\Http\Controllers\BookApartController::class,'store']);
+Route::post('/bookAppointment',[App\Http\Controllers\BookAppointmentController::class,'store']);

@@ -1,10 +1,13 @@
 .detail {
   margin-top: 200px;
+  font-family:"Quicksand", sans-serif ;
 }
 .detail-card{
   display: flex;
 }
-
+.detail-right {
+  margin-left: 20px;
+}
 .detail-image-gallery {
   width: 50%;
   border-radius: none;
@@ -13,4 +16,61 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;}
 
-  
+.apartment-title {
+  font-weight: 600;
+  padding: 15px;
+  margin-bottom: 30px;
+  border: 1px solid rgb(212, 212, 212);
+}
+
+.apartment-des {
+  margin-top: 30px;
+  text-align: left;
+  line-height: 30px;
+}
+
+.service-des {
+ text-align: left;
+ line-height: 30px;
+ margin-top: 30px;
+
+
+}
+.apartment-room{
+  text-align: left;
+ line-height: 30px;
+}
+
+.apartment-area {
+  text-align: left;
+ line-height: 30px;
+}
+.apartment-address{
+  text-align: left;
+ line-height: 30px;
+}
+.link-button {
+  position: fixed;
+  bottom: 200px;
+  right: 20px;
+  z-index: 999;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #dd0000;
+  color: #ffffff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  text-decoration: none;
+  padding: 10px 30px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.link-button:hover {
+  transform: translateY(-5px);
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #ee0000;
+
+
+}
