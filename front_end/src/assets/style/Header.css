@@ -115,7 +115,7 @@ backdrop-filter: blur(2px);
   width: 160px;
   height: 60px;
 
-  background-color: #DA291C;
+  /* background-color: #DA291C; */
 }
 .ng-k2 {
   position: absolute;

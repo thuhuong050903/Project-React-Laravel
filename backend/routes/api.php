@@ -10,6 +10,10 @@ Route::get('/email/verify', [App\Http\Controllers\AuthController::class, 'verify
 Route::post('/reset-password', [App\Http\Controllers\PasswordResetController::class, 'sendResetLink']);
 Route::post('/confirm-password-reset', [App\Http\Controllers\PasswordResetController::class, 'confirmPasswordReset']);
 Route::get('/verify-email/{token}', [App\Http\Controllers\AuthController::class, 'verifyEmail']);
+Route::get('password/reset', [App\Http\Controllers\PasswordResetController::class, 'confirmPasswordReset'])->name('password.reset');
+// Route::get('/reset-password/{token}/{email}', [App\Http\Controllers\PasswordResetController::class, 'reset'])->name('password.reset');
+Route::get('/reset-password/{token}/{email}', [App\Http\Controllers\PasswordResetController::class, 'reset'])->name('password.reset')->middleware('signed');
+
 
 
 
@@ -55,3 +59,4 @@ Route::group(['middleware'=>'api'],function(){
 
 
 Route::post('/upload',[\App\Http\Controllers\ImagesController::class,'upload']);
+Route::get('/images',[\App\Http\Controllers\ImagesController::class,'index']);
