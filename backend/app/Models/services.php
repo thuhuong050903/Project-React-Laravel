@@ -11,4 +11,10 @@ class services extends Model
     protected $table ="services";
 
     public $timestamps = false;
+    protected $primaryKey = 'service_id';
+
+    function service_apartment()  {
+        return $this->hasMany('App\Models\service_apartment', 'apartment_id');
+
+    }
 }

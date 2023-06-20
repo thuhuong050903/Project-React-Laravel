@@ -92,7 +92,9 @@ function Auth() {
                     <Route path="/Co_Living" element={<Co_Living />} />
                     <Route path="/ShowApartment" element={<List_Apartment />} />
                     <Route path="/apartment/:id" element={<Detail/>} />
+                    
 
+                <Route path='/formBook/:id'></Route>
                     {/* <Route path="/dashboard" element={<Dashboard />} /> */}
                 </Routes>
             </div>

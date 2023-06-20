@@ -1,3 +1,16 @@
-.Detail {
-  margin-top: 500px;
+.detail {
+  margin-top: 200px;
 }
+.detail-card{
+  display: flex;
+}
+
+.detail-image-gallery {
+  width: 50%;
+  border-radius: none;
+}
+.detail-image-gallery img {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;}
+
+  

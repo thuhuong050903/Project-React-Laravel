@@ -23,8 +23,25 @@ return response()->json($apartments);
 }							
 public function getOneApartments($id)							
 {							
-$apartments = apartments::find($id);							
-return response()->json($apartments);							
+    $apartment = Apartments::with([
+        'apartmentImage' => function ($query) {
+            $query->select('apartment_id', 'image_path');
+        },
+        'users' => function ($query) {
+            $query->select('id', 'username');
+        },
+        'addresses' => function ($query) {
+            $query->select('address_id', 'number', 'street', 'ward', 'district');
+        },
+        'services' => function ($query) use ($id) {
+            $query->select('services.service_id', 'services.description')
+                ->join('service_apartment as sa', 'services.service_id', '=', 'sa.service_id')
+                ->where('sa.apartment_id', $id);
+        }
+        
+    ])->find($id);
+
+    return response()->json($apartment);							
 }							
 public function addApartments(Request $request)							
 {							
