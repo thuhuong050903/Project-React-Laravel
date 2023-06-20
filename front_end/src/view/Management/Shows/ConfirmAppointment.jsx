@@ -24,18 +24,22 @@ class ConfirmAppointment extends Component {
     }
   }
 
-  handleConfirmation(apartmentId, email) {
+  handleConfirmation(appointmentId, email) {
     // Gửi thông báo email
     this.sendConfirmationEmail(email);
-
-    // Xử lý logic xác nhận phòng ở đây (nếu cần)
-    // ...
-
-    console.log("Phòng đã được xác nhận");
+  
+    // Cập nhật trạng thái xác nhận trong state
+    const updatedAppointment = this.state.appointment.map((appointment) => {
+      if (appointment.appointment_id === appointmentId) {
+        return { ...appointment, confirmed: true };
+      }
+      return appointment;
+    });
+  
+    this.setState({ appointment: updatedAppointment });
   }
+  
   //---------//-------------------///
-
-
 
   async componentDidMount() {
     await this.fetchAppointments();
@@ -75,29 +79,38 @@ class ConfirmAppointment extends Component {
         sortable: true,
       },
       {
-        name: "Statust",
-        cell: (row) => (
-          <div>
-            <button
-              className="btn btn-sm btn-success"
-              style={{ width: "80px" }}
-              onClick={() =>
-                this.handleConfirmation(row.appointment_id, row.users.email)
-              }
-              type="button"
-            >
-              Xác nhận
-            </button>
-            <button
-              className="btn btn-sm btn-danger"
-              style={{ width: "80px" }}
-              onClick={() => this.deleteApartments(row.apartment_id)}
-              type="button"
-            >
-              Hủy
-            </button>
-          </div>
-        ),
+        name: "Status",
+        cell: (row) => {
+          if (row.confirmed) {
+            return <span>Đã xác nhận</span>;
+          } else {
+            return (
+              <div>
+                <button
+                  className="btn btn-sm btn-success"
+                  style={{ width: "80px" }}
+                  onClick={() =>
+                    this.handleConfirmation(
+                      row.appointment_id,
+                      row.users.email
+                    )
+                  }
+                  type="button"
+                >
+                  Xác nhận
+                </button>
+                <button
+                  className="btn btn-sm btn-danger"
+                  style={{ width: "80px" }}
+                  onClick={() => this.deleteApartments(row.apartment_id)}
+                  type="button"
+                >
+                  Hủy
+                </button>
+              </div>
+            );
+          }
+        },
         compact: true,
       },
     ];

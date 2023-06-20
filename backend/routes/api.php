@@ -71,4 +71,6 @@ Route::get('/get-confirmappointment',[App\Http\Controllers\ApointmentController:
 Route::get('/get-confirmappointment/{appointment_id}', [App\Http\Controllers\ApointmentController::class,'getOneAppointment']);	
 
 //---------------gửi email xạc nhận--------------//
-Route::get('/send-email', [App\Http\Controllers\EmailController::class, 'sendEmail'])->name('sendEmail');
+Route::middleware('auth:api')->group(function () {
+    Route::post('/send-email', [App\Http\Controllers\EmailController::class, 'sendEmail'])->name('sendEmail');
+});
