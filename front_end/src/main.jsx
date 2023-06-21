@@ -17,10 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
 
     <BrowserRouter>
-    <App></App>
-    {/* <App_admin></App_admin> */}
+    {/* <App></App> */}
    
-    {/* <App_admin></App_admin> */}
+    <App_admin></App_admin>
 
     {/* <AppManagement></AppManagement> */}
 
