@@ -9,8 +9,17 @@ class Appointments extends Model
 {
     use HasFactory;
     protected $table ='appointments';
-    
     protected $primaryKey = 'appointment_id';
-    public $timestamps = false;
+
+
+    public function users()
+    {
+        return $this->belongsTo(users::class, 'user_id')->withDefault();  //withDefault() nếu không tìm thấy bản ghi  trả về null để tránh bị lỗi
+    }
+
+    public function apartments()
+    {
+        return $this->belongsTo('App\Models\apartments', 'apartment_id');
+    }
 
 }
