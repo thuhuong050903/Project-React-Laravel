@@ -2,42 +2,48 @@ import React, { Component } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.css";
-import AddApartmentForm from "../../component/Pages/AddapartmentForm";
+import AddApartmentForm from "../../component/Pages/AddApartmentForm";
 import EditApartmentForm from "../../component/Pages/EditApartmentForm";
+import AddPhotoForm from "../../component/Pages/AddPhotoForm";
+
 class List_apartment extends Component {
   constructor(props) {
     super(props);
     this.state = {
       apartments: [],
-      deletingApartmentId: null, 
+      deletingApartmentId: null,
       error: null,
       isAddFormVisible: false,
       apartment_id: null,
       isEditFormVisible: false,
+      selectedApartmentId: null,
     };
-    this.deleteApartments = this.deleteApartments.bind(this);
+    this.deleteApartment = this.deleteApartment.bind(this);
   }
+
   async componentDidMount() {
     await this.fetchApartments();
   }
+
   async fetchApartments() {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/get-apartment");
+      const response = await axios.get("http://localhost:8000/api/get-apartment");
       this.setState({ apartments: response.data });
     } catch (error) {
       console.error("Error fetching apartments:", error);
     }
   }
-  async deleteApartments(apartment_id) {
+
+  async deleteApartment(apartment_id) {
     if (window.confirm(`Bạn muốn xóa căn hộ có ID là ${apartment_id}`)) {
       if (this.state.deletingApartmentId) {
-        return; 
+        return;
       }
       try {
         this.setState({ deletingApartmentId: apartment_id });
         await axios.delete(`http://localhost:8000/api/delete-apartment/${apartment_id}`);
         alert("Xóa căn hộ thành công");
-        await this.fetchApartments(); 
+        await this.fetchApartments();
       } catch (error) {
         console.log(error);
         alert("Đã xảy ra lỗi khi xóa căn hộ");
@@ -46,13 +52,16 @@ class List_apartment extends Component {
       }
     }
   }
+
   handleAddNew = () => {
-    this.setState({ isAddFormVisible: true }); 
+    this.setState({ isAddFormVisible: true });
   };
+
   handleAddSuccess = async () => {
     await this.fetchApartments();
-    this.setState({ isAddFormVisible: false }); 
+    this.setState({ isAddFormVisible: false });
   };
+
   handleEdit = async (apartment_id) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/get-apartment/${apartment_id}`);
@@ -66,13 +75,14 @@ class List_apartment extends Component {
         number_room: apartmentData.number_room,
         area: apartmentData.area,
         address_id: apartmentData.address_id,
-        type_room: apartmentData.type_room
+        type_room: apartmentData.type_room,
       });
     } catch (error) {
       console.error("Error fetching apartment data:", error);
       alert("Đã xảy ra lỗi khi lấy dữ liệu căn hộ");
     }
   };
+
   handleEditSuccess = async () => {
     await this.fetchApartments();
     this.setState({
@@ -80,8 +90,22 @@ class List_apartment extends Component {
       isEditFormVisible: false,
     });
   };
+
+  handleAddPhoto = (apartmentId) => {
+    this.setState({ selectedApartmentId: apartmentId });
+  };
+
   render() {
-    const { apartments, deletingApartmentId, error, isAddFormVisible,isEditFormVisible, apartment_id  } = this.state;
+    const {
+      apartments,
+      deletingApartmentId,
+      error,
+      isAddFormVisible,
+      isEditFormVisible,
+      apartment_id,
+      selectedApartmentId,
+    } = this.state;
+
     const columns = [
       {
         name: "Apartment ID",
@@ -139,19 +163,29 @@ class List_apartment extends Component {
             <button
               className="btn btn-sm btn-danger"
               style={{ width: "80px" }}
-              onClick={() => this.deleteApartments(row.apartment_id)}
+              onClick={() => this.deleteApartment(row.apartment_id)}
               type="button"
             >
               Delete
+            </button>
+            <button
+              className="btn btn-sm btn-primary"
+              style={{ width: "80px" }}
+              onClick={() => this.handleAddPhoto(row.apartment_id)}
+              type="button"
+            >
+              Add Photo
             </button>
           </div>
         ),
         compact: true,
       },
     ];
+
     if (error) {
-      return <div>{error}</div>; 
+      return <div>{error}</div>;
     }
+    // const apartmentCount = apartments.length; 
     return (
       <div className="list_apartment">
         <div className="button-container">
@@ -160,11 +194,13 @@ class List_apartment extends Component {
           </button>
         </div>
         {isAddFormVisible && <AddApartmentForm onAddSuccess={this.handleAddSuccess} />}
-        {isEditFormVisible && (<EditApartmentForm apartment_id={apartment_id} onEditSuccess={this.handleEditSuccess}/>)}
+        {isEditFormVisible && <EditApartmentForm apartment_id={apartment_id} onEditSuccess={this.handleEditSuccess} />}
+        {selectedApartmentId && <AddPhotoForm apartmentId={selectedApartmentId} />}
+        {/* <h2>Tổng số căn hộ: {apartmentCount}</h2> */}
         <DataTable
           title="Apartment List"
           columns={columns}
-          data={this.state.apartments}
+          data={apartments}
           paginationPerPage={5}
           defaultSortField="apartment_id"
           pagination
@@ -173,4 +209,5 @@ class List_apartment extends Component {
     );
   }
 }
+
 export default List_apartment;
