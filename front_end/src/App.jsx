@@ -62,7 +62,7 @@ function App() {
            <Route path="/Sign_up" element={<Sign_up/>} />
            <Route path="/ResetPasswordForm" element={<ResetPasswordForm/>} />
            <Route path="/ConfirmPasswordResetPage" element={<ConfirmPasswordResetPage/>} />
-         </Routes>
+         </Routes> 
          <Footer></Footer>
      </div>
     )

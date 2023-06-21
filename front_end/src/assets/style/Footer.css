@@ -123,6 +123,7 @@
   height: 36px;
 }
 .footer {
+  margin-top: 10%;
   position: relative;
   background-color: rgb(255, 255, 255);
   width: 100%;
