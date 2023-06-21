@@ -1,4 +1,4 @@
-.form-container {
+/* .form-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,11 +14,12 @@
 
 .form-card h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .form-card .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  margin-right: 10%;
 }
 
 .form-card label {
@@ -35,6 +36,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
+  left: 10%;
 }
 
 .form-card button[type="button"] {
@@ -48,4 +50,76 @@
 }
 .justify-content-left{
   margin-top: 130px;
+} */
+
+.p-4{
+  top: 10%;
+  width: 71%;
+  left: 15%;
+}
+.col-sm-6{
+  margin-top: 200px;
+}
+.mb-3{
+  text-align: center;
+  
+}
+.title-title {
+  display: block;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+h1, h3{
+  color: #FFFFFF;
+  top: 50%;
+}
+
+.col-lg-6{
+position: absolute;
+left: 110px;
+top: 90px;
+width: 35%;
+height: 860px;
+background: #DA291C;
+border-radius: 4px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+color: #FFFFFF;
+}
+.mt-4{
+  width: 50%;
+}
+
+/* label {
+
+position: absolute;
+width: 127px;
+height: 40px;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600px;
+font-size: 18px;
+display: flex;
+text-align: start;
+} */
+/* .row{
+  font-size: 20px;
+  font-family: 'Roboto';
+} */
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.social-icons a {
+  display: inline-block;
+  margin-right: 10px;
+  color: #000;
+  font-size: 20px;
 }
