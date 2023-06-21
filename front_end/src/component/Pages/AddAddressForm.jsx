@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import './AddApartmentForm.css';
+import '../../assets/style/AddApartmentForm.css';
 import swal from "sweetalert";
 const successAlert = (address_id) => {
     swal({

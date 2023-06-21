@@ -87,7 +87,7 @@ export default function Sign_up() {
                         </select>
                     </div>
                     <button type="button"  onClick={submitForm} className="btn btn-primary mt-4">Register</button>
-                    {isLoading && <div> Loading</div>}
+                    {isLoading && <div> Loading ...</div>}
                 </div>
             </div>
         </div>

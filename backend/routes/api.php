@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\APIController;	
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ImagesController;
 
 Route::get('/email/verify', [App\Http\Controllers\AuthController::class, 'verifyEmail'])->name('email.verify');
 Route::post('/reset-password', [App\Http\Controllers\PasswordResetController::class, 'sendResetLink']);
@@ -58,5 +59,7 @@ Route::group(['middleware'=>'api'],function(){
 });
 
 
-Route::post('/upload',[\App\Http\Controllers\ImagesController::class,'upload']);
-Route::get('/images',[\App\Http\Controllers\ImagesController::class,'index']);
+
+
+Route::get('related-photos/{apartment_id}', [ImagesController::class, 'getRelatedPhotos']);
+Route::post('add-photo/{apartment_id}', [\App\Http\Controllers\ImagesController::class, 'addPhoto']);
