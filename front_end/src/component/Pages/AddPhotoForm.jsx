@@ -21,7 +21,7 @@ class AddPhotoForm extends Component {
   fetchRelatedPhotos = async (apartmentId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/related-photos/${apartmentId}`
+        `http://localhost:8000/api/photos/${apartmentId}`
       );
       this.setState({ relatedPhotos: response.data });
     } catch (error) {

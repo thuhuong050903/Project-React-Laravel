@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.css";
+import '../../assets/style/List_Apartment.css'
 import AddApartmentForm from "../../component/Pages/AddApartmentForm";
 import EditApartmentForm from "../../component/Pages/EditApartmentForm";
 import AddPhotoForm from "../../component/Pages/AddPhotoForm";

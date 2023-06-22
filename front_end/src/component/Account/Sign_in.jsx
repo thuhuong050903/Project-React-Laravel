@@ -2,8 +2,11 @@
 import { useState } from "react";
 import AuthUser from '../AuthUser';
 import ResetPasswordPage from "./ResetPasswordPage";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookSquare, faInstagram, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
+import '../../assets/style/Sign_in.css'
 export default function Sign_in() {
+  const [role,setRole] = useState("");
   const { http, setToken } = AuthUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,10 +14,23 @@ export default function Sign_in() {
   const [resetToken, setResetToken] = useState("");
   
   const submitForm = () => {
-    // Gửi yêu cầu đăng nhập
+    // Send login request
     http.post('/login', { email: email, password: password })
       .then((res) => {
-        setToken(res.data.user, res.data.access_token);
+        const { user, access_token, role } = res.data;
+        setToken(user, access_token);
+        
+        // // Redirect based on the user's role
+        // if (role === 'Nguoi cho thue') {
+        //   // Redirect to the nguoi_cho_thue page
+        //   window.location.href = '/seeder';
+        // } else if (role === 'admin') {
+        //   // Redirect to the admin page
+        //   window.location.href = '/admin';
+        // } else if (role === 'Nguoi thue') {
+        //   // Redirect to the nguoi_thue page
+        //   window.location.href = '/';
+        // }
       });
   };
   
@@ -40,9 +56,21 @@ export default function Sign_in() {
   };
 
   return (
-    <div className="row justify-content-center pt-5">
-      <div className="col-sm-6">
-        <div className="card p-4">
+    <div className="signin-container">
+      <div className="row signin-form">
+        <div className="col-sm-6 form-right">
+        <div className="social-icons">
+                    <FontAwesomeIcon className="icon" icon={faFacebookSquare} />
+                    <FontAwesomeIcon className="icon" icon={faInstagram} />
+                    <FontAwesomeIcon className="icon" icon={faTwitterSquare} />
+                    </div>
+                    <h1 className="signin-welcome">Welcome Back!</h1>
+                    <h3 className="signin-title">To keep connected with us please login with your personal info
+                    </h3>
+                    <button type="button" onClick={submitForm} className="signin-mt-6">Đăng kí</button>
+        </div>
+      <div className="col-sm-6 form-left">
+        <div className="signin-p-4">
           {isForgotPassword ? (
             <ResetPasswordPage
               email={email}
@@ -74,7 +102,7 @@ export default function Sign_in() {
               <button
                 type="button"
                 onClick={submitForm}
-                className="btn btn-primary mt-4"
+                className="mt-4"
               >
                 Login
               </button>
@@ -87,6 +115,6 @@ export default function Sign_in() {
           )}
         </div>
       </div>
-    </div>
+    </div></div>
   );
 }

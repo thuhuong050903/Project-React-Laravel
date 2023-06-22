@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Images extends Model
 {
     use HasFactory;
+    protected $table ="apartment_images";
     protected $fillable=['name'];
     protected $primaryKey = 'id';
     public function apartments()

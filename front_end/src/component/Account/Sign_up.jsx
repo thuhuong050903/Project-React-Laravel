@@ -1,12 +1,15 @@
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookSquare, faInstagram, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
 
-import { faFacebookSquare, faInstagram, faTwitterSquare } from 'react-icons/fa';
+// import { faFacebookSquare, faInstagram, faTwitterSquare } from 'react-icons/fa';
 // import {Select} from 'react-select';
 import AuthUser from '../AuthUser';
 import '../../assets/style/Sign_up.css';
 export default function Sign_up() {
+   
+      
     const navigate = useNavigate();
     const { http, setToken } = AuthUser();
     const [username, setUsername] = useState();
@@ -34,21 +37,20 @@ export default function Sign_up() {
     }
     return (
         <div className="container">
-            <div className="row">
+            <div className="row signup-form">
                 <div className="col-lg-6">
                     <div className="social-icons">
-                    <FontAwesomeIcon icon={faFacebookSquare} />
-                    <FontAwesomeIcon icon={faInstagram} />
-                    <FontAwesomeIcon icon={faTwitterSquare} />
+                    <FontAwesomeIcon className="icon" icon={faFacebookSquare} />
+                    <FontAwesomeIcon className="icon" icon={faInstagram} />
+                    <FontAwesomeIcon className="icon" icon={faTwitterSquare} />
                     </div>
-                    <h1>Welcome Back!</h1>
-                    <h3>To keep connected with us please login
-                        with your personal info
+                    <h1 className="welcome">Welcome Back!</h1>
+                    <h3 className="title">To keep connected with us please login with your personal info
                     </h3>
-                    <button type="button" onClick={submitForm} className="btn btn-danger mt-6">SignUp</button>
+                    <button type="button" onClick={submitForm} className="signup-mt-6">Đăng nhập</button>
                 </div>
                 <div className="col-sm-6 sign-up-card">
-                    <div className="card p-4">
+                    <div className=" p-4">
                         <h1 className="text-center mb-3">Create Account</h1>
                         <form>
                             <div className="form-group">
@@ -100,7 +102,7 @@ export default function Sign_up() {
                                     <option value={'Nguoi thue'}>Nguoi thue</option>
                                 </select>
                             </div>
-                            <button type="button" onClick={submitForm} className="btn btn-danger mt-4">Register</button>
+                            <button type="button" onClick={submitForm} className="mt-4">Register</button>
                             {isLoading && <div> Loading</div>}
                         </form>
                     </div>

@@ -2,25 +2,67 @@ import "../../assets/style/Dashboard.css";
 import React, { Component, useEffect, useState } from "react";
 import { Navbar, Nav } from 'react-bootstrap';
 import { Container, Form, FormControl, Button} from 'react-bootstrap';
-
+import axios from 'axios';
 const Dashboard = () => {
   const [apartmentCount, setApartmentCount] = useState(0);
+  const [addressCount, setAddressCount] = useState(0);
+  const [seederCount, setSeederCount] = useState(0);
+  const [userCount, setUserCount] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchApartmentCount();
+    fetchSeederCount();
+    fetchUserCount();
+    fetchAddressCount();
   }, []);
 
   const fetchApartmentCount = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8000/api/get-apartment"
-      );
-      const count = response.data.count;
+      const response = await axios.get("http://localhost:8000/api/get-apartment");
+      const apartments = response.data; // Assuming the response is an array of apartments
+      const count = apartments.length;
       setApartmentCount(count);
     } catch (error) {
       console.error("Error fetching apartment count:", error);
       setError("Error fetching apartment count");
+    }
+  };
+
+  const fetchAddressCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-address");
+      const addresses = response.data; // Assuming the response is an array of addresses
+      const count = addresses.length;
+      setAddressCount(count);
+    } catch (error) {
+      console.error("Error fetching address count:", error);
+      setError("Error fetching address count");
+    }
+  };
+  const fetchSeederCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-user");
+      const seeders = response.data; // Assuming the response is an array of seeders
+      const filteredSeeders = seeders.filter(seeder => seeder.role === "Chủ sở hữu");
+      const count = filteredSeeders.length;
+      setSeederCount(count);
+    } catch (error) {
+      console.error("Error fetching seeder count:", error);
+      setError("Error fetching seeder count");
+    }
+  };
+  
+
+  const fetchUserCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-user");
+      const users = response.data; // Assuming the response is an array of users
+      const count = users.length;
+      setUserCount(count);
+    } catch (error) {
+      console.error("Error fetching user count:", error);
+      setError("Error fetching user count");
     }
   };
   return (
@@ -32,9 +74,8 @@ const Dashboard = () => {
                
               </div>
               <Navbar.Brand href="Dashboard" className="sidebar-brand-text mx-3 ">DREAMHOME </Navbar.Brand>
-            </a>
-            
-            <hr className="sidebar-divider my-0"/>      
+</a>
+<hr className="sidebar-divider my-0"/>      
             <li className="nav-item active">
               <a className="nav-link" href="index.html">
                 
@@ -100,8 +141,7 @@ const Dashboard = () => {
                 <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">
                   <i className="fa fa-bars" />
                 </button>
-               
-                <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+<form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                   <div className="input-group">
                     <input type="text" className="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
                     <div className="input-group-append">
@@ -151,10 +191,8 @@ const Dashboard = () => {
                     
                     
                     </a>
-                   
-                   
-                  </li>
-                  <div className="topbar-divider d-none d-sm-block" />
+</li>
+<div className="topbar-divider d-none d-sm-block" />
                   
                   <li className="nav-item dropdown no-arrow">
                     <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -179,7 +217,14 @@ const Dashboard = () => {
                           <div className="col mr-2">
                             <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
                               Amount Users</div>
-                            <div className="h5 mb-0 font-weight-bold text-gray-800"></div>
+                              <div className="row no-gutters align-items-center">
+                              <div className="col-auto">
+                                <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                              </div>
+                              <div className="col">
+                              <div className="card-body">{userCount}</div>
+                              </div>
+                            </div>
                           </div>
                           <div className="col-auto">
                             <i className="fas fa-calendar fa-2x text-gray-300" />
@@ -195,7 +240,14 @@ const Dashboard = () => {
                           <div className="col mr-2">
                             <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
                               Amount Seeder</div>
-                            <div className="h5 mb-0 font-weight-bold text-gray-800"></div>
+<div className="row no-gutters align-items-center">
+<div className="col-auto">
+                                <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                              </div>
+                              <div className="col">
+                              <div className="card-body">{seederCount}</div>
+                              </div>
+                              </div>
                           </div>
                           <div className="col-auto">
                             <i className="fas fa-dollar-sign fa-2x text-gray-300" />
@@ -235,9 +287,16 @@ const Dashboard = () => {
                           <div className="col mr-2">
                             <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
                               Amount Address</div>
-                            <div className="h5 mb-0 font-weight-bold text-gray-800"></div>
+                              <div className="row no-gutters align-items-center">
+                              <div className="col-auto">
+                                <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                              </div>
+                              <div className="col">
+                              <div className="card-body">{addressCount}</div>
+                              </div>
+</div>
                           </div>
-                          <div className="col-auto">
+<div className="col-auto">
                             <i className="fas fa-comments fa-2x text-gray-300" />
                           </div>
                         </div>

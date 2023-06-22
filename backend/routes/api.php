@@ -67,9 +67,9 @@ Route::post('/bookings',[App\Http\Controllers\BookApartController::class,'store'
 Route::post('/bookAppointment',[App\Http\Controllers\BookAppointmentController::class,'store']);
 
 
-Route::get('related-photos/{apartment_id}', [ImagesController::class, 'getRelatedPhotos']);
+Route::get('/photos/{apartment_id}', [ImagesController::class, 'getRelatedPhotos']);
 Route::post('add-photo/{apartment_id}', [ImagesController::class, 'addPhoto']);
-Route::post('/upload',[\App\Http\Controllers\ImagesController::class,'upload']);
+Route::post('/upload',[ImagesController::class,'upload']);
 
 
 ///--------------Đoạn này của Đi-----------////

@@ -70,7 +70,9 @@ function App() {
     )
   }
   return (
+    <div>
       <Auth />
+               </div>
   );
 }
 

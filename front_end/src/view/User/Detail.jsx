@@ -148,7 +148,7 @@ function Detail() {
           <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
             {apartment.apartment_image.map((image, index) => (
               <div key={index}>
-                <img src={image.image_path} alt="Apartment" />
+                <img src={image.name} alt="Apartment" />
               </div>
             ))}
           </Slider>

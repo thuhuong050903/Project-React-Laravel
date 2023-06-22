@@ -13,7 +13,7 @@ public function getApartments()
 {							
     $apartments = Apartments::with([
         'apartmentImage' => function ($query) {
-            $query->select('apartment_id', 'image_path');
+            $query->select('apartment_id', 'name');
         },
         'addresses' => function ($query) {
             $query->select('address_id', 'number', 'street', 'ward', 'district');
@@ -25,7 +25,7 @@ public function getOneApartments($id)
 {							
     $apartment = Apartments::with([
         'apartmentImage' => function ($query) {
-            $query->select('apartment_id', 'image_path');
+            $query->select('apartment_id', 'name');
         },
         'users' => function ($query) {
             $query->select('id', 'username');

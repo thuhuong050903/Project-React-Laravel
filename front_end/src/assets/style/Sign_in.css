@@ -1,295 +1,117 @@
-.group-child30 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: var(--color-tomato);
-    width: 583px;
-    height: 723px;
-  }
-  .hello-friend {
-    position: absolute;
-    top: 224px;
-    left: 156px;
-  }
-  .enter-your-personal,
-  .journey-with-us {
-    position: absolute;
-    top: calc(50% - 32px);
-    left: 0;
-  }
-  .journey-with-us {
-    top: calc(50% + 1px);
-    left: 100px;
-  }
-  .enter-your-personal-details-an-parent {
-    position: absolute;
-    top: calc(50% - 63.5px);
-    left: 87px;
-    width: 396px;
-    height: 64px;
-    font-size: var(--font-size-7xl);
-  }
-  .group-child31,
-  .rectangle-parent18 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 583px;
-    height: 723px;
-  }
-  .group-child31 {
-    border-radius: var(--br-33xl);
-    border: 1px solid var(--color-white);
-    box-sizing: border-box;
-    width: 223px;
-    height: 61px;
-  }
-  .sign-up2 {
-    position: absolute;
-    top: 15px;
-    left: 59px;
-  }
-  .rectangle-parent19 {
-    position: absolute;
-    top: 426px;
-    left: 173px;
-    width: 223px;
-    height: 61px;
-    font-size: var(--font-size-7xl);
-  }
-  .group-child32,
-  .group-parent26 {
-    position: absolute;
-    top: 0;
-    left: 583px;
-    width: 583px;
-    height: 723px;
-  }
-  .group-child32 {
-    left: 0;
-    background-color: var(--color-white);
-    height: 724px;
-  }
-  .sign-in2 {
-    position: absolute;
-    top: 69px;
-    left: 218px;
-  }
-  .icon-google-circled {
-    position: absolute;
-    height: 5.38%;
-    width: 6.54%;
-    top: 26.11%;
-    right: 46.8%;
-    bottom: 68.51%;
-    left: 46.66%;
-    max-width: 100%;
-    overflow: hidden;
-    max-height: 100%;
-  }
-  .group-child33,
-  .group-child34 {
-    position: absolute;
-    top: 176px;
-    left: 170px;
-    width: 65px;
-    height: 65px;
-  }
-  .group-child34 {
-    left: 258px;
-  }
-  .or-use-your1 {
-    position: absolute;
-    top: 259px;
-    left: 185px;
-    font-size: var(--font-size-3xl);
-    font-weight: 300;
-    color: var(--color-darkslategray);
-  }
-  .group-parent29 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 583px;
-    height: 724px;
-    font-size: var(--font-size-23xl);
-    color: var(--color-black);
-  }
-  .forgot-your-password {
-    position: absolute;
-    top: 539px;
-    left: 170px;
-    font-weight: 300;
-    color: var(--color-darkslategray);
-  }
-  .group-child35 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: var(--color-gainsboro-200);
-    width: 390px;
-    height: 68px;
-  }
-  .password1 {
-    position: absolute;
-    top: 21px;
-    left: 34px;
-    font-weight: 300;
-  }
-  .group-child37,
-  .rectangle-parent21,
-  .rectangle-parent22 {
-    position: absolute;
-    top: 429px;
-    left: 108px;
-    width: 390px;
-    height: 68px;
-  }
-  .group-child37,
-  .rectangle-parent22 {
-    top: 319px;
-  }
-  .group-child37 {
-    top: 0;
-    left: 0;
-    border-radius: var(--br-11xl);
-    background-color: var(--color-tomato);
-    width: 201px;
-    height: 45px;
-  }
-  .sign-in4 {
-    position: absolute;
-    top: 9px;
-    left: 60px;
-  }
-  .group-parent31,
-  .group-wrapper3 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 201px;
-    height: 45px;
-  }
-  .group-wrapper3 {
-    top: 608px;
-    left: 189px;
-    color: var(--color-white);
-  }
-  .group-parent28 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 583px;
-    height: 724px;
-  }
-  .group-child38,
-  .group-parent27 {
-    position: absolute;
-    top: 176px;
-    left: 346px;
-    width: 65px;
-    height: 65px;
-  }
-  .group-parent27 {
-    top: 0;
-    left: 0;
-    width: 583px;
-    height: 724px;
-    font-size: var(--font-size-3xl);
-    color: var(--color-dimgray-100);
-  }
-  .group-parent25 {
-    position: absolute;
-    top: 168px;
-    left: 137px;
-    box-shadow: 19px 28px 13px rgba(0, 0, 0, 0.25);
-    width: 1166px;
-    height: 724px;
-  }
-  .sign-in1 {
-    position: relative;
-    background-color: var(--color-mistyrose);
-    width: 100%;
-    height: 1060px;
-    overflow: hidden;
-    text-align: left;
-    font-size: var(--font-size-23xl);
-    color: var(--color-white);
-    font-family: var(--font-inter);
-  }
-  /* Sign_in.css */
+.signin-container {
+  max-width: 60%;
+  margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 600px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
-.group-child30 {
-    background-color: #ff0000; /* Đỏ */
-  }
-  
-  .hello-friend {
-    color: #fff; /* Trắng */
-  }
-  
-  .enter-your-personal,
-  .journey-with-us {
-    color: #fff; /* Trắng */
-  }
-  
-  .enter-your-personal-details-an-parent {
-    background-color: #ff0000; /* Đỏ */
-  }
-  
-  .rectangle-parent21,
-  .rectangle-parent22 {
-    background-color: #ffffff; /* Trắng */
-  }
-  .form-control{
-    width: 100%;
-    height: 40px;
-    border-radius: 15px;
-  }
+}
 
-  .sign_in{
-    width: 100px;
-    height: 40px;
-    border-radius: 15px;
-    background-color: #ff0000;
-  }
-  .password1,
-  .email1 {
-    color: #000000; /* Đen */
-  }
-  
-  .group-child35 {
-    background-color: #f2f2f2; /* Xám nhạt */
-  }
-  
-  .sign-in4 {
-    background-color: #ff0000; /* Đỏ */
-    color: #fff; /* Trắng */
-  }
-  
-  .group-parent28 {
-    color: #000; /* Đen */
-  }
-  
-  .group-parent27 {
-    background-color: #ffffff; /* Màu trắng */
-    color: #696969; /* Màu chữ xám tối */
-  }
-  
-  
-  .sign-in1 {
-    background-color: #fab7b7; /* Đỏ */
-    color: #fff; /* Trắng */
-  }
-  .forgot-your-password{
-    text-decoration: none;
-    color: blue;
-  }
-  .register {
-    position: absolute;
-    top: 559px;
-    left: 170px;
-    font-weight: 300;
-    color: var(--color-darkslategray);
-    text-decoration: none;
-    color: blue;
-  }
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.signin-form {
+  justify-content: center;
+  align-items: center;
+}
+
+.form-right {
+  background-color: #dd0000;
+  color: #fff;
+  text-align: center;
+  height: 600px;
+}
+
+.form-right .social-icons {
+  margin-bottom: 20px;
+  margin-top: 150px;
+}
+.form-left {
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  padding-top: 100px;
+  height: 600px;
+}
+.signin-welcome{
+  margin-left: auto;
+  margin-top: 20px;
+  margin-right: auto;
+  text-align: center;
+}
+.signin-title{
+  margin-top: 20px;
+margin-bottom: 30px;
+  margin-left: 10px;
+  margin-right: auto;
+  text-align: center;
+}
+button {
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.card {
+  padding: 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-3 {
+  margin-top: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+.signin-p-4 {
+  padding: auto;
+  margin: auto;
+}
+label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.mt-4{
+  background-color: #dd0000;
+  text-align: center;
+}
+.mt-4:hover{
+  background-color: #ee0000;
+  text-align: center;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.text-center a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.signin-mt-6 {
+  background-color: #fff;
+  color: #000;
+  font-weight: 600;
+  border-radius: 7px;
+}
