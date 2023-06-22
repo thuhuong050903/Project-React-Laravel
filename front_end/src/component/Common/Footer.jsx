@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import '../../assets/style/Footer.css';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 class Footer extends Component {
     render() {
         return (
             <div className="footer">
-                <img className="footer-icon" alt="" src="/image-4@2x.png" />
+                <img className="footer-icon" alt="" src="https://o.remove.bg/downloads/a5523351-cacc-4c3c-866d-c4746704986b/dream-home-logo-template_69680-original-removebg-preview.png" />
                 <div className='footer-1'>
                 <div className="company-name">
                     Công Ty TNHH Famous Express International
@@ -16,14 +17,20 @@ class Footer extends Component {
                 <div className="planning-investment">
                     Do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh cấp ngày 27/06/2019
                 </div>
-                <div className="address">
-                    106Bis Nguyễn Văn Cừ, Phường Nguyễn Cư Trinh, Quận 1, TP.HCM
+                <div className="footer-address">
+                <FontAwesomeIcon icon={faMapMarkerAlt} />
+                &nbsp;
+                106Bis Nguyễn Văn Cừ, Phường Nguyễn Cư Trinh, Quận 1, TP.HCM
                 </div>
-                <div className="contact-info">info@dreamhome.com</div>
-                <div className="contact-info">(+84) 369 912 793</div>
+                <div className="contact-info">
+                <FontAwesomeIcon icon={faEnvelope} />&nbsp;
+                info@dreamhome.com</div>
+                <div className="contact-info">
+                <FontAwesomeIcon icon={faPhone} />&nbsp;
+                    (+84) 369 912 793</div>
                 </div>
                 <div className='footer-2'>
-                <div className="footer-link">Về DreamHome</div>
+                <div className="footer-link"><b>Về DreamHome </b></div>
                 <div className="footer-link-group">
                     <p className="footer-link">Giới thiệu</p>
                     <p className="footer-link">Tin tức</p>
@@ -33,34 +40,15 @@ class Footer extends Component {
                 </div>
                 </div>
                 <div className='footer-3'>
-                <div className="footer-link">Về DreamHome</div>
+                <div className="footer-link"><b>Dịch vụ </b></div>
 
                 <div className="footer-link-group">
                     <p className="footer-link">Quản lí bất động sản</p>
                     <p className="footer-link">Cho thuê phòng</p>
                     <p className="footer-link">Nhận kí gửi</p>
-                    <p className="footer-link">Liên hệ hợp tác</p>
+                    <p className="footer-link"><b>Liên hệ hợp tác </b></p>
                 </div>
                 </div>
-                <div className="address-icons-parent">
-                    <div className="address-icon" />
-                    <div className="group-child40" />
-                    <img
-                        className="address-icon-2"
-                        alt=""
-                        src="/icons8address64-2-1@2x.png"
-                    />
-                </div>
-                <div className="address-icons-group">
-                    <div className="address-icon" />
-                    <div className="group-child40" />
-                </div>
-                <div className="address-icons-container">
-                    <div className="address-icon" />
-                    <div className="group-child40" />
-                </div>
-                <img className="contact-icon" alt="" src="/icons8email50-1@2x.png" />
-                <img className="contact-icon" alt="" src="/icons8phone50-1@2x.png" />
             </div>
         );
     }

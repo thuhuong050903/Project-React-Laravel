@@ -55,7 +55,7 @@ function App() {
       <div className='containers'>
         <Header></Header>
         <Routes>
-         <Route path="/Home" element={<Home/>} />
+         <Route path="/" element={<Home/>} />
           <Route path="/Introduce" element={<Introduce/>} />
            <Route path="/Co_Living" element={<Co_Living/>} />
            <Route path='/ShowApartment' element={<List_Apartment/>}></Route>
@@ -72,7 +72,7 @@ function App() {
   return (
     <div>
       <Auth />
-               </div>
+    </div>
   );
 }
 

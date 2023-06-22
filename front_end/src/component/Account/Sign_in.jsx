@@ -19,18 +19,6 @@ export default function Sign_in() {
       .then((res) => {
         const { user, access_token, role } = res.data;
         setToken(user, access_token);
-        
-        // // Redirect based on the user's role
-        // if (role === 'Nguoi cho thue') {
-        //   // Redirect to the nguoi_cho_thue page
-        //   window.location.href = '/seeder';
-        // } else if (role === 'admin') {
-        //   // Redirect to the admin page
-        //   window.location.href = '/admin';
-        // } else if (role === 'Nguoi thue') {
-        //   // Redirect to the nguoi_thue page
-        //   window.location.href = '/';
-        // }
       });
   };
   
@@ -64,8 +52,8 @@ export default function Sign_in() {
                     <FontAwesomeIcon className="icon" icon={faInstagram} />
                     <FontAwesomeIcon className="icon" icon={faTwitterSquare} />
                     </div>
-                    <h1 className="signin-welcome">Welcome Back!</h1>
-                    <h3 className="signin-title">To keep connected with us please login with your personal info
+                    <h1 className="signin-welcome">Chào mừng bạn trở lại!</h1>
+                    <h3 className="signin-title">Hãy đăng nhập để khám phá nhiều căn hộ đẹp
                     </h3>
                     <button type="button" onClick={submitForm} className="signin-mt-6">Đăng kí</button>
         </div>
@@ -78,9 +66,9 @@ export default function Sign_in() {
             />
           ) : (
             <>
-              <h1 className="text-center mb-3">Login</h1>
+              <h1 className="text-center mb-3">Đăng nhập</h1>
               <div className="form-group">
-                <label>Email address:</label>
+                <label>Email: </label>
                 <input
                   type="email"
                   className="form-control"
@@ -90,7 +78,7 @@ export default function Sign_in() {
                 />
               </div>
               <div className="form-group mt-3">
-                <label>Password:</label>
+                <label>Mật khẩu:</label>
                 <input
                   type="password"
                   className="form-control"
@@ -104,11 +92,11 @@ export default function Sign_in() {
                 onClick={submitForm}
                 className="mt-4"
               >
-                Login
+                Đăng nhập
               </button>
               <div className="text-center mt-3">
                 <a href="#" onClick={handleForgotPassword}>
-                  Forgot Password?
+                  Quên mật khẩu?
                 </a>
               </div>
             </>

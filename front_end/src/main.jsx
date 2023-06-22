@@ -18,9 +18,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
     <BrowserRouter>
     <App></App>
-   
-    {/* <App_admin></App_admin> */}
-
     {/* <AppManagement></AppManagement> */}
 
     </BrowserRouter>

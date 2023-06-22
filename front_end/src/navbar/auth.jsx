@@ -102,7 +102,7 @@ function Auth() {
       ) 
        : userdetail?.role === 'Nguoi cho thue' ? (
           <Routes>
-            <Route path="/dashboard" element={<AppManagement/>} />
+            <Route path="/" element={<AppManagement/>} />
             
           </Routes>
         ) : null}
