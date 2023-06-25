@@ -51,11 +51,20 @@ function Detail() {
 
   const handleBookNow = () => {
     if (apartment.type_room === 'Phòng ngắn hạn') {
-      setShowModal(true);
+      if (userdetail && userdetail.id) {
+        setShowModal(true);
+
+      } else {
+        alert('Bạn cần đăng nhập để đặt phòng');
+      }
     } else if (apartment.type_room === 'Phòng dài hạn') {
-      setShowLongTermBookingModal(true);
+      if (userdetail && userdetail.id) {
+
+    setShowLongTermBookingModal(true);
+    }  else {
+      alert('Bạn cần đăng nhập để đặt phòng');
     }
-  };
+  }};
 
   const handleBookingNameChange = (e) => {
     setBookingName(e.target.value);
@@ -107,7 +116,7 @@ function Detail() {
         desired_move_in_date: desiredMoveInDate,
         appointment_date_time: desiredViewingDate,
       };
-  
+  console.log('call API');
       axios
         .post('http://127.0.0.1:8000/api/bookAppointment', longTermBookingData)
         .then((response) => {

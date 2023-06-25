@@ -33,7 +33,7 @@ class BookAppointmentController extends Controller
         
             return response()->json($booking, 201);
         } catch (\Exception $ex) {
-            return response()->json(['error' => 'Đặt lịch dài hạn thất bại'], 500);
+            return response()->json(['error' => $ex], 500);
         }
     }
     

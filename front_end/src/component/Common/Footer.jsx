@@ -6,7 +6,7 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
-                <img className="footer-icon" alt="" src="https://o.remove.bg/downloads/a5523351-cacc-4c3c-866d-c4746704986b/dream-home-logo-template_69680-original-removebg-preview.png" />
+                <img className="footer-icon" alt="" src="http://localhost:8000/photos/144x144-removebg-preview.png" />
                 <div className='footer-1'>
                 <div className="company-name">
                     Công Ty TNHH Famous Express International

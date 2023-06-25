@@ -6,6 +6,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\users;
+use App\Models\admin;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegistrationConfirmation;
 use Illuminate\Http\Request;
@@ -40,7 +41,6 @@ class AuthController extends Controller
     
         return $this->respondWithToken($token, $role);
     }
-    
 
     public function register()
     {
@@ -54,12 +54,7 @@ class AuthController extends Controller
         // Tạo mã xác nhận duy nhất cho người dùng
         $verificationToken = sha1($user->email . time());
     
-        // // Lưu mã xác nhận vào bảng users
-        // $user->verification_token = $verificationToken;
-        // $user->save();
-    
-        // // Xây dựng liên kết xác nhận
-        // $verificationLink = route('email.verify', ['token' => $verificationToken]);
+       
     
         // Gửi email xác nhận
         Mail::to(request(['email']))->send(new RegistrationConfirmation($verificationToken));
@@ -71,25 +66,6 @@ class AuthController extends Controller
 
 
 
-//     public function verifyEmail(Request $request)
-// {
-//     $token = $request->input('token');
-
-//     $user = users::where('verification_token', $token)->first();
-
-//     if ($user) {
-//         // Cập nhật trạng thái xác nhận của người dùng
-//         $user->email_verified = true;
-//         $user->verification_token = null;
-//         $user->save();
-
-//         // Chuyển hướng người dùng đến trang xác nhận thành công
-//         return redirect()->route('email.verified');
-//     }
-
-//     // Chuyển hướng người dùng đến trang xác nhận không hợp lệ
-//     return redirect()->route('email.invalid');
-// }
 
 
     /**

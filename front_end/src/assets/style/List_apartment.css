@@ -7,20 +7,25 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
-    justify-content: space-around;
+
+    
   }
   
   .show-apartment {
     display: block;
     margin-top: 150px;
-    width: 100%;
+    width: 70%;
+    margin-left: 20%;
     font-weight: normal;
     font-family: "Quicksand", sans-serif;
   }
   .card {
+    text-decoration: none;
     /* Áp dụng kiểu cho mỗi căn hộ */
   border: 1px solid #ccc;
   margin-bottom: 50px;
+  width: 320px;
+  margin-left: 30px;
   }
   
   
@@ -68,4 +73,43 @@ h3{
     overflow: scroll;
     width: 82%;
     height: 70%;
+}
+
+.user-listApartment {
+  display: flex;
+}
+
+
+.filter-apartment {
+  margin-top: 200px;
+}
+.district-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.district-list li {
+  background-color: #f2f2f2;
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.district-list li:hover {
+  background-color: #ddd;
+}
+
+.card {
+  /* Set initial scale to 1 for normal state */
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  text-decoration: none;
+
+  /* Apply the hover effect */
+  transform: scale(1.05);
+  color: black; /* Change the text color to red when hovering */
+
 }

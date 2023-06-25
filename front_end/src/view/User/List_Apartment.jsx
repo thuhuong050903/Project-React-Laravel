@@ -33,26 +33,25 @@ function List_Apartment() {
     setIsFiltered(true); // Đã lọc căn hộ
   };
 
-// Lọc căn hộ theo quận được chọn cho phòng ngắn hạn
-const filteredShortTermApartments = selectedDistrict
-  ? shortTermApartments.filter(apartment => apartment.addresses.district === selectedDistrict)
-  : shortTermApartments;
+  // Lọc căn hộ theo quận được chọn cho phòng ngắn hạn
+  const filteredShortTermApartments = selectedDistrict
+    ? shortTermApartments.filter(apartment => apartment.addresses.district === selectedDistrict)
+    : shortTermApartments;
 
-// Lọc căn hộ theo quận được chọn cho phòng dài hạn
-const filteredLongTermApartments = selectedDistrict
-  ? longTermApartments.filter(apartment => apartment.addresses.district === selectedDistrict)
-  : longTermApartments;
+  // Lọc căn hộ theo quận được chọn cho phòng dài hạn
+  const filteredLongTermApartments = selectedDistrict
+    ? longTermApartments.filter(apartment => apartment.addresses.district === selectedDistrict)
+    : longTermApartments;
 
-// Hiển thị tất cả căn hộ hoặc căn hộ đã được lọc
-const displayedShortTermApartments = isFiltered ? filteredShortTermApartments : shortTermApartments;
-const displayedLongTermApartments = isFiltered ? filteredLongTermApartments : longTermApartments;
-
+  // Hiển thị tất cả căn hộ hoặc căn hộ đã được lọc
+  const displayedShortTermApartments = isFiltered ? filteredShortTermApartments : shortTermApartments;
+  const displayedLongTermApartments = isFiltered ? filteredLongTermApartments : longTermApartments;
 
   return (
     <div className='user-listApartment'>
       <div className='filter-apartment'>
         <h4>Danh sách quận:</h4>
-        <ul>
+        <ul className='district-list'>
           <li onClick={() => handleSelectDistrict(null)}>Tất cả</li>
           <li onClick={() => handleSelectDistrict('Sơn Trà')}>Sơn Trà</li>
           <li onClick={() => handleSelectDistrict('Thanh Khê')}>Thanh Khê</li>
@@ -67,7 +66,7 @@ const displayedLongTermApartments = isFiltered ? filteredLongTermApartments : lo
         <h3>PHÒNG NGẮN HẠN</h3>
         <div className="apartment-list">
           {displayedShortTermApartments.map(apartment => (
-            <div key={apartment.apartment_id} className="card">
+            <Link to={`/apartment/${apartment.apartment_id}`} key={apartment.apartment_id} className="card">
               <div className="image-gallery">
                 <Slider arrows={false} dots={false} autoplay={true} speed={3000} autoplaySpeed={10000}>
                   {apartment.apartment_image.map((image, index) => (
@@ -91,14 +90,13 @@ const displayedLongTermApartments = isFiltered ? filteredLongTermApartments : lo
                 <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
                 {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
               </div>
-              <Link to={`/apartment/${apartment.apartment_id}`}>Detail</Link>
-            </div>
+            </Link>
           ))}
         </div>
         <h3>PHÒNG DÀI HẠN</h3>
         <div className="apartment-list">
           {displayedLongTermApartments.map(apartment => (
-            <div key={apartment.apartment_id} className="card">
+            <Link to={`/apartment/${apartment.apartment_id}`} key={apartment.apartment_id} className="card">
               <div className="image-gallery">
                 <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
                   {apartment.apartment_image.map((image, index) => (
@@ -122,8 +120,7 @@ const displayedLongTermApartments = isFiltered ? filteredLongTermApartments : lo
                 <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
                 {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
               </div>
-              <Link to={`/apartment/${apartment.apartment_id}`}>Detail</Link>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

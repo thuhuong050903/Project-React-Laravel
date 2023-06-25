@@ -83,49 +83,7 @@ Home các cư dân sẽ có cơ hội gặp gỡ, giao tiếp và kết nối. C
       
       <div className="footer-parent">
       <div className="cc-d-n1">5. Trụ sở chính:</div>
-        <div className="footer1">
-         
-          <img className="image-4-icon1" alt="" src="/image-4@2x.png" />
-          <div className="cng-ty-tnhh2">
-            Công Ty TNHH Famous Express International
-          </div>
-          <div className="giy-chng-nhn1">
-            Giấy chứng nhận đăng ký kinh doanh số 0315758622
-          </div>
-          <div className="do-s-k1">
-            Do Sở Kế hoạch và Đầu tư Thành phố Đà Nẵng cấp ngày 27/06/2019
-          </div>
-          <div className="bis-nguyn-vn1">
-            101B Lê Hữu Trác, Quận Sơn Trà, Đà Nẵng
-          </div>
-<div className="icons8-address-64-1-parent1">
-            <div className="icons8-address-64-13" />
-            <div className="group-child62" />
-            <img
-              className="icons8-address-64-2-11"
-              alt=""
-              src="/icons8address64-2-1@2x.png"
-            />
-          </div>
-          <div className="icons8-address-64-1-parent2">
-            <div className="icons8-address-64-13" />
-            <div className="group-child62" />
-          </div>
-          <div className="icons8-address-64-1-parent3">
-            <div className="icons8-address-64-13" />
-            <div className="group-child62" />
-          </div>
-          <img
-            className="icons8-email-50-11"
-            alt=""
-            src="/icons8email50-1@2x.png"
-          />
-          <img
-            className="icons8-phone-50-11"
-            alt=""
-            src="/icons8phone50-1@2x.png"
-          />
-        </div>
+        
         <div className="group-child65" />
       </div>
       <div className="desktop-1-item" />

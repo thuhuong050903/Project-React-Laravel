@@ -10,9 +10,14 @@ import { useEffect, useState } from 'react';
 import List_Apartment from '../view/User/List_Apartment';
 import Detail from '../view/User/Detail';
 import AppManagement from '../AppManagement';
+import Footer from '../component/Common/Footer';
+import App_admin from '../App_admin';
 
 function Auth() {
   const { token, logout } = AuthUser();
+  const [hasAlertShown, setHasAlertShown] = useState(false); // Thêm state cho biến flag
+  const [redirectAdmin, setRedirectAdmin] = useState(false); // Thêm state cho chuyển hướng
+
   const logoutUser = () => {
     if (token != undefined) {
       logout();
@@ -22,18 +27,37 @@ function Auth() {
   const [userdetail, setUserdetail] = useState(null);
   useEffect(() => {
     fetchUserDetail();
+
   }, []);
 
+
   const fetchUserDetail = () => {
+    // if (userdetail.email === 'huutran@gmail.com' && userdetail.password === '$2y$10$cMSmaYshew6Q.EBx7HFpAe5e/gV/r9ywN/BovcXnguc/hFIioiACi') {
+    //   setRedirectAdmin(true); // Chuyển hướng tới trang AppManagement nếu email và mật khẩu hợp lệ
+    // }  else{
     http.post('/me').then((res) => {
       setUserdetail(res.data);
-    });
+       });
   }
+  useEffect(() => {
+    if (userdetail?.role === 'Nguoi cho thue' && !hasAlertShown) { 
+      alert('Bạn đã đăng nhập với tư cách chủ sở hữu');
+      setHasAlertShown(true); // Đánh dấu là đã hiển thị alert
+    } else if (userdetail?.role === 'Nguoi thue' && !hasAlertShown) { 
+      setHasAlertShown(true); // Đánh dấu là đã hiển thị alert
+    }
+   
+  }, [userdetail, hasAlertShown]); 
+
+  // if (redirectAdmin) {
+  //   return <Routes>
+  //     <Route path="/" element={<App_admin />} />
+  //   </Routes>;
+  // }
 
   return (
     <div>
       {userdetail?.role === 'Nguoi thue' ? (
-        <div>
         <div className="auth-header">
           <nav className="navbar navbar-expand-sm ">
             <ul className="navbar-nav list-item">
@@ -86,8 +110,6 @@ function Auth() {
               )}
             </ul>
           </nav>
-        </div>
-          <div className="container">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="Introduce" element={<Introduce />} />
@@ -96,14 +118,13 @@ function Auth() {
             <Route path="apartment/:id" element={<Detail />} />
             <Route path="formBook/:id" />
           </Routes>
+          <Footer></Footer>
           
-          </div>
       </div>
       ) 
        : userdetail?.role === 'Nguoi cho thue' ? (
           <Routes>
             <Route path="/" element={<AppManagement/>} />
-            
           </Routes>
         ) : null}
     
