@@ -7,6 +7,7 @@ import AuthUser from '../../component/AuthUser';
 import '../../assets/style/Modal_booking.css';
 import '../../assets/style/Detail.css'
 import Slider from 'react-slick';
+import Star_rating from './Star_rating';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 function Detail() {
 
   const { id } = useParams();
-
+  const [userLoaded, setUserLoaded] = useState(false);  
   const [apartment, setApartment] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showLongTermBookingModal, setShowLongTermBookingModal] = useState(false);
@@ -25,6 +26,9 @@ function Detail() {
   const [desiredMoveInDate, setDesiredMoveInDate] = useState('');
   const [desiredViewingDate, setDesiredViewingDate] = useState('');
 
+  const handleCommentChange = (e) => {
+    setComment(e.target.value);
+  };
   const handleBookingPhoneChange = (e) => {
     setBookingPhone(e.target.value);
   };
@@ -80,6 +84,7 @@ function Detail() {
     const fetchUserDetail = () => {
         http.post('http://127.0.0.1:8000/api/me').then((res) => {
             setUserdetail(res.data);
+              setUserLoaded(true);
         });
     }
 
@@ -116,7 +121,6 @@ function Detail() {
         desired_move_in_date: desiredMoveInDate,
         appointment_date_time: desiredViewingDate,
       };
-  console.log('call API');
       axios
         .post('http://127.0.0.1:8000/api/bookAppointment', longTermBookingData)
         .then((response) => {
@@ -134,6 +138,7 @@ function Detail() {
         });}
     }
   };
+
   
 
   useEffect(() => {
@@ -149,7 +154,10 @@ function Detail() {
   if (!apartment) {
     return <p>Đang tải...</p>;
   }
-
+  if (!userLoaded) {
+    return <p>Đang tải...</p>;
+  }
+  
   return (
     <div className='detail'>
       <div key={apartment.apartment_id} className="detail-card">
@@ -175,6 +183,7 @@ function Detail() {
           <div className='apartment-address'>
             Địa chỉ: {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
           </div>
+         
           {apartment.type_room === 'Phòng ngắn hạn' && (
             <Link onClick={handleBookNow} className="link-button">Đặt phòng</Link>
           )}
@@ -217,6 +226,10 @@ function Detail() {
           <button onClick={handleBookingSubmit}>Đặt lịch ngay</button>
         </Modal>
       )}
+
+<div className="rating">
+  <Star_rating apartmentId={apartment.apartment_id} userId={userdetail.id} rating={apartment.rating} />
+</div>
     </div>
   );
 }
