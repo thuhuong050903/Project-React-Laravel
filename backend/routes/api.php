@@ -88,3 +88,7 @@ Route::get('/get-confirmappointment/{appointment_id}', [App\Http\Controllers\Apo
 Route::middleware('auth:api')->group(function () {
     Route::post('/send-email', [App\Http\Controllers\EmailController::class, 'sendEmail'])->name('sendEmail');
 });
+
+
+Route::post('/ratings',[App\Http\Controllers\starRatingController::class,'store']);
+Route::get('/ratings', [App\Http\Controllers\starRatingController::class, 'getRatings']);

@@ -43,6 +43,7 @@ import Sign_in from './component/Account/Sign_in';
 import Sign_up from './component/Account/Sign_up';
 import "bootstrap/dist/css/bootstrap.min.css";
 import AuthUser from './component/AuthUser';
+
 import List_Apartment from './view/User/List_Apartment';
 import Auth from './navbar/auth';
 import Detail from './view/User/Detail';
@@ -66,6 +67,7 @@ function App() {
            <Route path="/apartment/:id" element={<Detail/>} />
          </Routes>
          <Footer></Footer>
+
      </div>
     )
   }
