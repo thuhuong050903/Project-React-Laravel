@@ -80,15 +80,27 @@ Route::delete('/delete-appointment/{appointment}', [App\Http\Controllers\Apointm
 Route::put('/edit-appointment/{appointment}',[App\Http\Controllers\ApointmentController::class,'editApartments']);	
 
 
+///--------------Đoạn này của Đi-----------////
+Route::get('/get-appointment',[App\Http\Controllers\ApointmentController::class,'getApartments']);					
+Route::get('/get-appointment/{appointment}', [App\Http\Controllers\ApointmentController::class,'getOneApartments']);								
+Route::post('/add-appointment',[App\Http\Controllers\ApointmentController::class,'addApartments']);								
+Route::delete('/delete-appointment/{appointment}', [App\Http\Controllers\ApointmentController::class,'deleteApartments']);
+Route::put('/edit-appointment/{appointment}',[App\Http\Controllers\ApointmentController::class,'editApartments']);	
+
+
 ///------------------------- của ĐI nhớ bỏ vô Apointment-------------------------///
 Route::get('/get-confirmappointment',[App\Http\Controllers\ApointmentController::class,'getAppointment']);	
 Route::get('/get-confirmappointment/{appointment_id}', [App\Http\Controllers\ApointmentController::class,'getOneAppointment']);	
+Route::put('update-appointment/{id}', [App\Http\Controllers\ApointmentController::class,'update']);
 
-//---------------gửi email xạc nhận--------------//
-Route::middleware('auth:api')->group(function () {
-    Route::post('/send-email', [App\Http\Controllers\EmailController::class, 'sendEmail'])->name('sendEmail');
-});
 
+Route::get('related-photos/{apartment_id}', [ImagesController::class, 'getRelatedPhotos']);
+Route::post('add-photo/{apartment_id}', [ImagesController::class, 'addPhoto']);
+Route::post('/upload',[ImagesController::class,'upload']);
+
+//-------------------- Address----------------------//
+Route::get('/get-address', [App\Http\Controllers\ApointmentController::class, 'getAddress']);
+Route::get('/get-address/{address_id}', [App\Http\Controllers\ApointmentController::class,'getOneAddress']);		
 
 Route::post('/ratings',[App\Http\Controllers\starRatingController::class,'store']);
 Route::get('/ratings', [App\Http\Controllers\starRatingController::class, 'getRatings']);

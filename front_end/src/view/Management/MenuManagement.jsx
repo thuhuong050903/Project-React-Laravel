@@ -5,7 +5,7 @@ class MenuManagement extends Component {
   render() {
     return (
       <div>
-        <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ height: "200%" }}>
+        <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ height: "100%" }}>
           {/* Brand Logo */}
           <a href="index3.html" className="brand-link">
             {/* <img
@@ -75,6 +75,15 @@ class MenuManagement extends Component {
                     <a className="nav-link">
                       <i className="far fa-circle nav-icon" />
                       <p>My Apartment</p>
+                    </a>
+                  </li>
+                </Link>
+
+                <Link to={`./address`}>
+                  <li className="nav-item">
+                    <a className="nav-link">
+                      <i className="far fa-circle nav-icon" />
+                      <p>Address table</p>
                     </a>
                   </li>
                 </Link>
