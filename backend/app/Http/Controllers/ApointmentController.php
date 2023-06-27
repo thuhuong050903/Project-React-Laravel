@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Mail\GuiEmail;
 use App\Models\addresses;
 use App\Models\apartments;
 use App\Models\Appointments;
@@ -23,17 +25,10 @@ class ApointmentController extends Controller
         return response()->json($apartments);
     }
 
-    // public function getIDAddress()
-    // {
-    //     $apartments = apartments::all();
-    //     return response()->json($apartments);
-    // }
 
     public function addApartments(Request $request)
     {
         $apartments = new apartments();
-        // $apartments->name = $request->input('name');							
-// $apartments->image = $request->input('image');	
         $apartments->user_id = intval($request->input('user_id'));
         $apartments->description = $request->input('description');
         $apartments->price = intval($request->input('price'));
@@ -47,7 +42,6 @@ class ApointmentController extends Controller
     public function deleteApartments($id)
     {
         try {
-            // Xóa các bản ghi trong bảng apartment_images liên quan đến căn hộ
             apartments::findOrFail($id)->apartmentImage()->delete();
             apartments::findOrFail($id)->apartmentIssues()->delete();
             apartments::findOrFail($id)->contracts()->delete();
@@ -97,63 +91,41 @@ class ApointmentController extends Controller
         return response()->json($appointments);
     }
 
-    //---------- xạc nhận email-------//
+    //---update status---////
+    public function update(Request $request, $id)
+    {
+        // Lấy thông tin cần cập nhật từ request
+        $status = $request->input('status');
+
+        // Cập nhật trạng thái cuộc hẹn trong cơ sở dữ liệu
+        $appointment = Appointments::find($id);
+        if (!$appointment) {
+            return response()->json(['message' => 'Appointment not found'], 404);
+        }
+        $appointment->update(['status' => $status]);
+
+        return response()->json(['message' => 'Appointment status updated successfully']);
+    }
 
 
 
-    public function getAddresses()
+    //---------- lấy địa chỉ-------//
+    public function getAddress()
     {
         $addresses = addresses::all();
         return response()->json($addresses);
     }
-    public function getOneAddresses($id)
+    public function getOneAddress($id)
     {
         $addresses = addresses::find($id);
         return response()->json($addresses);
     }
-    public function addAddresses(Request $request)
-    {
-        $addresses = new addresses();
-        // $apartments->name = $request->input('name');							
-// $apartments->image = $request->input('image');	
-        $addresses->number = intval($request->input('number'));
-        $addresses->street = $request->input('street');
-        $addresses->ward = $request->input('ward');
-        $addresses->district = $request->input('district');
 
-        $addresses->save();
-        return $addresses;
-    }
 
-    public function deleteAddresses($id)
-    {
-        try {
 
-            // Xóa địa chỉ
-            addresses::findOrFail($id)->delete();
-            return response()->json(['message' => 'Xóa địa chỉ thành công'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi khi xóa địa chỉ: ' . $e->getMessage()], 500);
-        }
-    }
-    public function editAddresses(Request $request, $id)
-    {
-        try {
-            $address = addresses::find($id);
-            if (!$address) {
-                return response()->json(['message' => 'Địa chỉ không tồn tại'], 404);
-            }
-            $address->number = intval($request->input('number'));
-            $address->street = $request->input('street');
-            $address->ward = $request->input('ward');
-            $address->district = $request->input('district');
-            $address->save();
-            return response()->json(['message' => 'Cập nhật địa chỉ thành công'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật địa chỉ:' . $e->getMessage()], 500);
-        }
-    }
-
+    // public function senMail(){
+    //     Mail::to(request(['email']))->send(new GuiEmail());
+    // }
 
 
 

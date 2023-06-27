@@ -10,7 +10,7 @@ import App_admin from './App_admin.jsx'
 import './index.css'
 import {BrowserRouter} from "react-router-dom";
 
-import AppManagement from './AppManagement';
+// import AppManagement from './AppManagement';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -65,6 +65,7 @@ function App() {
            <Route path="/ResetPasswordForm" element={<ResetPasswordForm/>} />
            <Route path="/ConfirmPasswordResetPage" element={<ConfirmPasswordResetPage/>} />
            <Route path="/apartment/:id" element={<Detail/>} />
+      
          </Routes>
          <Footer></Footer>
 

@@ -68,11 +68,11 @@ h3{
 
   .list_apartment{
     position: absolute;
-    margin-top: 300px;
+    /* margin-top: 300px; */
     margin-left: 250px;
     overflow: scroll;
     width: 82%;
-    height: 70%;
+    height: 100%;
 }
 
 .user-listApartment {

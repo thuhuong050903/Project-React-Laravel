@@ -8,53 +8,111 @@ class ConfirmAppointment extends Component {
     super(props);
     this.state = {
       appointment: [],
+      canceledAppointments: [],
     };
   }
+  handleCancellation(appointmentId,userEmail) {
+    // Update the status of the appointment in the database
+    axios
+      .put(`http://127.0.0.1:8000/api/update-appointment/${appointmentId}`, {
+        status: "Hủy",  
+      })
+      .then((response) => {
+        // Update the status in the state
+        const updatedAppointments = this.state.appointment.map((appointment) => {
+          if (appointment.appointment_id === appointmentId) {
+            return { ...appointment, canceled: true };
+          }
+          return appointment;
+        });
+  
+        const canceledAppointment = this.state.appointment.find(
+          (appointment) => appointment.appointment_id === appointmentId
+        );
+  
+        this.setState((prevState) => ({
+          appointment: updatedAppointments,
+          canceledAppointments: [...prevState.canceledAppointments, canceledAppointment],
+        }));
+  
+        console.log("Appointment status updated successfully");
 
-  //-----send mail ------///
-  async sendConfirmationEmail(email) {
-    try {
-      await axios.post("http://127.0.0.1:8000/api/send-email", {
-        email,
-        message: "Bạn đã đặt phòng thành công",
+
+        // Send email to the retrieved email address
+        axios
+          .get(`http://127.0.0.1:8000/failemail?email=${userEmail}`)
+          .then((response) => {
+            console.log("Email sent successfully");
+          })
+          .catch((error) => {
+            console.error("Error sending email:", error);
+          });
+  
+  
+        // Reload the page
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error updating appointment status:", error);
       });
-      console.log("Email sent successfully");
-    } catch (error) {
-      console.error("Error sending email:", error);
-    }
   }
 
-  handleConfirmation(appointmentId, email) {
-    // Gửi thông báo email
-    this.sendConfirmationEmail(email);
+  handleConfirmation(appointmentId, userEmail) {
+    // Update the status of the appointment in the database
+    axios
+      .put(`http://127.0.0.1:8000/api/update-appointment/${appointmentId}`, {
+        status: "Đã xác nhận",
+      })
+      .then((response) => {
+        // Update the status in the state
+        const updatedAppointment = this.state.appointment.map((appointment) => {
+          if (appointment.appointment_id === appointmentId) {
+            return { ...appointment, status: true };
+          }
+          return appointment;
+        });
+        this.setState({ appointment: updatedAppointment });
+        console.log("Appointment status updated successfully");
   
-    // Cập nhật trạng thái xác nhận trong state
-    const updatedAppointment = this.state.appointment.map((appointment) => {
-      if (appointment.appointment_id === appointmentId) {
-        return { ...appointment, confirmed: true };
-      }
-      return appointment;
-    });
+        // Send email to the retrieved email address
+        axios
+          .get(`http://127.0.0.1:8000/mailsuccessfull?email=${userEmail}`)
+          .then((response) => {
+            console.log("Email sent successfully");
+          })
+          .catch((error) => {
+            console.error("Error sending email:", error);
+          });
   
-    this.setState({ appointment: updatedAppointment });
+        // Reload the page
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error updating appointment status:", error);
+      });
   }
   
+  
+
   //---------//-------------------///
-
   async componentDidMount() {
     await this.fetchAppointments();
   }
 
   async fetchAppointments() {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/get-confirmappointment"
-      );
-      this.setState({ appointment: response.data });
+      const response = await axios.get("http://127.0.0.1:8000/api/get-confirmappointment");
+      const appointments = response.data.map(appointment => ({
+        ...appointment,
+        confirmed: appointment.status === 'Đã xác nhận',
+        canceled: appointment.status === 'Hủy'
+      }));
+      this.setState({ appointment: appointments });
     } catch (error) {
-      console.error("Error fetching apartments:", error);
+      console.error("Error fetching appointments:", error);
     }
   }
+
 
   render() {
     const columns = [
@@ -73,6 +131,7 @@ class ConfirmAppointment extends Component {
         cell: (row) => row.users.fullname,
         sortable: true,
       },
+
       {
         name: "Appointment_date_time",
         selector: "appointment_date_time",
@@ -81,20 +140,17 @@ class ConfirmAppointment extends Component {
       {
         name: "Status",
         cell: (row) => {
-          if (row.confirmed) {
+          if (row.canceled) {
+            return <span>Bạn đã hủy</span>;
+          } else if (row.confirmed) {
             return <span>Đã xác nhận</span>;
-          } else {
+          } else {  
             return (
               <div>
                 <button
                   className="btn btn-sm btn-success"
                   style={{ width: "80px" }}
-                  onClick={() =>
-                    this.handleConfirmation(
-                      row.appointment_id,
-                      row.users.email
-                    )
-                  }
+                  onClick={() => this.handleConfirmation(row.appointment_id, row.users.email)}
                   type="button"
                 >
                   Xác nhận
@@ -102,7 +158,7 @@ class ConfirmAppointment extends Component {
                 <button
                   className="btn btn-sm btn-danger"
                   style={{ width: "80px" }}
-                  onClick={() => this.deleteApartments(row.apartment_id)}
+                  onClick={() => this.handleCancellation(row.appointment_id,row.users.email)}
                   type="button"
                 >
                   Hủy
@@ -121,7 +177,7 @@ class ConfirmAppointment extends Component {
           title="ConfirmAppointment"
           columns={columns}
           data={this.state.appointment}
-          paginationPerPage={5}
+          paginationPerPage={10}
           defaultSortField="apartment_id"
           pagination
         />
