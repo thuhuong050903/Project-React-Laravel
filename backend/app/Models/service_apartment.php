@@ -10,4 +10,13 @@ class service_apartment extends Model
     use HasFactory;
     protected $table ='service_apartment';
     public $timestamps = false;
+    function apartments()  {
+        return $this->belongsTo('App\Models\apartments', 'apartment_id');
+
+    }
+    function services()  {
+        return $this->belongsTo('App\Models\services', 'apartment_id');
+
+    }
+
 }

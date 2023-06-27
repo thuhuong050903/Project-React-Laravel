@@ -126,10 +126,35 @@
   position: relative;
   background-color: rgb(255, 255, 255);
   width: 100%;
-  height: 464px;
+  height: 530px;
   overflow: hidden;
   text-align: left;
   font-size: var(--font-size-xl);
   color: var(--color-black);
   font-family: var(--font-poppins);
+  border-top: solid 1px #ececec;
+}
+.alignleft {
+  margin-right: 0.5em !important;
+  margin-top: 2px;
+  width:35px;
+}
+img {
+  transition: opacity 1s;
+  opacity: 1;
+  max-width: 100%;
+  height: auto;
+}
+.bis-nguyn-vn{
+  padding-right: 50px;
+  float: right;
+}
+.footer-wrapper {
+  width: 100%;
+  position: relative;
+  margin-top: 400px;
+}
+#block-13 {
+  margin-left: 500px; /* Điều chỉnh giá trị margin-top tùy ý */
+  margin-top: 30px;
 }

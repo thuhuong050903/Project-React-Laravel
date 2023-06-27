@@ -14,21 +14,48 @@
    padding-left: 30px;
    padding-right: 30px;
    font-size: 18px;
-   color: black;
+   color: black;}
+.header {
+  font-family: "Quicksand", sans-serif;
+  padding-top: 20px;
+  height: 110px;
+  width: 100%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .dreamhome-link {
-    font-size: 24px;
-    color: red;
-  }
+  margin-left: 70px;
+  text-decoration: underline;
+  color: #dd0000;
+  font-weight: bold;
+  font-size: 30px;
+}
 
-  .logout-button {
-    color: white;
-    background-color: red;
-    padding: 8px 16px;
-    cursor: pointer;
-  }
+.item-header-link {
+  font-weight: 550;
+  color: #000000;
+  padding-left: 40px;
+  padding-right: 30px;
+  text-decoration: none;
+  font-size: 19px;
+}
+.item-header {
+  margin-top: 12px;
+}
+.item-header-link:hover {
+  color: #dd0000;
+  text-decoration: none;
 
-  .greeting {
-    color: white;
-  }
+}
+
+.logout-button {
+  color: #ffffff;
+  font-size: 19px;
+  background-color: #dd0000;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.logout-button:hover {
+  background-color: #aa0000;
+}

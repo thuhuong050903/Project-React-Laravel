@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
 import '../../assets/style/List_Apartment.css'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt, faBuilding, faExpand } from '@fortawesome/free-solid-svg-icons';
 
 function List_Apartment() {
   const [shortTermApartments, setShortTermApartments] = useState([]);
   const [longTermApartments, setLongTermApartments] = useState([]);
+
+
 
   useEffect(() => {
     // Gọi API để lấy dữ liệu căn hộ
@@ -24,48 +29,65 @@ function List_Apartment() {
 
   return (
     <div className='show-apartment'>
+      <h3>PHÒNG NGẮN HẠN</h3>
       <div className="apartment-list">
-        <h1>Short Term Apartments</h1>
         {shortTermApartments.map(apartment => (
           <div key={apartment.apartment_id} className="card">
-            <div className="image-gallery">
-              <Slider>
-                {apartment.apartment_image.map(image => (
-                  <div key={image.image_id}>
+           <div className="image-gallery">
+              <Slider arrows={false} dots={false} autoplay={true} speed={3000} autoplaySpeed={10000}>
+                {apartment.apartment_image.map((image, index) => (
+                  <div key={index}>
                     <img src={image.image_path} alt="Apartment" />
                   </div>
                 ))}
               </Slider>
             </div>
-            <h2>{apartment.name}</h2>
-            <p>{apartment.description}</p>
-            <p>Price: {apartment.price}</p>
-            <p>Number of Rooms: {apartment.number_of_rooms}</p>
-            <p>Area: {apartment.area}</p>
-            <p>Address: {apartment.address}</p>
-            
+            <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.addresses.ward} - {apartment.addresses.district}</div>
+            <div className='apartment-price'>{apartment.price} đ</div>
+            <div className='apartment-item'>
+              <FontAwesomeIcon icon={faBuilding} className="icon" style={{ color: '#555555' }} />&nbsp;
+              Số phòng:{apartment.number_room}
+            </div>
+            <div className='apartment-item'>
+              <FontAwesomeIcon icon={faExpand} className="icon" style={{ color: '#555555' }} />&nbsp;
+              Diện tích: {apartment.area}
+            </div>
+            <div className='address'>
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
+              {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
+            </div>
+            <Link to={`/apartment/${apartment.apartment_id}`}>Detail</Link>
           </div>
         ))}
       </div>
+      <h3>PHÒNG DÀI HẠN</h3>
       <div className="apartment-list">
-        <h1>Long Term Apartments</h1>
         {longTermApartments.map(apartment => (
           <div key={apartment.apartment_id} className="card">
             <div className="image-gallery">
-              <Slider>
-                {apartment.apartment_image.map(image => (
-                  <div key={image.image_id}>
+              <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
+                {apartment.apartment_image.map((image, index) => (
+                  <div key={index}>
                     <img src={image.image_path} alt="Apartment" />
                   </div>
                 ))}
               </Slider>
             </div>
-            <h2>{apartment.name}</h2>
-            <p>{apartment.description}</p>
-            <p>Price: {apartment.price}</p>
-            <p>Number of Rooms: {apartment.number_of_rooms}</p>
-            <p>Area: {apartment.area}</p>
-            <p>Address: {apartment.address}</p>
+            <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.addresses.ward} - {apartment.addresses.district}</div>
+            <div className='apartment-price'>{apartment.price} đ</div>
+            <div className='apartment-item'>
+              <FontAwesomeIcon icon={faBuilding} className="icon" style={{ color: '#555555' }} />&nbsp;
+              Số phòng:{apartment.number_room}
+            </div>
+            <div className='apartment-item'>
+              <FontAwesomeIcon icon={faExpand} className="icon" style={{ color: '#555555' }} />&nbsp;
+              Diện tích: {apartment.area}
+            </div>
+            <div className='address'>
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
+              {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
+            </div>
+            <Link to={`/apartment/${apartment.apartment_id}`}>Detail</Link>
           </div>
         ))}
       </div>

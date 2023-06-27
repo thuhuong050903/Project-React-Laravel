@@ -24,6 +24,8 @@ const Co_Living = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
+    autoplay: true,
+    autoplaySpeed: 1500,
     centerMode: true,
     centerPadding: "100px",
     responsive: [
@@ -45,8 +47,20 @@ const Co_Living = () => {
       },
     ],
   };
+
+  var slideshow = document.querySelector(".slide");
+
+  // Dừng animation
+  function pauseSlideshow() {
+    slideshow.style.animationPlayState = "paused";
+  }
+
+  // Khởi chạy lại animation
+  function resumeSlideshow() {
+    slideshow.style.animationPlayState = "running";
+  }
+
   const [slidesData, setSlidesData] = useState([]);
-  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     axios
@@ -58,14 +72,6 @@ const Co_Living = () => {
         console.log(error);
       });
   }, []);
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slidesData.length - 1 : prev - 1));
-  };
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === slidesData.length - 1 ? 0 : prev + 1));
-  };
 
   if (slidesData.length === 0) {
     return <div>Loading...</div>;
@@ -100,31 +106,12 @@ const Co_Living = () => {
           gian nghỉ ngơi của mỗi người phải hoàn toàn riêng biệt.
         </p>
       </div>
-      <div className="hp-mt-hng-container">
-        <p className="blank-line1">&nbsp;</p>
-        <p className="blank-line1">&nbsp;</p>
-        <p className="nu-co-working-l">Họp mặt hàng tháng</p>
-        <p className="nu-co-working-l">&nbsp;</p>
-        <p className="nu-co-working-l">
-          Ưu đãi đặc biệt chỉ dành cho quý cư dân
-        </p>
-        <p className="nu-co-working-l">&nbsp;</p>
-        <p className="nu-co-working-l">Kết nối với mọi người</p>
-        <p className="nu-co-working-l">&nbsp;</p>
-        <p className="nu-co-working-l">
-          Thường xuyên tổ chức các buổi workshop bổ ích,
-        </p>
-        <p className="nu-co-working-l"> tập thể thao</p>
-      </div>
       <div className="co-living-s-l-container">
         <p className="nu-co-working-l">&nbsp;</p>
         <p className="nu-co-working-l">&nbsp;</p>
-        <p className="nu-co-working-l">{`Co-living sẽ là một khái niệm khá lạ lẫm nếu bạn chưa từng tìm hiểu trước đó. Mô hình căn hộ này phổ biến ở các nước `}</p>
-        <p className="nu-co-working-l">
-          Châu Âu. Nhưng ở Việt Nam thì đây là một lĩnh vực mới đáng để khai
-          thác. Thay vì sống độc lập trong một căn hộ, bạn có thể chọn lối sống
-          khác nhộn nhịp và tiết kiệm chi phí hơn.
-        </p>
+        <p className="nu-co-working-l">{`Co-living sẽ là một khái niệm khá lạ lẫm nếu bạn chưa từng tìm hiểu trước đó. Mô hình căn hộ này phổ biến ở các nước Châu Âu. Nhưng ở Việt Nam thì đây là một lĩnh vực   mới đáng để khai
+          thác.  Thay vì sống độc lập trong một căn hộ,bạn có thể chọn lối sống khác nhộn nhịp và tiết kiệm chi phí hơn. `}</p>
+        <p className="nu-co-working-l"></p>
         <p className="nu-co-working-l">&nbsp;</p>
         <p className="nu-co-working-l">
           Với sự phát triển ngày nay, sự gắn kết và hội nhập dần trở nên quan
@@ -135,6 +122,13 @@ const Co_Living = () => {
         </p>
       </div>
       <div className="u-im-ln">
+        <div class="title">
+          <ul>
+            <li>
+              <strong>Tinh giảm chi phí</strong>
+            </li>
+          </ul>
+        </div>
         Ưu điểm lớn nhất của Co-living là giúp giảm thiểu chi phí cho người
         thuê. Các thành viên trong Co-living Space sẽ có giường riêng hoặc thậm
         chí phòng tắm riêng, nhưng bản chất của Co-living là chia sẻ các không
@@ -143,6 +137,13 @@ const Co_Living = () => {
         khác.
       </div>
       <div className="im-ging-nhau">
+        <div class="title">
+          <ul>
+            <li>
+              <strong>Nâng cao năng suất làm việc</strong>
+            </li>
+          </ul>
+        </div>
         Điểm giống nhau giữa Co-living và Co-working space là: đây đều là nơi
         cho phép mọi người cởi mở và cộng tác với nhau tạo nên một cộng đồng
         vững mạnh. Co-living có xu hướng được tích hợp trong cùng một tòa nhà
@@ -152,6 +153,13 @@ const Co_Living = () => {
         cho người thuê.
       </div>
       <div className="ngy-nay-vic">
+        <div class="title">
+          <ul>
+            <li>
+              <strong>Thời gian thuê linh hoạt</strong>
+            </li>
+          </ul>
+        </div>
         Ngày nay, việc đổi chỗ ở để gần nơi làm, nơi học tập là chuyện diễn ra
         khá thường xuyên. Không phải ai cũng có nhu cầu thuê một chỗ để ở dài
         hạn. Đây cũng là một lý do cho việc Co-living phát triển trở thành xu
@@ -161,6 +169,13 @@ const Co_Living = () => {
       </div>
       <div className="cc-thnh-vin-container">
         <p className="nu-co-working-l">
+          <div class="title">
+            <ul>
+              <li>
+                <strong>Tạo dựng mối quan hệ mới</strong>
+              </li>
+            </ul>
+          </div>
           Các thành viên của Co-living space sống và chia sẻ những sở thích, giá
           trị và hỗ trợ lẫn nhau tạo thành một cộng đồng. Họ có thể đến từ nhiều
           nơi khác nhau nhưng nhờ mô hình Co-living họ có cơ hội gặp gỡ và trò
@@ -175,6 +190,13 @@ const Co_Living = () => {
         </p>
       </div>
       <div className="nu-bn-mun">
+        <div class="title">
+          <ul>
+            <li>
+              <strong>Không đàm bảo tính riêng tư tuyệt đối</strong>
+            </li>
+          </ul>
+        </div>
         Nếu bạn muốn có sự riêng tư tuyệt đối như ở trong nhà riêng của mình thì
         Co-living không phải là một lựa chọn hoàn hảo bởi tính chất “chia sẻ”
         của loại hình này. Là thành viên của một cộng đồng, bạn sẽ gặp gỡ rất
@@ -184,6 +206,13 @@ const Co_Living = () => {
       </div>
       <div className="nhiu-bn-s-container">
         <p className="nu-co-working-l">
+          <div class="title">
+            <ul>
+              <li>
+                <strong>Khó đảm bảo tính an toàn và bảo mật</strong>
+              </li>
+            </ul>
+          </div>
           Nhiều bạn sẽ băn khoăn: “Làm thế nào có thể giữ an toàn cho bản thân
           và tài sản nếu chung sống cùng người lạ?”
         </p>
@@ -217,121 +246,51 @@ const Co_Living = () => {
               <p className="nim-vui">người bạn mới.</p>
             </b>
             <b className="cng-nhau">Cùng nhau khám phá thế giới.</b>
-            <div className="serve-child" />
-          </div>
+            </div>
         </center>
-        <div>
-          <div>
-            <h1 className="title">
-              Các dự án theo mô hình Co-living tiêu biểu tại JinJoo Home
-            </h1>
-            <Slider {...settings} ref={sliderRef}>
-              {apartments.map((apartment) => (
-                <div className="col-md-3 mb-3" key={apartment.id}>
-                  <div className="card">
-                    <img
-                      src="https://danhkhoireal.vn/wp-content/uploads/2022/03/Can-ho-Calla-Apartment-Quy-Nhon.jpg"
-                      className="card-img-top"
-                      alt={apartment.description}
-                    />
-                    <div className="card-body">
-                      <h5 className="card-text">{apartment.address_id}</h5>
-                      <p className="card-text">
-                        NumberRoom: {apartment.number_room}
-                      </p>
-                      <p className="card-text">
-                        TypeRoom: {apartment.typeroom}
-                      </p>
-                      <p className="card-text">Giá: {apartment.price}</p>
-                      <p className="card-text">Area: {apartment.area}</p>
-                      <div className="card-buttons">
-                        <button
-                          className="btn btn-primary"
-                          onClick={() => handleAddToCart(product)}
-                        >
-                          Add Cart
-                        </button>
-                        <button
-                          href="./Detail.jsx"
-                          className="btn btn-secondary"
-                        >
-                          Detail
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </Slider>
-          </div>
-        </div>
       </div>
+      <div>
+        <div>
+        <h1 className="tieude">Các dự án theo mô hình Co-living tiêu biểu tại DreamHome</h1>
+        <Slider {...settings} ref={sliderRef}>
+          {apartments.map(apartment => (
+            <div className="col-md-3 mb-3" key={apartment.id}>
+              <div className="card">
+                <img src="https://danhkhoireal.vn/wp-content/uploads/2022/03/Can-ho-Calla-Apartment-Quy-Nhon.jpg" className="card-img-top" alt={apartment.description} />
+                <div className="card-body">
+                  <h5 className="card-text">{apartment.address_id}</h5>
+                  <p className="card-text">NumberRoom: {apartment.number_room}</p>
+                  <p className="card-text">TypeRoom: {apartment.typeroom}</p>
+                  <p className="card-text">Giá: {apartment.price}</p>
+                  <p className="card-text">Area: {apartment.area}</p>
+                  {/* <div className="card-buttons">
+                    <button className="btn btn-primary" onClick={() => handleAddToCart(product)}>
+                      Add Cart
+                    </button>
+                    <button href="./Detail.jsx"  className="btn btn-secondary">Detail</button>
+                  </div> */}
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
+    </div>
+    </div>
       <div className="cm-t-co-living">
         Cụm từ Co-living có phổ biến ở Việt Nam?
       </div>
       <div className="u-im-ca">Ưu điểm của Co-living là gì ?</div>
       <div className="nhc-im-ca">Nhược điểm của Co-living là gì ?</div>
-
-      {/* <div className="cc-d-n">
-            Các dự án theo mô hình Co-living tiêu biểu tại JinJoo Home
-          </div>
-          <div className="tnh-gim-chi">Tính giảm chi phí</div>
-          <div className="nng-cao-nng">Nâng cao năng suất làm việc</div>
-          <div className="thi-gian-thu">Thời gian thuê linh hoạt</div>
-          <div className="to-dng-mi">Tạo dựng mới quan hệ mới</div>
-          <div className="khng-m-bo">Không đảm bảo tính riêng tư tuyệt đối</div>
-          <div className="kh-m-bo">Khó đảm bảo tính an toàn và bảo mật</div>
-          <img
-            className="untitled-2-300x150-1-icon"
-            alt=""
-            src="/untitled2300x150-1@2x.png"
-          />
-          <img
-            className="untitled-2-300x150-2-icon"
-            alt=""
-            src="/untitled2300x150-1@2x.png"
-          />
-          <img
-className="artboard-11-150x150-1-1-icon"
-            alt=""
-            src="/artboard11150x1501-1@2x.png"
-          />
-          <div className="v-sao-jinjoo1">
-            Vì sao JinJoo Homelựa chọn phát triển mô hình Co-living?
-          </div>
-          <img
-            className="artboard-11-150x150-1-2-icon"
-            alt=""
-            src="/artboard11150x1501-2@2x.png"
-          />
-          <img
-            className="artboard-14-150x150-1-1-icon"
-            alt=""
-            src="/artboard14150x1501-1@2x.png"
-          />
-          <div className="v-sao-jinjoo-container">
-            <p className="nu-co-working-l"> Vì sao JinJoo Home</p>
-            <p className="nu-co-working-l">
-              lựa chọn phát triển mô hình Co-living?
-            </p>
-          </div>
-          <div className="khng-gian-thoi1">Không gian thoải mái và tiện lợi</div>
-          <div className="nhiu-nim-vui-container1">
-            <p className="nu-co-working-l">Nhiều niềm vui hơn khi sống</p>
-            <p className="nu-co-working-l"> cùng nhau</p>
-          </div>
-          <div className="ngun-nng-lng-container1">
-            <p className="nu-co-working-l">Nguồn năng lượng mới từ</p>
-            <p className="nu-co-working-l"> những người bạn mới</p>
-          </div>
-          <div className="cng-nhau-khm1">Cùng nhau khám phá thế giới</div>
-          <div className="hn-c-vic-container">
-            <p className="nu-co-working-l">{`                                     Hơn cả việc chỉ đơn thuần là những bức tường bê tông, chúng tôi tin rằng nhà còn là nơi bắt nguồn của tình thân, hy vọng và hoài bão. `}</p>
-            <p className="nu-co-working-l">
-              Với mong muốn kiến tạo một cộng đồng với phong cách sống tươi trẻ và
-              hiện đại, JinJoo Home là một trong những đơn vị tiên phong mang lối
-              sống Co-living đến với Việt Nam.
-            </p> */}
+      <img
+        className="untitled-2-300x150-1-icon"
+        alt=""
+        src="/untitled2300x150-1@2x.png"
+      />
+      <img
+        className="untitled-2-300x150-2-icon"
+        alt=""
+        src="/untitled2300x150-1@2x.png"
+      />
       <iframe
         className="video_3"
         width="862"
@@ -345,29 +304,37 @@ className="artboard-11-150x150-1-1-icon"
 
       <div className="s-kin-c">
         Sự kiện độc quyền dành riêng cho cư dân của JinJoo Home
+        
+      </div>
+      <div className="hp-mt-hng-container">
+        <p className="blank-line1">&nbsp;</p>
+        <p className="blank-line1">&nbsp;</p>
+        <p className="nu-co-working-l">Họp mặt hàng tháng</p>
+        <p className="nu-co-working-l">&nbsp;</p>
+        <p className="nu-co-working-l">
+          Ưu đãi đặc biệt chỉ dành cho quý cư dân
+        </p>
+        <p className="nu-co-working-l">&nbsp;</p>
+        <p className="nu-co-working-l">Kết nối với mọi người</p>
+        <p className="nu-co-working-l">&nbsp;</p>
+        <p className="nu-co-working-l">
+          Thường xuyên tổ chức các buổi workshop bổ ích,
+        </p>
+        <p className="nu-co-working-l"> tập thể thao</p>
       </div>
       <div className="s-kin-kt-container">
-        <div className="slideshow">
-          {/* <div class="slide slide-animation"> */}
-            <div className="slide">
-              {slidesData.map((slides) => (
-                <div div className="col-md-1 mb-3" key={slides.id}>
-                  {" "}
-                  {/* Thêm key cho mỗi phần tử */}
-                  <div className="card">
-                    <img
-                      src={slides.img}
-                      className="card-img-top"
-                      alt="Hình ảnh"
-                    />
-                     <p className="card-text1"> {slides.name}</p>
-                  </div>
-                </div>
-              ))}
+        <Slider {...settings}>
+          {slidesData.map((slide) => (
+            <div className="col-md-1 mb-3" key={slide.id}>
+              <div className="card">
+                <img src={slide.img} className="card-img-top" alt="Hình ảnh" />
+                <p className="card-text1">{slide.name}</p>
+              </div>
             </div>
-          </div>
-        </div>
+          ))}
+        </Slider>
       </div>
+    </div>
     // </div>
   );
 };

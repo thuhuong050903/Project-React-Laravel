@@ -1,49 +1,65 @@
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import '../../assets/style/Form.css';
 
-export default function ConfirmPasswordResetPage() {
-  const [verificationCode, setVerificationCode] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+function ConfirmPasswordResetPage({ email, resetCode }) {
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  const handleConfirmPasswordReset = () => {
-    // Gửi yêu cầu xác nhận mã và đặt lại mật khẩu tới server
-    axios
-      .post("http://localhost:8000/api/confirm-password-reset", {
-        verificationCode,
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Gửi yêu cầu đặt lại mật khẩu đến Laravel
+    fetch('/api/password/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email,
+        verificationCode: resetCode,
         newPassword,
-      })
-      .then((response) => {
-        setSuccessMessage("Mật khẩu đã được đặt lại thành công.");
+        newPassword_confirmation: confirmPassword,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Xử lý phản hồi từ Laravel
+        console.log(data);
+        // Thực hiện các thao tác phù hợp (hiển thị thông báo, chuyển hướng, vv.)
+        setMessage(data.message);
       })
       .catch((error) => {
-        setErrorMessage("Đã xảy ra lỗi khi xác nhận và đặt lại mật khẩu.");
+        // Xử lý lỗi (hiển thị thông báo lỗi, vv.)
+        console.error(error);
+        setMessage('Error occurred while resetting password.');
       });
   };
 
   return (
-    <div>
-      {successMessage && <div>{successMessage}</div>}
-      {errorMessage && <div>{errorMessage}</div>}
-      <h1>Confirm Password Reset</h1>
-      <div>
-        <label>Verification Code:</label>
-        <input
-          type="text"
-          value={verificationCode}
-          onChange={(e) => setVerificationCode(e.target.value)}
-        />
-      </div>
-      <div>
-        <label>New Password:</label>
+    <form onSubmit={handleSubmit} className='new_password'>
+      <label>
+        New Password:
         <input
           type="password"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
         />
-      </div>
-      <button onClick={handleConfirmPasswordReset}>Submit</button>
-    </div>
+      </label>
+      <br />
+      <label>
+        Confirm Password:
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+      </label>
+      <br />
+      <button type="submit">Reset Password</button>
+      {message && <div>{message}</div>}
+    </form>
   );
 }
+
+export default ConfirmPasswordResetPage;

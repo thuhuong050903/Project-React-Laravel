@@ -16,7 +16,7 @@ class apartments extends Model
 
     public function users()
     {
-        return $this->belongsTo(users::class, 'user_id')->onDelete('cascade');
+        return $this->belongsTo(users::class, 'user_id');
     }
 
     public function apartmentIssues()
@@ -58,5 +58,10 @@ class apartments extends Model
     public function addresses()
     {
         return $this->belongsTo('App\Models\addresses','apartment_id');
+    }
+    
+    public function services()
+    {
+        return $this->belongsToMany(Services::class, 'service_apartment', 'apartment_id', 'service_id');
     }
 }

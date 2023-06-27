@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 class UploadImage extends Component {
     constructor(props){
         super(props)
             this.state={
-                image:""
+                image:"",
+                images:[]
             }
-        
     }
-
+    componentDidMount(){
+        this.getImages();
+    }
+    getImages=()=>{
+        axios.get("http://localhost:8000/api/upload").then(res=>{
+            if(res.data){
+                this.setState({
+                    images:res.data
+                })
+            }
+        })
+    }
     handleChange=(e)=>{
-        this.setState({
-            image: e.target.files[0]
-        });
+        this.setState({ image: e.target.files[0] });
     }
     submitForm=(e)=>{
         e.preventDefault();
@@ -23,7 +31,7 @@ class UploadImage extends Component {
           //axios
 
           axios.post(url, data).then(res=>{
-            console.log(res);
+            this.getImages();
           })
     }
 
@@ -42,7 +50,18 @@ class UploadImage extends Component {
                         </div>
                     </div>
                 </div>
-                
+                <div className='row'>
+                   
+                        {
+                            this.state.images.map((image) => (
+                                <div className='col-sm-3'>
+                                    <img className='img-thumbnail' 
+                                    src={"http://localhost:8000/images" + image.name}/>
+                                     </div>
+                            ))
+                        }
+                   
+                </div>
             </div>
         );
     }

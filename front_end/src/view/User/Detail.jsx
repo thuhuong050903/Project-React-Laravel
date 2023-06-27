@@ -1,279 +1,215 @@
-import React from 'react';
-import '../../assets/style/Detail.css';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
+import axios from 'axios';
+import AuthUser from '../../component/AuthUser';
+import '../../assets/style/Modal_booking.css';
+import '../../assets/style/Detail.css'
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+function Detail() {
 
+  const { id } = useParams();
 
-const Detail = () => {
+  const [apartment, setApartment] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [showLongTermBookingModal, setShowLongTermBookingModal] = useState(false);
+  const [bookingPhone, setBookingPhone] = useState('');
+  const [bookingcheck_in_date, setBookingcheck_in_date] = useState('');
+  const [bookingcheck_out_date, setBookingcheck_out_date] = useState('');
+  const [desiredRent, setDesiredRent] = useState('');
+  const [desiredMoveInDate, setDesiredMoveInDate] = useState('');
+  const [desiredViewingDate, setDesiredViewingDate] = useState('');
+
+  const handleBookingPhoneChange = (e) => {
+    setBookingPhone(e.target.value);
+  };
+
+  const handleBookingcheck_in_dateChange = (e) => {
+    setBookingcheck_in_date(e.target.value);
+  };
+
+  const handleBookingcheck_out_dateChange = (e) => {
+    setBookingcheck_out_date(e.target.value);
+  };
+
+  const handleDesiredRentChange = (e) => {
+    setDesiredRent(e.target.value);
+  };
+
+  const handleDesiredMoveInDateChange = (e) => {
+    setDesiredMoveInDate(e.target.value);
+  };
+
+  const handleDesiredViewingDateChange = (e) => {
+    setDesiredViewingDate(e.target.value);
+  };
+
+  const handleBookNow = () => {
+    if (apartment.type_room === 'Phòng ngắn hạn') {
+      setShowModal(true);
+    } else if (apartment.type_room === 'Phòng dài hạn') {
+      setShowLongTermBookingModal(true);
+    }
+  };
+
+  const handleBookingNameChange = (e) => {
+    setBookingName(e.target.value);
+  };
+
+    const { http } = AuthUser();
+    const [userdetail, setUserdetail] = useState(null);
+
+    useEffect(() => {
+        fetchUserDetail();
+    }, []);
+
+    const fetchUserDetail = () => {
+        http.post('http://127.0.0.1:8000/api/me').then((res) => {
+            setUserdetail(res.data);
+        });
+    }
+
+  const handleBookingSubmit = () => {
+    if (apartment.type_room === 'Phòng ngắn hạn') {
+      const bookingData = {
+        user_id: apartment.users.id,
+        apartment_id: apartment.apartment_id,
+        phone: bookingPhone,
+        check_in_date: bookingcheck_in_date,
+        check_out_date: bookingcheck_out_date,
+      };
+  
+      axios
+        .post('http://127.0.0.1:8000/api/bookings', bookingData)
+        .then((response) => {
+          console.log('Đặt phòng ngắn hạn thành công:', response.data);
+          // Xử lý thành công, ví dụ: đặt lại giá trị ô input và đóng modal
+          setBookingPhone('');
+          setBookingcheck_in_date('');
+          setBookingcheck_out_date('');
+          setShowModal(false);
+        })
+        .catch((error) => {
+          console.error('Đặt phòng ngắn hạn thất bại:', error);
+          // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+        });
+    } else if (apartment.type_room === 'Phòng dài hạn') {
+      if (userdetail && userdetail.id) {
+      const longTermBookingData = {
+        user_id: userdetail.id,
+        apartment_id: apartment.apartment_id,
+        desired_rent: desiredRent,
+        desired_move_in_date: desiredMoveInDate,
+        appointment_date_time: desiredViewingDate,
+      };
+  
+      axios
+        .post('http://127.0.0.1:8000/api/bookAppointment', longTermBookingData)
+        .then((response) => {
+          console.log('Đặt lịch dài hạn thành công:', response.data);
+          // Xử lý thành công, ví dụ: đặt lại giá trị ô input và đóng modal
+          setBookingPhone('');
+          setDesiredRent('');
+          setDesiredMoveInDate('');
+          setDesiredViewingDate('');
+          setShowLongTermBookingModal(false);
+        })
+        .catch((error) => {
+          console.error('Đặt lịch dài hạn thất bại:', error);
+          // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+        });}
+    }
+  };
+  
+
+  useEffect(() => {
+    // Lấy chi tiết căn hộ dựa trên id
+    fetch(`http://localhost:8000/api/get-apartment/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        setApartment(data);
+      })
+      .catch(error => console.log(error));
+  }, [id]);
+
+  if (!apartment) {
+    return <p>Đang tải...</p>;
+  }
+
   return (
-    <div className="detail">
-      <img className="image-66-icon" alt="" src="/image-66@2x.png" />
-      <div className="rectangle-container">
-        <div className="group-inner" />
-        <div className="cn-phng">Còn Phòng</div>
-      </div>
-      <div className="group-parent">
-        <div className="group-container">
-          <div className="group-container">
-            <div className="group-child1" />
-          </div>
-          <div className="b-phm-ngc">92/8B PHẠM NGỌC THẠCH</div>
-        </div>
-        <div className="group-div">
-          <div className="group-child2" />
-          <div className="rectangle-parent1">
-            <div className="group-child3" />
-            <div className="chn-mt-ty">Chọn một tùy chọn</div>
-          </div>
-          <div className="group-wrapper">
-            <div className="rectangle-parent2">
-              <div className="group-child4" />
-              <div className="phng-ln">Phòng lớn</div>
-            </div>
-          </div>
-          <div className="group-frame">
-            <div className="rectangle-parent3">
-              <div className="group-child5" />
-              <div className="phng-nh">Phòng nhỏ</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="detail-inner">
-        <div className="group-child6" />
-      </div>
-      <div className="jinjoo-home-hin">
-        JinJoo Home hiện đang cho thuê phòng tại quận 3 đường Phạm Ngọc Thạch có
-        giá từ 7.000.000 VNĐ. Căn phòng được xây dựng theo mô hình studio, có
-        khu bếp chung và nhà vệ sinh riêng. Có vị trí nằm tại khu vực an ninh,
-        có dân cư văn minh, lịch sự, không chung chủ. Ngoài ra, căn phòng quận 3
-        đường Phạm Ngọc Thạch này còn có:
-      </div>
-      <div className="studio-c-bp-chung-v-wc-rin-parent">
-        <div className="studio-c-bp">Studio có bếp chung và WC riêng</div>
-        <div className="camera-an-ninh">Camera an ninh 24/24</div>
-        <div className="full-ni-tht">Full nội thất</div>
-        <div className="phng-mi-ph">
-          Phòng mới, phù hợp cho 2 người sinh hoạt
-        </div>
-        <div className="ca-s-thong">Cửa sổ thoáng mát</div>
-        <div className="xem-thm-tt">
-          Xem thêm tất cả các phòng Quận 3: Tại đậy
-        </div>
-      </div>
-      <div className="detail-child" />
-      <div className="detail-item" />
-      <b className="xem-bn">Xem bản đồ</b>
-      <b className="t-lch-ngy">Đặt lịch ngày</b>
-      <img className="image-68-icon" alt="" src="/image-68@2x.png" />
-      <img className="image-69-icon" alt="" src="/image-69@2x.png" />
-      <b className="cho-thu-phng">
-        Cho thuê phòng - JinJoo Home - Phạm Ngọc Thành, P. Võ Thị Sáu Q.3
-      </b>
-      <b className="sn-phm-tng">SẢN PHẨM TƯƠNG TỰ</b>
-<b className="gi-7000000">Giá: 7.000.000 ₫ - 7.500.000 ₫</b>
-      <div className="danh-mc-phng">Danh mục: Phòng dài hạn, Phong dịch vụ</div>
-      <div className="s-phng">Số Phòng : 07</div>
-      <div className="group-parent1">
-        <div className="group-parent2">
-          <div className="rectangle-frame">
-            <div className="group-child7" />
-          </div>
-          <div className="bn-lm-vic">Bàn làm việc</div>
-          <div className="ca-s">Cửa sổ</div>
-        </div>
-        <div className="group-parent3">
-          <div className="rectangle-frame">
-            <div className="group-child6" />
-          </div>
-          <a
-            className="m-t"
-            href="https://jinjoohome.com/cho-thue-phong/phong-dich-vu/phong-dai-han/cho-thue-phong-jinjoo-home-pham-ngoc-thanh-p-vo-thi-sau-q-3/#tab-description"
-            target="_blank"
-          >
-            MÔ TẢ
-          </a>
-        </div>
-        <div className="group-parent4">
-          <div className="rectangle-frame">
-            <div className="group-child6" />
-          </div>
-          <div className="bi-xe">Bãi đỗ xe</div>
-          <div className="bn-n">Bàn ăn</div>
-        </div>
-        <div className="group-parent5">
-          <div className="rectangle-frame">
-            <div className="group-child6" />
-          </div>
-          <div className="wifi">Wifi</div>
-          <div className="ging">Giường</div>
-        </div>
-        <div className="group-parent6">
-          <div className="rectangle-frame">
-            <div className="group-child7" />
-          </div>
-          <div className="my-iu-ho">Máy điều hoà</div>
-          <div className="my-git">Máy giặt</div>
-        </div>
-        <div className="group-parent7">
-          <div className="rectangle-frame">
-            <div className="group-child6" />
-          </div>
-          <div className="phng-tm">Phòng tắm</div>
-          <div className="my-git">Giờ tự do</div>
-        </div>
-        <div className="group-parent8">
-          <div className="rectangle-frame">
-            <div className="group-child7" />
-          </div>
-          <div className="t-lnh">Tủ lạnh</div>
-          <div className="t-qun-o">Tủ quần áo</div>
-        </div>
-      </div>
-      <div className="line-div" />
-      <div className="detail-inner1">
-        <div className="group-parent9">
-          <div className="group-parent10">
-            <div className="group-parent11">
-              <div className="rectangle-parent4">
-                <div className="group-child14" />
-                <div className="room-for-rent-jinjoo-home-parent">
-                  <div className="room-for-rent-container">
-                    <p className="room-for-rent">Room for rent - JinJoo</p>
-                    <p className="room-for-rent">{`Home - Ky Con, P.Nguyen Thai `}</p>
-                    <p className="room-for-rent">Binh, District 1</p>
-                  </div>
-<div className="div">10.000.000</div>
-                  <div className="s-phng-05">Số Phòng: 05</div>
-                  <div className="district-1-ho">District 1, Ho Chi Minh</div>
-                  <img
-                    className="image-36-icon"
-                    alt=""
-                    src="/image-36@2x.png"
-                  />
-                  <img
-                    className="image-37-icon"
-                    alt=""
-                    src="/image-37@2x.png"
-                  />
-                  <div className="phng-dch-v"> Phòng dịch vụ</div>
-                </div>
+    <div className='detail'>
+      <div key={apartment.apartment_id} className="detail-card">
+        <div className="detail-image-gallery">
+          <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
+            {apartment.apartment_image.map((image, index) => (
+              <div key={index}>
+                <img src={image.image_path} alt="Apartment" />
               </div>
-              <img className="image-47-icon" alt="" src="/image-47@2x.png" />
-            </div>
-            <div className="rectangle-parent5">
-              <div className="group-child15" />
-              <div className="cn-phng1">Còn Phòng</div>
-            </div>
+            ))}
+          </Slider>
+        </div>
+        <div className='detail-right'>
+          <div className='apartment-title'>{apartment.addresses.number} - {apartment.addresses.street} - {apartment.price} đ</div>
+          <div className='apartment-des'>{apartment.description} </div>
+          <div className='service-des'>
+            {apartment.services.map((service, index) => (
+              <div key={index}>{service.description}</div>
+            ))}
           </div>
-          <div className="group-parent12">
-            <div className="group-parent11">
-              <div className="rectangle-parent4">
-                <div className="group-child14" />
-                <div className="room-for-rent-jinjoo-home-parent">
-                  <div className="room-for-rent-container">
-                    <p className="room-for-rent">Room for rent - JinJoo</p>
-                    <p className="room-for-rent">{`Home - Ky Con, P.Nguyen Thai `}</p>
-                    <p className="room-for-rent">Binh, District 1</p>
-                  </div>
-                  <div className="div">10.000.000</div>
-                  <div className="s-phng-05">Số Phòng: 05</div>
-                  <div className="district-1-ho">District 1, Ho Chi Minh</div>
-                  <img
-                    className="image-36-icon"
-                    alt=""
-                    src="/image-36@2x.png"
-                  />
-                  <img
-                    className="image-37-icon"
-                    alt=""
-                    src="/image-37@2x.png"
-                  />
-                  <div className="phng-dch-v"> Phòng dịch vụ</div>
-                </div>
-              </div>
-              <img className="image-47-icon" alt="" src="/image-47@2x.png" />
-            </div>
-            <div className="rectangle-parent5">
-              <div className="group-child15" />
-              <div className="cn-phng1">Còn Phòng</div>
-            </div>
+          <div className='apartment-room'>Số phòng: {apartment.number_room}</div>
+          <div className='apartment-area'>Diện tích: {apartment.area}</div>
+          <div className='apartment-address'>
+            Địa chỉ: {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
           </div>
-          <div className="group-parent14">
-            <div className="group-parent11">
-              <div className="rectangle-parent4">
-                <div className="group-child14" />
-                <div className="room-for-rent-jinjoo-home-parent">
-                  <div className="room-for-rent-container">
-                    <p className="room-for-rent">Room for rent - JinJoo</p>
-                    <p className="room-for-rent">{`Home - Ky Con, P.Nguyen Thai `}</p>
-                    <p className="room-for-rent">Binh, District 1</p>
-                  </div>
-<div className="div">10.000.000</div>
-                  <div className="s-phng-05">Số Phòng: 05</div>
-                  <div className="district-1-ho">District 1, Ho Chi Minh</div>
-                  <img
-                    className="image-36-icon"
-                    alt=""
-                    src="/image-36@2x.png"
-                  />
-                  <img
-                    className="image-37-icon"
-                    alt=""
-                    src="/image-37@2x.png"
-                  />
-                  <div className="phng-dch-v"> Phòng dịch vụ</div>
-                </div>
-              </div>
-              <img className="image-47-icon" alt="" src="/image-47@2x.png" />
-            </div>
-            <div className="rectangle-parent5">
-              <div className="group-child15" />
-              <div className="cn-phng1">Còn Phòng</div>
-            </div>
-          </div>
-          <div className="group-wrapper1">
-            <div className="group-parent10">
-              <div className="group-parent11">
-                <div className="rectangle-parent4">
-                  <div className="group-child14" />
-                  <div className="room-for-rent-jinjoo-home-parent">
-                    <div className="room-for-rent-container">
-                      <p className="room-for-rent">Room for rent - JinJoo</p>
-                      <p className="room-for-rent">{`Home - Ky Con, P.Nguyen Thai `}</p>
-                      <p className="room-for-rent">Binh, District 1</p>
-                    </div>
-                    <div className="div">10.000.000</div>
-                    <div className="s-phng-05">Số Phòng: 05</div>
-                    <div className="district-1-ho">District 1, Ho Chi Minh</div>
-                    <img
-                      className="image-36-icon"
-                      alt=""
-                      src="/image-36@2x.png"
-                    />
-                    <img
-                      className="image-37-icon"
-                      alt=""
-                      src="/image-37@2x.png"
-                    />
-                    <div className="phng-dch-v"> Phòng dịch vụ</div>
-                  </div>
-                </div>
-                <img className="image-47-icon" alt="" src="/image-47@2x.png" />
-              </div>
-              <div className="rectangle-parent5">
-                <div className="group-child15" />
-                <div className="cn-phng1">Còn Phòng</div>
-              </div>
-            </div>
-          </div>
+          {apartment.type_room === 'Phòng ngắn hạn' && (
+            <Link onClick={handleBookNow} className="link-button">Đặt phòng</Link>
+          )}
+          {apartment.type_room === 'Phòng dài hạn' && (
+            <Link onClick={handleBookNow} className="link-button">Đặt lịch ngay</Link>
+          )}
         </div>
       </div>
-      <img className="image-67-icon" alt="" src="/image-67@2x.png" />
+      {showModal && (
+        <Modal show={showModal} onClose={() => setShowModal(false)} className='custom-modal'>
+          <button className="close-button" onClick={() => setShowModal(false)}>X</button>
+
+          <h2>Đặt phòng</h2>
+          Họ tên:
+          <input type="text" value={apartment.users.username} onChange={handleBookingNameChange} placeholder="Nhập họ tên của bạn" />
+          Điện thoại:
+          <input type="text" value={bookingPhone} onChange={handleBookingPhoneChange} placeholder="Nhập số điện thoại" />
+          Ngày nhận phòng:
+          <input type="date" value={bookingcheck_in_date} onChange={handleBookingcheck_in_dateChange} placeholder="Nhập họ tên của bạn" />
+          Ngày trả phòng:
+          <input type="date" value={bookingcheck_out_date} onChange={handleBookingcheck_out_dateChange} placeholder="Nhập họ tên của bạn" />
+          <button onClick={handleBookingSubmit}>Đặt phòng</button>
+        </Modal>
+      )}
+      {showLongTermBookingModal && (
+        <Modal show={showLongTermBookingModal} onClose={() => setShowLongTermBookingModal(false)} className='custom-modal'>
+          <button className="close-button" onClick={() => setShowLongTermBookingModal(false)}>X</button>
+
+          <h2>Đặt lịch hẹn xem phòng</h2>
+          Họ tên:
+          <input type="text" value={apartment.users.username} onChange={handleBookingNameChange} placeholder="Nhập họ tên của bạn" />
+          Điện thoại:
+          <input type="text" value={bookingPhone} onChange={handleBookingPhoneChange} placeholder="Nhập số điện thoại" />
+          Mức giá thuê mong muốn/tháng:
+          <input type="number" value={desiredRent} onChange={handleDesiredRentChange} placeholder="Nhập mức giá mong muốn" />
+          Thời gian bạn muốn dọn vào:
+          <input type="date" value={desiredMoveInDate} onChange={handleDesiredMoveInDateChange} placeholder="Nhập họ tên của bạn" />
+          Thời gian xem phòng:
+          <input type="date" value={desiredViewingDate} onChange={handleDesiredViewingDateChange} placeholder="Nhập họ tên của bạn" />
+          <button onClick={handleBookingSubmit}>Đặt lịch ngay</button>
+        </Modal>
+      )}
     </div>
   );
-};
-
-
-
+}
 
 export default Detail;

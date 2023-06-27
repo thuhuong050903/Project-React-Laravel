@@ -104,7 +104,7 @@ const Home=()=>{
         </div>
   
         
-        <div>
+        {/* <div>
         <div>
         <h1 className="title">Danh Sách Sản Phẩm Nổi Bật</h1>
         <br /> <br /> <br />
@@ -131,7 +131,7 @@ const Home=()=>{
           ))}
         </Slider>
       </div>
-    </div>
+    </div> */}
       {/* <div className="desktop-12">
       <div className="desktop-12-child" />
       <img className="image-24-icon" alt="" src="/image-24@2x.png" />

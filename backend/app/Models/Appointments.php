@@ -9,6 +9,8 @@ class Appointments extends Model
 {
     use HasFactory;
     protected $table ='appointments';
+    
+    protected $primaryKey = 'appointment_id';
     public $timestamps = false;
 
 }
