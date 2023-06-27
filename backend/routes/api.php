@@ -80,12 +80,6 @@ Route::delete('/delete-appointment/{appointment}', [App\Http\Controllers\Apointm
 Route::put('/edit-appointment/{appointment}',[App\Http\Controllers\ApointmentController::class,'editApartments']);	
 
 
-///--------------Đoạn này của Đi-----------////
-Route::get('/get-appointment',[App\Http\Controllers\ApointmentController::class,'getApartments']);					
-Route::get('/get-appointment/{appointment}', [App\Http\Controllers\ApointmentController::class,'getOneApartments']);								
-Route::post('/add-appointment',[App\Http\Controllers\ApointmentController::class,'addApartments']);								
-Route::delete('/delete-appointment/{appointment}', [App\Http\Controllers\ApointmentController::class,'deleteApartments']);
-Route::put('/edit-appointment/{appointment}',[App\Http\Controllers\ApointmentController::class,'editApartments']);	
 
 
 ///------------------------- của ĐI nhớ bỏ vô Apointment-------------------------///
