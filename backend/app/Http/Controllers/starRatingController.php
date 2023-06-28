@@ -1,7 +1,9 @@
 <?php 
 namespace App\Http\Controllers;
 
+use App\Models\apartments;
 use App\Models\ratings;
+use App\Models\users;
 use Illuminate\Http\Request;
 
 class starRatingController extends Controller
@@ -33,4 +35,13 @@ class starRatingController extends Controller
 
         return response()->json(['number_of_stars' => $numberOfStars]);
     }
+
+    public function getRatingCountByUser($id)
+    {
+        $apartments = ratings::with('users')->where('apartment_id',$id)->get();
+    
+        return response()->json($apartments);
+    }
+    
+
 }

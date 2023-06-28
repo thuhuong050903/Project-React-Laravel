@@ -69,7 +69,7 @@ class users extends Authenticatable implements JWTSubject
     protected $table = 'users';
     protected $primaryKey = 'id';
 
-    public function rating()
+    public function ratings()
     {
         return $this->hasMany('App\Models\ratings', 'user_id');
     }
