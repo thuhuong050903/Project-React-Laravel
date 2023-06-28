@@ -3,6 +3,9 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMapMarkerAlt, faBuilding, faExpand } from '@fortawesome/free-solid-svg-icons';
 import "../../assets/style/Co_Living.css";
 const Co_Living = () => {
   const [apartments, setApartments] = useState([]);
@@ -252,27 +255,37 @@ const Co_Living = () => {
       <div>
         <div>
         <h1 className="tieude">Các dự án theo mô hình Co-living tiêu biểu tại DreamHome</h1>
-        <Slider {...settings} ref={sliderRef}>
+        <Slider {...settings} ref={sliderRef} className="coLiving-slider">
           {apartments.map(apartment => (
-            <div className="col-md-3 mb-3" key={apartment.id}>
-              <div className="card">
-                <img src="https://danhkhoireal.vn/wp-content/uploads/2022/03/Can-ho-Calla-Apartment-Quy-Nhon.jpg" className="card-img-top" alt={apartment.description} />
-                <div className="card-body">
-                  <h5 className="card-text">{apartment.address_id}</h5>
-                  <p className="card-text">NumberRoom: {apartment.number_room}</p>
-                  <p className="card-text">TypeRoom: {apartment.typeroom}</p>
-                  <p className="card-text">Giá: {apartment.price}</p>
-                  <p className="card-text">Area: {apartment.area}</p>
-                  {/* <div className="card-buttons">
-                    <button className="btn btn-primary" onClick={() => handleAddToCart(product)}>
-                      Add Cart
-                    </button>
-                    <button href="./Detail.jsx"  className="btn btn-secondary">Detail</button>
-                  </div> */}
+            <div className="coLiving-apartment-item">
+              <Link to={`/apartment/${apartment.apartment_id}`} key={apartment.apartment_id} className="card">
+                <div className="coLiving-image-gallery">
+                  <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
+                    {apartment.apartment_image.map((image, index) => (
+                      <div key={index}>
+                        <img src={image.name} alt="Apartment" />
+                      </div>
+                    ))}
+                  </Slider>
                 </div>
+                <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.addresses.ward} - {apartment.addresses.district}</div>
+                <div className='apartment-price'>{apartment.price} đ</div>
+                <div className='apartment-item'>
+                  <FontAwesomeIcon icon={faBuilding} className="icon" style={{ color: '#555555' }} />&nbsp;
+                  Số phòng:{apartment.number_room}
+                </div>
+                <div className='apartment-item'>
+                  <FontAwesomeIcon icon={faExpand} className="icon" style={{ color: '#555555' }} />&nbsp;
+                  Diện tích: {apartment.area}
+                </div>
+                <div className='address'>
+                  <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
+                  {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
+                </div>
+              </Link>
               </div>
-            </div>
           ))}
+
         </Slider>
     </div>
     </div>

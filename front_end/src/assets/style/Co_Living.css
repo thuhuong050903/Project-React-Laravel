@@ -819,9 +819,8 @@
 
 .card {
   margin-top:30px;
-  max-height: 900px; 
+  height: 400px;
   overflow: hidden; 
-  aspect-ratio: 300/350;
   width:300px;
 }
 
@@ -991,5 +990,14 @@
     max-height: 352px;
     margin-top: -1000px;
     display: block;
+  }
+  
+
+  
+  .coLiving-apartment-item {
+  padding-bottom: 20px;
+    text-align: left;
+    padding-left: 10px;
+    /* Các thuộc tính khác mà bạn muốn áp dụng */
   }
   
