@@ -17,6 +17,15 @@ class ratings extends Model
         'number_rating',
         'comment'
     ];
-    
+
+    public function users()
+    {
+        return $this->belongsTo('App\Models\users', 'user_id','id');
+    }
+
+    public function apartment()
+    {
+        return $this->belongsTo(apartments::class);
+    }
 
 }

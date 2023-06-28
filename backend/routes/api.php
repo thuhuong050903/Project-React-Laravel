@@ -104,3 +104,4 @@ Route::get('/get-address/{address_id}', [App\Http\Controllers\ApointmentControll
 
 Route::post('/ratings',[App\Http\Controllers\starRatingController::class,'store']);
 Route::get('/ratings', [App\Http\Controllers\starRatingController::class, 'getRatings']);
+Route::get('/rating-count/{id}', [App\Http\Controllers\starRatingController::class, 'getRatingCountByUser']);
