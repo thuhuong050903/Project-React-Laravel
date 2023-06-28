@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import AuthUser from '../../component/AuthUser';
 import '../../assets/style/Modal_booking.css';
-import '../../assets/style/Detail.css'
+import '../../assets/style/Detail.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Detail() {
-
   const { id } = useParams();
 
   const [apartment, setApartment] = useState(null);
@@ -24,6 +22,42 @@ function Detail() {
   const [desiredRent, setDesiredRent] = useState('');
   const [desiredMoveInDate, setDesiredMoveInDate] = useState('');
   const [desiredViewingDate, setDesiredViewingDate] = useState('');
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [reviewComment, setReviewComment] = useState('');
+
+  const handleReviewRatingChange = (value) => {
+    setReviewRating(value);
+  };
+
+  const handleReviewCommentChange = (e) => {
+    setReviewComment(e.target.value);
+  };
+
+  const handleReviewSubmit = () => {
+    if (userdetail) {
+      const reviewData = {
+        user_id: userdetail.id,
+        apartment_id: apartment.apartment_id,
+        rating: reviewRating,
+        comment: reviewComment,
+      };
+
+      axios
+        .post('http://127.0.0.1:8000/api/reviews', reviewData)
+        .then((response) => {
+          console.log('Gửi đánh giá thành công:', response.data);
+          setReviewRating(0);
+          setReviewComment('');
+          setShowReviewModal(false);
+        })
+        .catch((error) => {
+          console.error('Gửi đánh giá thất bại:', error);
+        });
+    } else {
+      alert('Bạn cần đăng nhập để đánh giá căn hộ.');
+    }
+  };
 
   const handleBookingPhoneChange = (e) => {
     setBookingPhone(e.target.value);
@@ -53,170 +87,362 @@ function Detail() {
     if (apartment.type_room === 'Phòng ngắn hạn') {
       if (userdetail && userdetail.id) {
         setShowModal(true);
-
       } else {
-        alert('Bạn cần đăng nhập để đặt phòng');
+        alert('Bạn cần đăng nhập để đặt phòng.');
       }
     } else if (apartment.type_room === 'Phòng dài hạn') {
       if (userdetail && userdetail.id) {
-
-    setShowLongTermBookingModal(true);
-    }  else {
-      alert('Bạn cần đăng nhập để đặt phòng');
-    }
-  }};
-
-  const handleBookingNameChange = (e) => {
-    setBookingName(e.target.value);
-  };
-
-    const { http } = AuthUser();
-    const [userdetail, setUserdetail] = useState(null);
-
-    useEffect(() => {
-        fetchUserDetail();
-    }, []);
-
-    const fetchUserDetail = () => {
-        http.post('http://127.0.0.1:8000/api/me').then((res) => {
-            setUserdetail(res.data);
-        });
-    }
-
-  const handleBookingSubmit = () => {
-    if (apartment.type_room === 'Phòng ngắn hạn') {
-      const bookingData = {
-        user_id: apartment.users.id,
-        apartment_id: apartment.apartment_id,
-        phone: bookingPhone,
-        check_in_date: bookingcheck_in_date,
-        check_out_date: bookingcheck_out_date,
-      };
-  
-      axios
-        .post('http://127.0.0.1:8000/api/bookings', bookingData)
-        .then((response) => {
-          console.log('Đặt phòng ngắn hạn thành công:', response.data);
-          // Xử lý thành công, ví dụ: đặt lại giá trị ô input và đóng modal
-          setBookingPhone('');
-          setBookingcheck_in_date('');
-          setBookingcheck_out_date('');
-          setShowModal(false);
-        })
-        .catch((error) => {
-          console.error('Đặt phòng ngắn hạn thất bại:', error);
-          // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-        });
-    } else if (apartment.type_room === 'Phòng dài hạn') {
-      if (userdetail && userdetail.id) {
-      const longTermBookingData = {
-        user_id: userdetail.id,
-        apartment_id: apartment.apartment_id,
-        desired_rent: desiredRent,
-        desired_move_in_date: desiredMoveInDate,
-        appointment_date_time: desiredViewingDate,
-      };
-  console.log('call API');
-      axios
-        .post('http://127.0.0.1:8000/api/bookAppointment', longTermBookingData)
-        .then((response) => {
-          console.log('Đặt lịch dài hạn thành công:', response.data);
-          // Xử lý thành công, ví dụ: đặt lại giá trị ô input và đóng modal
-          setBookingPhone('');
-          setDesiredRent('');
-          setDesiredMoveInDate('');
-          setDesiredViewingDate('');
-          setShowLongTermBookingModal(false);
-        })
-        .catch((error) => {
-          console.error('Đặt lịch dài hạn thất bại:', error);
-          // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-        });}
+        setShowLongTermBookingModal(true);
+      } else {
+        alert('Bạn cần đăng nhập để đặt phòng.');
+      }
     }
   };
-  
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setBookingPhone('');
+    setBookingcheck_in_date('');
+    setBookingcheck_out_date('');
+  };
+
+  const handleCloseLongTermBookingModal = () => {
+    setShowLongTermBookingModal(false);
+    setDesiredRent('');
+    setDesiredMoveInDate('');
+    setDesiredViewingDate('');
+  };
+
+  const handleSubmitBooking = () => {
+    if (!bookingPhone || !bookingcheck_in_date || !bookingcheck_out_date) {
+      alert('Vui lòng điền đầy đủ thông tin.');
+      return;
+    }
+
+    const bookingData = {
+      user_id: userdetail.id,
+      apartment_id: apartment.apartment_id,
+      phone: bookingPhone,
+      check_in_date: bookingcheck_in_date,
+      check_out_date: bookingcheck_out_date,
+    };
+
+    axios
+      .post('http://127.0.0.1:8000/api/bookings', bookingData)
+      .then((response) => {
+        console.log('Đặt phòng thành công:', response.data);
+        setShowModal(false);
+        setBookingPhone('');
+        setBookingcheck_in_date('');
+        setBookingcheck_out_date('');
+      })
+      .catch((error) => {
+        console.error('Đặt phòng thất bại:', error);
+      });
+  };
+
+  const handleSubmitLongTermBooking = () => {
+    if (!desiredRent || !desiredMoveInDate || !desiredViewingDate) {
+      alert('Vui lòng điền đầy đủ thông tin.');
+      return;
+    }
+
+    const bookingData = {
+      user_id: userdetail.id,
+      apartment_id: apartment.apartment_id,
+      rent: desiredRent,
+      move_in_date: desiredMoveInDate,
+      viewing_date: desiredViewingDate,
+    };
+
+    axios
+      .post('http://127.0.0.1:8000/api/bookings', bookingData)
+      .then((response) => {
+        console.log('Đặt phòng thành công:', response.data);
+        setShowLongTermBookingModal(false);
+        setDesiredRent('');
+        setDesiredMoveInDate('');
+        setDesiredViewingDate('');
+      })
+      .catch((error) => {
+        console.error('Đặt phòng thất bại:', error);
+      });
+  };
 
   useEffect(() => {
-    // Lấy chi tiết căn hộ dựa trên id
-    fetch(`http://localhost:8000/api/get-apartment/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        setApartment(data);
+    axios
+      .get(`http://127.0.0.1:8000/api/get-apartment/${id}`)
+      .then((response) => {
+        console.log('Dữ liệu căn hộ:', response.data);
+        setApartment(response.data);
       })
-      .catch(error => console.log(error));
+      .catch((error) => {
+        console.error('Lỗi khi lấy dữ liệu căn hộ:', error);
+      });
   }, [id]);
 
-  if (!apartment) {
-    return <p>Đang tải...</p>;
-  }
-
   return (
-    <div className='detail'>
-      <div key={apartment.apartment_id} className="detail-card">
-        <div className="detail-image-gallery">
-          <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
-            {apartment.apartment_image.map((image, index) => (
-              <div key={index}>
-                <img src={image.name} alt="Apartment" />
+    <div className="detail">
+      {apartment ? (
+        <div>
+         <Slider className="carousel" dots={true} infinite={true} speed={500} slidesToShow={1} slidesToScroll={1}>
+  {apartment.apartment_image.map((image, index) => (
+    <div key={index}>
+      <img src={image.name} alt={image.name} />
+    </div>
+  ))}
+</Slider>
+
+
+          <h2>{apartment.name}</h2>
+          <div className="detail-content">
+            <div className="detail-info">
+              <h3>Thông tin căn hộ</h3>
+              <p>
+                <strong>Địa chỉ:</strong> {apartment.address}
+              </p>
+              <p>
+                <strong>Diện tích:</strong> {apartment.area}m<sup>2</sup>
+              </p>
+              <p>
+                <strong>Giá thuê:</strong> {apartment.price} đồng/tháng
+              </p>
+              <p>
+                <strong>Loại phòng:</strong> {apartment.type_room}
+              </p>
+              <p>
+                <strong>Mô tả:</strong> {apartment.description}
+              </p>
+            </div>
+
+            <div className="detail-booking">
+              <h3>Đặt phòng</h3>
+              {apartment.type_room === 'Phòng ngắn hạn' && (
+                <div>
+                  <p>
+                    <strong>Số điện thoại:</strong>
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="Nhập số điện thoại"
+                    value={bookingPhone}
+                    onChange={handleBookingPhoneChange}
+                  />
+
+                  <p>
+                    <strong>Ngày nhận phòng:</strong>
+                  </p>
+                  <input
+                    type="date"
+                    value={bookingcheck_in_date}
+                    onChange={handleBookingcheck_in_dateChange}
+                  />
+
+                  <p>
+                    <strong>Ngày trả phòng:</strong>
+                  </p>
+                  <input
+                    type="date"
+                    value={bookingcheck_out_date}
+                    onChange={handleBookingcheck_out_dateChange}
+                  />
+
+                  <button className="btn btn-primary" onClick={handleBookNow}>
+                    Đặt ngay
+                  </button>
+                </div>
+              )}
+
+              {apartment.type_room === 'Phòng dài hạn' && (
+                <div>
+                  <p>
+                    <strong>Giá mong muốn:</strong>
+                  </p>
+                  <input
+                    type="text"
+                    placeholder="Nhập giá mong muốn"
+                    value={desiredRent}
+                    onChange={handleDesiredRentChange}
+                  />
+
+                  <p>
+                    <strong>Ngày dọn vào:</strong>
+                  </p>
+                  <input
+                    type="date"
+                    value={desiredMoveInDate}
+                    onChange={handleDesiredMoveInDateChange}
+                  />
+
+                  <p>
+                    <strong>Ngày xem nhà:</strong>
+                  </p>
+                  <input
+                    type="date"
+                    value={desiredViewingDate}
+                    onChange={handleDesiredViewingDateChange}
+                  />
+
+                  <button className="btn btn-primary" onClick={handleBookNow}>
+                    Đặt ngay
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="detail-reviews">
+            <h3>Đánh giá</h3>
+            {apartment.reviews.length > 0 ? (
+              <div>
+                {apartment.reviews.map((review, index) => (
+                  <div key={index} className="review">
+                    <div className="rating">
+                      <FontAwesomeIcon icon={['fas', 'star']} className="star" />
+                      <p>{review.rating}</p>
+                    </div>
+                    <p>{review.comment}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </Slider>
-        </div>
-        <div className='detail-right'>
-          <div className='apartment-title'>{apartment.addresses.number} - {apartment.addresses.street} - {apartment.price} đ</div>
-          <div className='apartment-des'>{apartment.description} </div>
-          <div className='service-des'>
-            {apartment.services.map((service, index) => (
-              <div key={index}>{service.description}</div>
-            ))}
-          </div>
-          <div className='apartment-room'>Số phòng: {apartment.number_room}</div>
-          <div className='apartment-area'>Diện tích: {apartment.area}</div>
-          <div className='apartment-address'>
-            Địa chỉ: {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
-          </div>
-          {apartment.type_room === 'Phòng ngắn hạn' && (
-            <Link onClick={handleBookNow} className="link-button">Đặt phòng</Link>
-          )}
-          {apartment.type_room === 'Phòng dài hạn' && (
-            <Link onClick={handleBookNow} className="link-button">Đặt lịch ngay</Link>
-          )}
-        </div>
-      </div>
-      {showModal && (
-        <Modal show={showModal} onClose={() => setShowModal(false)} className='custom-modal'>
-          <button className="close-button" onClick={() => setShowModal(false)}>X</button>
+            ) : (
+              <p>Chưa có đánh giá cho căn hộ này.</p>
+            )}
 
-          <h2>Đặt phòng</h2>
-          Họ tên:
-          <input type="text" value={apartment.users.username} onChange={handleBookingNameChange} placeholder="Nhập họ tên của bạn" />
-          Điện thoại:
-          <input type="text" value={bookingPhone} onChange={handleBookingPhoneChange} placeholder="Nhập số điện thoại" />
-          Ngày nhận phòng:
-          <input type="date" value={bookingcheck_in_date} onChange={handleBookingcheck_in_dateChange} placeholder="Nhập họ tên của bạn" />
-          Ngày trả phòng:
-          <input type="date" value={bookingcheck_out_date} onChange={handleBookingcheck_out_dateChange} placeholder="Nhập họ tên của bạn" />
-          <button onClick={handleBookingSubmit}>Đặt phòng</button>
-        </Modal>
+            {userdetail && (
+              <div className="review-form">
+                <button className="btn btn-primary" onClick={() => setShowReviewModal(true)}>
+                  Viết đánh giá
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        <p>Đang tải dữ liệu căn hộ...</p>
       )}
-      {showLongTermBookingModal && (
-        <Modal show={showLongTermBookingModal} onClose={() => setShowLongTermBookingModal(false)} className='custom-modal'>
-          <button className="close-button" onClick={() => setShowLongTermBookingModal(false)}>X</button>
 
-          <h2>Đặt lịch hẹn xem phòng</h2>
-          Họ tên:
-          <input type="text" value={apartment.users.username} onChange={handleBookingNameChange} placeholder="Nhập họ tên của bạn" />
-          Điện thoại:
-          <input type="text" value={bookingPhone} onChange={handleBookingPhoneChange} placeholder="Nhập số điện thoại" />
-          Mức giá thuê mong muốn/tháng:
-          <input type="number" value={desiredRent} onChange={handleDesiredRentChange} placeholder="Nhập mức giá mong muốn" />
-          Thời gian bạn muốn dọn vào:
-          <input type="date" value={desiredMoveInDate} onChange={handleDesiredMoveInDateChange} placeholder="Nhập họ tên của bạn" />
-          Thời gian xem phòng:
-          <input type="date" value={desiredViewingDate} onChange={handleDesiredViewingDateChange} placeholder="Nhập họ tên của bạn" />
-          <button onClick={handleBookingSubmit}>Đặt lịch ngay</button>
-        </Modal>
-      )}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Đặt phòng</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Số điện thoại:</p>
+          <input
+            type="text"
+            placeholder="Nhập số điện thoại"
+            value={bookingPhone}
+            onChange={handleBookingPhoneChange}
+          />
+
+          <p>Ngày nhận phòng:</p>
+          <input
+            type="date"
+            value={bookingcheck_in_date}
+            onChange={handleBookingcheck_in_dateChange}
+          />
+
+          <p>Ngày trả phòng:</p>
+          <input
+            type="date"
+            value={bookingcheck_out_date}
+            onChange={handleBookingcheck_out_dateChange}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseModal}>
+            Đóng
+          </button>
+          <button className="btn btn-primary" onClick={handleSubmitBooking}>
+            Đặt phòng
+          </button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showLongTermBookingModal} onHide={handleCloseLongTermBookingModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Đặt phòng</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Giá mong muốn:</p>
+          <input
+            type="text"
+            placeholder="Nhập giá mong muốn"
+            value={desiredRent}
+            onChange={handleDesiredRentChange}
+          />
+
+          <p>Ngày dọn vào:</p>
+          <input
+            type="date"
+            value={desiredMoveInDate}
+            onChange={handleDesiredMoveInDateChange}
+          />
+
+          <p>Ngày xem nhà:</p>
+          <input
+            type="date"
+            value={desiredViewingDate}
+            onChange={handleDesiredViewingDateChange}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={handleCloseLongTermBookingModal}>
+            Đóng
+          </button>
+          <button className="btn btn-primary" onClick={handleSubmitLongTermBooking}>
+            Đặt phòng
+          </button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showReviewModal} onHide={() => setShowReviewModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Viết đánh giá</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="rating">
+            <FontAwesomeIcon
+              icon={['fas', 'star']}
+              className={reviewRating >= 1 ? 'star active' : 'star'}
+              onClick={() => handleReviewRatingChange(1)}
+            />
+            <FontAwesomeIcon
+              icon={['fas', 'star']}
+              className={reviewRating >= 2 ? 'star active' : 'star'}
+              onClick={() => handleReviewRatingChange(2)}
+            />
+            <FontAwesomeIcon
+              icon={['fas', 'star']}
+              className={reviewRating >= 3 ? 'star active' : 'star'}
+              onClick={() => handleReviewRatingChange(3)}
+            />
+            <FontAwesomeIcon
+              icon={['fas', 'star']}
+              className={reviewRating >= 4 ? 'star active' : 'star'}
+              onClick={() => handleReviewRatingChange(4)}
+            />
+            <FontAwesomeIcon
+              icon={['fas', 'star']}
+              className={reviewRating >= 5 ? 'star active' : 'star'}
+              onClick={() => handleReviewRatingChange(5)}
+            />
+          </div>
+          <textarea
+            placeholder="Nhập đánh giá"
+            value={reviewComment}
+            onChange={handleReviewCommentChange}
+          ></textarea>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={() => setShowReviewModal(false)}>
+            Đóng
+          </button>
+          <button className="btn btn-primary" onClick={handleReviewSubmit}>
+            Gửi
+          </button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
