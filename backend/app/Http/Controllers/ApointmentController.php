@@ -122,21 +122,6 @@ class ApointmentController extends Controller
     }
 
 
-
-    // public function senMail(){
-    //     Mail::to(request(['email']))->send(new GuiEmail());
-    // }
-
-
-
-
-
-
-
-
-
-    // user
-
     public function getUser()
     {
         $users = users::all();

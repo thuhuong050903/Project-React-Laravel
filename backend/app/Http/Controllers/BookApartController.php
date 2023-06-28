@@ -21,20 +21,20 @@ class BookApartController extends Controller
         ]);
         $apartment_id = ($validatedData['apartment_id']);
         // Calculate the number of days
-        
-    
-      // Get the apartment price
-$apartment = Apartments::find($apartment_id); // Replace with your actual logic to retrieve the apartment
-$price = $apartment->price;
 
-// Calculate the total amount
-$checkInDate = \Carbon\Carbon::createFromFormat('Y-m-d', $validatedData['check_in_date']);
-$checkOutDate = \Carbon\Carbon::createFromFormat('Y-m-d', $validatedData['check_out_date']);
-$days = $checkOutDate->diffInDays($checkInDate);
 
-$totalAmount = $days * $price;
+        // Get the apartment price
+        $apartment = Apartments::find($apartment_id); // Replace with your actual logic to retrieve the apartment
+        $price = $apartment->price;
 
-$totalAmount = $days * $price;
+        // Calculate the total amount
+        $checkInDate = \Carbon\Carbon::createFromFormat('Y-m-d', $validatedData['check_in_date']);
+        $checkOutDate = \Carbon\Carbon::createFromFormat('Y-m-d', $validatedData['check_out_date']);
+        $days = $checkOutDate->diffInDays($checkInDate);
+
+        $totalAmount = $days * $price;
+
+        $totalAmount = $days * $price;
 
         // Create a new booking
         $booking = new book_apartments();
@@ -47,9 +47,19 @@ $totalAmount = $days * $price;
         $booking->total_price = $totalAmount;
         $booking->status = 'Chờ xác nhận';
         $booking->save();
-    
+
         // Return the created booking as JSON response
         return response()->json($booking, 201);
     }
-    
+
+    public function show($userId)
+    {
+        $book_apartment = book_apartments::with('apartments')->where('user_id', $userId)->first();
+
+        if (!$book_apartment) {
+            return response()->json(['error' => 'Appointment not found'], 404);
+        }
+
+        return response()->json($book_apartment);
+    }
 }

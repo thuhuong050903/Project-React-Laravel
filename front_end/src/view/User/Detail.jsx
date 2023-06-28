@@ -101,8 +101,8 @@ function Detail() {
       axios
         .post('http://127.0.0.1:8000/api/bookings', bookingData)
         .then((response) => {
+          alert('Bạn đã đặt phòng thành công! Vui lòng theo dõi trạng thái!')
           console.log('Đặt phòng ngắn hạn thành công:', response.data);
-          // Xử lý thành công, ví dụ: đặt lại giá trị ô input và đóng modal
           setBookingPhone('');
           setBookingcheck_in_date('');
           setBookingcheck_out_date('');
@@ -110,32 +110,40 @@ function Detail() {
         })
         .catch((error) => {
           console.error('Đặt phòng ngắn hạn thất bại:', error);
-          // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
         });
     } else if (apartment.type_room === 'Phòng dài hạn') {
       if (userdetail && userdetail.id) {
-      const longTermBookingData = {
-        user_id: userdetail.id,
-        apartment_id: apartment.apartment_id,
-        desired_rent: desiredRent,
-        desired_move_in_date: desiredMoveInDate,
-        appointment_date_time: desiredViewingDate,
-      };
-      axios
-        .post('http://127.0.0.1:8000/api/bookAppointment', longTermBookingData)
-        .then((response) => {
-          console.log('Đặt lịch dài hạn thành công:', response.data);
-          // Xử lý thành công, ví dụ: đặt lại giá trị ô input và đóng modal
-          setBookingPhone('');
-          setDesiredRent('');
-          setDesiredMoveInDate('');
-          setDesiredViewingDate('');
-          setShowLongTermBookingModal(false);
-        })
-        .catch((error) => {
-          console.error('Đặt lịch dài hạn thất bại:', error);
-          // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
-        });}
+        const longTermBookingData = {
+          user_id: userdetail.id,
+          apartment_id: apartment.apartment_id,
+          desired_rent: desiredRent,
+          desired_move_in_date: desiredMoveInDate,
+          appointment_date_time: desiredViewingDate,
+        };
+      
+        const postRequest1 = axios.post('http://127.0.0.1:8000/api/bookAppointment', longTermBookingData);
+        const postRequest2 = axios.post('https://63a57216318b23efa793a737.mockapi.io/api/appointment', longTermBookingData);
+      
+        Promise.all([postRequest1, postRequest2])
+          .then((responses) => {
+            const response1 = responses[0];
+            const response2 = responses[1];
+            alert('Bạn đã đặt lịch thành công! Vui lòng theo dõi trạng thái!')
+            console.log('Đặt lịch dài hạn thành công:', response1.data);
+            console.log('Response from anotherEndpoint:', response2.data);
+            // Xử lý thành công, ví dụ: đặt lại giá trị ô input và đóng modal
+            setBookingPhone('');
+            setDesiredRent('');
+            setDesiredMoveInDate('');
+            setDesiredViewingDate('');
+            setShowLongTermBookingModal(false);
+          })
+          .catch((errors) => {
+            console.error('Đặt lịch dài hạn thất bại:', errors);
+            // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+          });
+      }
+      
     }
   };
 

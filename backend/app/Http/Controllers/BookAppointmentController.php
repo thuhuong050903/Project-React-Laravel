@@ -19,8 +19,6 @@ class BookAppointmentController extends Controller
                 'appointment_date_time' => 'required|date',
             ]);
     
-    
-            // Create a new long-term booking
             $booking = new Appointments();
             $booking->user_id = $data['user_id'];
             $booking->apartment_id = $data['apartment_id'];
@@ -37,7 +35,16 @@ class BookAppointmentController extends Controller
         }
     }
     
-    
+    public function show($userId)
+    {
+        $appointment = Appointments::with('apartments')->where('user_id', $userId)->first();
+
+        if (!$appointment) {
+            return response()->json(['error' => 'Appointment not found'], 404);
+        }
+
+        return response()->json($appointment);
+    }
     
 
 }
