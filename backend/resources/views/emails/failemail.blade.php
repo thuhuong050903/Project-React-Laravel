@@ -1,24 +1,10 @@
-<style>
-  .welcome-message {
-    font-weight: bold;
-    font-size: 18px;
-    color: #333;
-  }
-
-  .italic-message {
-    font-style: italic;
-    color: #666;
-  }
-
-  .failure-reason {
-    color: red;
-    margin-top: 10px;
-  }
-</style>
-
-<div>
-  <p class="welcome-message">Welcome to our website</p>
-  <p class="italic-message">You failed to book the apartment</p>
-  <p class="italic-message">Because:</p>
-  <p class="italic-message">You do not meet our contract conditions</p>
+<div style="font-family: Arial, sans-serif; text-align: left; background-color: #f2f2f2; padding: 20px;">
+  <p style="font-weight: bold; font-size: 18px; color: #333;">Confirmation Email</p>
+  <hr style="border: none; border-top: 1px solid #ccc; margin: 10px 0;">
+  <p style="color: #666;"><strong>Dear User,</strong></p>
+  <p style="color: #666;">Thank you for signing up on our website. Apartment bookings CANNOT be accepted as the apartment you are booking it in is currently under repair.</p>
+  <p style="color: #666;">You can choose another apartment in our website.</p>
+  <p style="color: #666;">Please let us know if you have any questions or need further assistance.</p>
+  <p style="color: #666;">Thank you,</p>
+  <p style="color: #666;">The Website Team</p>
 </div>

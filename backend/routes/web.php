@@ -1,6 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Mail\GuiEmail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Failemail;
 
 /*
 |--------------------------------------------------------------------------
