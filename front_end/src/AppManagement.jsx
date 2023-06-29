@@ -25,7 +25,7 @@ function AppManagement() {
                 <Route path="/contact" element={<Contact />} />
                 <Route
                   path="/apartment"
-                  element={<Apartment user_id={id} />} // Truyền ID người dùng vào prop user_id
+                  element={<Apartment user_id={id} />} 
                 />
               </Routes>
             </div>
