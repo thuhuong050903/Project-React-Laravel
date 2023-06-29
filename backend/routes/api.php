@@ -91,6 +91,7 @@ Route::put('update-appointment/{id}', [App\Http\Controllers\ApointmentController
 Route::get('related-photos/{apartment_id}', [ImagesController::class, 'getRelatedPhotos']);
 Route::post('add-photo/{apartment_id}', [ImagesController::class, 'addPhoto']);
 Route::post('/upload',[ImagesController::class,'upload']);
+Route::delete('delete-photo/{image_id}', [\App\Http\Controllers\ImagesController::class, 'deletePhoto']);
 
 //-------------------- Address----------------------//
 Route::get('/get-address', [App\Http\Controllers\ApointmentController::class, 'getAddress']);
