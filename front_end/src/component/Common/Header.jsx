@@ -37,9 +37,10 @@ function Header() {
         <NavDropdown.Item href="/AnotherPage">Yêu cầu sửa chữa</NavDropdown.Item>
         <NavDropdown.Item href="/AnotherPage">Đánh giá</NavDropdown.Item>
       </NavDropdown>
+
       <Nav.Link href="/Introduce" className="header-item">Giới thiệu</Nav.Link>
       <Nav.Link href="/Co_Living" className="header-item">Co-Living</Nav.Link>
-      <Nav.Link href="#" className="header-item">Dịch vụ</Nav.Link>
+      <Nav.Link href="/services" className="header-item">Dịch vụ</Nav.Link>
      
       <div className="rectangle-parent23">
         <Nav.Link href="/Sign_in" className="header-login">Đăng nhập</Nav.Link>
