@@ -6,6 +6,7 @@ import Dashboard from "../component/Common/Dashboard";
 import DashboardManagement from "../view/Management/DashboardManagement";
 import AuthUser from "../component/AuthUser";
 import "../assets/style/auth.css";
+import { NavDropdown } from 'react-bootstrap';
 import { useEffect, useState } from "react";
 import List_Apartment from "../view/User/List_Apartment";
 import Detail from "../view/User/Detail";
@@ -13,6 +14,7 @@ import AppManagement from "../AppManagement";
 import Apartment from "../view/Management/Shows/Apartment";
 import Footer from "../component/Common/Footer";
 import App_admin from "../App_admin";
+import { Navbar, Nav } from 'react-bootstrap';
 import HeaderManagement from "../view/Management/HeaderManagement";
 import MenuManagement from "../view/Management/MenuManagement";
 import ConfirmAppointment from "../view/Management/Shows/ConfirmAppointment";
@@ -22,6 +24,8 @@ function Auth({ id }) {
   const [redirectAdmin, setRedirectAdmin] = useState(false);
   const { http } = AuthUser();
   const [userdetail, setUserdetail] = useState(null);
+  const [showDropdown1, setShowDropdown1] = useState(false);
+  const [showDropdown2, setShowDropdown2] = useState(false);
 
   const logoutUser = () => {
     if (token !== undefined) {
@@ -51,75 +55,44 @@ function Auth({ id }) {
   return (
     <div>
       {userdetail?.role === "Nguoi thue" ? (
+        <div className="main-user-container">
         <div className="auth-header">
-          <nav className="navbar navbar-expand-sm">
-            <ul className="navbar-nav list-item">
-              <li className="dreamhome">
-                <Link className="dreamhome-link" to="/">
-                  DreamHome
-                </Link>
-              </li>
+          <Nav.Link href="/" className="dreamhome">
+        <img src={`http://localhost:8000/photos/LogoWeb.png`} style={{ width: '7rem' }}></img>
+        </Nav.Link>
+      <NavDropdown
+        title="Loại phòng"
+        className="custom-dropdown"        
+        show={showDropdown1}
+        onMouseEnter={() => setShowDropdown1(true)}
+        onMouseLeave={() => setShowDropdown1(false)}
+      >
+        <NavDropdown.Item href="/ShowApartment">Phòng dài hạn</NavDropdown.Item>
+        <NavDropdown.Item href="/AnotherPage">Phòng ngắn hạn</NavDropdown.Item>
+      </NavDropdown>
+      <NavDropdown
+        title="Tùy chọn"
+        className="custom-dropdown"        
 
-              <li className="item-header">
-                <Link className="item-header-link" to="/Introduce">
-                  Giới thiệu
-                </Link>
-              </li>
-              <li className="item-header">
-                <Link className="item-header-link" to="/Co_Living">
-                  Co_Living
-                </Link>
-              </li>
-              <li className="item-header">
-                <Link className="item-header-link" to="/Co_Living">
-                  Đối tác
-                </Link>
-              </li>
-              <li className="item-header">
-                <Link className="item-header-link" to="/Co_Living">
-                  Tin tức
-                </Link>
-              </li>
-              <li className="item-header">
-                <Link className="item-header-link" to="/Co_Living">
-                  Dịch vụ
-                </Link>
-              </li>
-              <li className="item-header">
-                <Link className="item-header-link" to="/ShowApartment">
-                  Loại phòng
-                </Link>
-              </li>
-
-              {userdetail && (
-                <>
-                  <li className="item-header">
-                    <span className="item-header-link greeting">
-                      Xin chào, {userdetail.username}
-                    </span>
-                  </li>
-                  <li className="item-header">
-                    <Link
-                      className="item-header-link settings-link"
-                      to="/dashboard"
-                    >
-                      Cài đặt
-                    </Link>
-                  </li>
-                  <li className="item-header">
-                    <span
-                      role="button"
-                      className=" logout-button"
-                      onClick={logoutUser}
-                    >
-                      Logout
-                    </span>
-                  </li>
-                </>
-              )}
-            </ul>
-          </nav>
-          <Routes>
+        show={showDropdown2}
+        onMouseEnter={() => setShowDropdown2(true)}
+        onMouseLeave={() => setShowDropdown2(false)}
+      >
+        <NavDropdown.Item href="/ShowApartment">Lịch sử</NavDropdown.Item>
+        <NavDropdown.Item href="/AnotherPage">Thông tin cá nhân</NavDropdown.Item>
+        <NavDropdown.Item href="/AnotherPage">Yêu cầu sửa chữa</NavDropdown.Item>
+        <NavDropdown.Item href="/AnotherPage">Đánh giá</NavDropdown.Item>
+      </NavDropdown>
+      <Nav.Link href="/Introduce" className="header-item">Giới thiệu</Nav.Link>
+      <Nav.Link href="/Co_Living" className="header-item">Co-Living</Nav.Link>
+      <Nav.Link href="#" className="header-item">Dịch vụ</Nav.Link>
+     
+      <div className="rectangle-parent23">
+        <Nav.Link href="/sign_in" onClick={logoutUser} className="header-logout">Đăng xuất</Nav.Link>
+      </div>
+         
+        </div>
+        <Routes>
             <Route path="/" element={<Home />} />
             <Route path="Introduce" element={<Introduce />} />
             <Route path="Co_Living" element={<Co_Living />} />

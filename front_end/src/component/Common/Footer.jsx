@@ -6,7 +6,7 @@ class Footer extends Component {
     render() {
         return (
             <div className="footer">
-                <img className="footer-icon" alt="" src="http://localhost:8000/photos/144x144-removebg-preview.png" />
+                <img className="footer-icon" alt="" src="http://localhost:8000/photos/LogoWeb.png" />
                 <div className='footer-1'>
                 <div className="company-name">
                     Công Ty TNHH Famous Express International

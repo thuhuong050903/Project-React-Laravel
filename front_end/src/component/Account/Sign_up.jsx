@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { Navbar, Nav } from 'react-bootstrap';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagram, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
 
@@ -98,24 +100,23 @@ export default function Sign_up() {
             <FontAwesomeIcon className="icon" icon={faInstagram} />
             <FontAwesomeIcon className="icon" icon={faTwitterSquare} />
           </div>
-          <h1 className="welcome">Welcome Back!</h1>
-          <h3 className="title">To keep connected with us please login with your personal info</h3>
-          <button type="button" onClick={submitForm} className="signup-mt-6">
-            Đăng nhập
-          </button>
+          <h1 className="welcome">Chào mừng đến với DreamHome!</h1>
+          <h3 className="signup-title"> Hãy đăng nhập để tìm được căn hộ phù hợp ! </h3>
+          <button type="button">
+                    <Nav.Link href="/Sign_in" className="signin-mt-6" style={{fontWeight: 500}}>Đăng nhập</Nav.Link></button>
         </div>
         <div className="col-sm-6 sign-up-card">
           <div className="p-4">
-            <h1 className="text-center mb-3">Create Account</h1>
+            <h1 className="text-center mb-3">Tạo tài khoản mới</h1>
             <form onSubmit={submitForm}>
               <div className="form-group">
                 <label className="title-title" htmlFor="username">
-                  Name:
+                  Tên tài khoản:
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter name"
+                  placeholder="Nhập tên"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   id="username"
@@ -125,12 +126,12 @@ export default function Sign_up() {
               </div>
               <div className="form-group mt-3">
                 <label className="title-title" htmlFor="fullname">
-                  Full name:
+                  Tên đầy đủ:
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter full name"
+                  placeholder="Tên đầy đủ"
                   value={fullname}
                   onChange={(e) => setFullname(e.target.value)}
                   id="fullname"
@@ -140,12 +141,12 @@ export default function Sign_up() {
               </div>
               <div className="form-group mt-3">
                 <label className="title-title" htmlFor="email">
-                  Email address:
+                  Email:
                 </label>
                 <input
                   type="email"
                   className="form-control"
-                  placeholder="Enter email"
+                  placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   id="email"
@@ -155,12 +156,12 @@ export default function Sign_up() {
               </div>
               <div className="form-group mt-3">
                 <label className="title-title" htmlFor="phone">
-                  Your phone:
+                  Số điện thoại:
                 </label>
                 <input
                   type="number"
                   className="form-control"
-                  placeholder="Enter your phone"
+                  placeholder="Số điện thoại"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   id="phone"
@@ -170,12 +171,12 @@ export default function Sign_up() {
               </div>
               <div className="form-group mt-3">
                 <label className="title-title" htmlFor="address">
-                  Your address:
+                  Địa chỉ:
                 </label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter your address"
+                  placeholder="Địa chỉ"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   id="address"
@@ -185,12 +186,12 @@ export default function Sign_up() {
               </div>
               <div className="form-group mt-3">
                 <label className="title-title" htmlFor="pwd">
-                  Password:
+                  Mật khẩu:
                 </label>
                 <input
                   type="password"
                   className="form-control"
-                  placeholder="Enter password"
+                  placeholder="Mật khẩu"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   id="pwd"
@@ -200,12 +201,12 @@ export default function Sign_up() {
               </div>
               <div className="form-group mt-3">
                 <label className="title-title" htmlFor="birthday">
-                  Your birthday:
+                 Ngày sinh:
                 </label>
                 <input
                   type="date"
                   className="form-control"
-                  placeholder="Enter password"
+                  placeholder="Ngày sinh"
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
                   id="birthday"
@@ -215,7 +216,7 @@ export default function Sign_up() {
               </div>
               <div className="form-group mt-3">
                 <label className="title-title" htmlFor="role">
-                  Your role:
+                  Đăng kí với tư cách:
                 </label>
                 <select
                   className="form-control"
@@ -225,13 +226,13 @@ export default function Sign_up() {
                   required
                 >
                   <option value="">Select role</option>
-                  <option value="Nguoi cho thue">Nguoi cho thue</option>
-                  <option value="Nguoi thue">Nguoi thue</option>
+                  <option value="Nguoi cho thue">Người cho thuê</option>
+                  <option value="Nguoi thue">Người thuê</option>
                 </select>
                 {formErrors.role && <div className="error-message">{formErrors.role}</div>}
               </div>
               <button type="submit" className="mt-4">
-                Register
+                Đăng kí
               </button>
               {isLoading && <div>Loading</div>}
             </form>

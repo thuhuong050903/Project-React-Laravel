@@ -598,11 +598,9 @@ height: 57px;
   }
 
   
-  .card {
+  .introduce-card {
     height: 426px !important;
-    top: 1000px;
     border: 1px solid #ddd;
-    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     height: 500px; /* Giới hạn chiều cao của card */
   }
@@ -659,6 +657,7 @@ height: 57px;
   
   .col-md-3 {
     display: inline-flex;
+    margin-top: 1000px;
   }
   
 

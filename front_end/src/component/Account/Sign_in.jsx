@@ -1,5 +1,7 @@
 // Sign_in.js
 import { useState } from "react";
+import { Navbar, Nav } from 'react-bootstrap';
+
 import AuthUser from '../AuthUser';
 import ResetPasswordPage from "./ResetPasswordPage";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -55,7 +57,8 @@ export default function Sign_in() {
                     <h1 className="signin-welcome">Chào mừng bạn trở lại!</h1>
                     <h3 className="signin-title">Hãy đăng nhập để khám phá nhiều căn hộ đẹp
                     </h3>
-                    <button type="button" onClick={submitForm} className="signin-mt-6">Đăng kí</button>
+                    <button type="button">
+                    <Nav.Link href="/Sign_up" className="signin-mt-6" style={{fontWeight: 500}}>Đăng kí</Nav.Link></button>
         </div>
       <div className="col-sm-6 form-left">
         <div className="signin-p-4">

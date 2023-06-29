@@ -49,13 +49,6 @@ margin-bottom: 30px;
   margin-right: auto;
   text-align: center;
 }
-button {
-  padding: 10px 20px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
 
 .card {
   padding: 20px;
@@ -88,7 +81,9 @@ label {
   border-radius: 4px;
 }
 
-.mt-4{
+
+ .mt-4{
+  width: 500px;
   background-color: #dd0000;
   text-align: center;
 }
@@ -109,9 +104,5 @@ a:hover {
   text-decoration: underline;
 }
 
-.signin-mt-6 {
-  background-color: #fff;
-  color: #000;
-  font-weight: 600;
-  border-radius: 7px;
-}
+
+

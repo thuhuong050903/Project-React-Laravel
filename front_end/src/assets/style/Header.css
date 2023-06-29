@@ -3,19 +3,18 @@ html{
 }
 
 
+
+
 .header{
   background-color: rgb(255, 253, 253);
-  position:fixed;
-  top: 0;
   font-family: "Quicksand", sans-serif;
-  height: 110px;
-  left: 0;
+  height: 100px;
   width: 100%;
-  display: flex;
+  top:0;
   z-index: 9999;
+  position: fixed;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;  display: flex;
   font-size: 18px;
-  justify-content: space-between ;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
 }
 .header .header-item {
@@ -32,13 +31,11 @@ html{
 
 
 }
-.header .dreamhome {
-  margin-left: 70px;
-  text-decoration: underline;
-  color: #dd0000;
-  font-weight: bold;
-  font-size: 30px;
-  padding-top: 20px;
+ .dreamhome {
+  margin-top: -1em;
+  margin-right: 30%;
+  margin-left: 10%;
+
 }
 
 .header .header-login {
@@ -48,6 +45,7 @@ html{
   padding: 10px 15px;
   border-radius: 5px;
 margin-top: 25px;
+margin-left: 20px;
 }
 .header .header-login:hover {
   color: #ffffff;
@@ -73,6 +71,41 @@ margin-top: 25px;
   background-color: rgb(141, 140, 140);
   padding: 10px 15px;
   border-radius: 5px;
-margin-top: 25px;
+}
+.custom-dropdown {
+  padding-top: 26px;
+  font-weight: 550;
+}
+.custom-dropdown .dropdown-menu {
+  
+  background-color: #ee0000;
+  border: none;
+  border-radius: 0px;
+  color: #e9ecef;
+  width: 15em;
+  margin-left: 1em;
+  margin-top: 2em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-dropdown .dropdown-item {
+  color: #ffffff;
+  font-weight: bold;
+  padding: 15px 20px; /* Điều chỉnh padding tại đây */
+  font-size: 16px; /* Điều chỉnh font-size tại đây */
+}
+
+.custom-dropdown .dropdown-item:hover,
+.custom-dropdown .dropdown-item:focus {
+  background-color: #e9ecef;
+}
+
+.custom-dropdown .dropdown-item.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.custom-dropdown .dropdown-divider {
+  border-top-color: #e9ecef;
 }
 

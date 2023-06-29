@@ -1,30 +1,51 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Navbar, Nav } from 'react-bootstrap';
-import { Container, Form, FormControl, Button} from 'react-bootstrap';
+import { NavDropdown } from 'react-bootstrap';
+import { Container, Form, FormControl, Button } from 'react-bootstrap';
 import "../../assets/style/Header.css";
 
-function Header(){
+function Header() {
+  const [showDropdown1, setShowDropdown1] = useState(false);
+  const [showDropdown2, setShowDropdown2] = useState(false);
 
-  
-    return (
+  return (
+     
       <div className="header">
-      
-          <Nav.Link href="/" className="dreamhome">DreamHome</Nav.Link>
-          <Nav.Link href="/Introduce" className="header-item">Giới thiệu</Nav.Link>
-          <Nav.Link href="/Co_Living" className="header-item">Co-Living</Nav.Link>
-          <Nav.Link href="" className="header-item">Đối tác</Nav.Link>
-          <Nav.Link href="#" className="header-item">Tin tức</Nav.Link>
-          <Nav.Link href="#" className="header-item">Dịch vụ</Nav.Link>
-          <Nav.Link href="/ShowApartment" className="header-item">Loại phòng</Nav.Link>
-          <div className="rectangle-parent23">
-            <Nav.Link href="/Sign_in" className="header-login">Đăng nhập</Nav.Link>
-          </div>
-          <div className="rectangle-parent24">
-            <Nav.Link href="/Sign_up" className="header-signup">Đăng ký</Nav.Link>
-          </div>
-      </div>
-    );
-  }
+      <Nav.Link href="/" className="dreamhome">
+        <img src={`http://localhost:8000/photos/LogoWeb.png`} style={{ width: '7rem' }}></img>
+      </Nav.Link>
+      <NavDropdown
+        title="Loại phòng"
+        className="custom-dropdown"        
+        show={showDropdown1}
+        onMouseEnter={() => setShowDropdown1(true)}
+        onMouseLeave={() => setShowDropdown1(false)}
+      >
+        <NavDropdown.Item href="/ShowApartment">Phòng dài hạn</NavDropdown.Item>
+        <NavDropdown.Item href="/AnotherPage">Phòng ngắn hạn</NavDropdown.Item>
+      </NavDropdown>
+      <NavDropdown
+        title="Tùy chọn"
+        className="custom-dropdown"        
 
+        show={showDropdown2}
+        onMouseEnter={() => setShowDropdown2(true)}
+        onMouseLeave={() => setShowDropdown2(false)}
+      >
+        <NavDropdown.Item href="/ShowApartment">Lịch sử</NavDropdown.Item>
+        <NavDropdown.Item href="/AnotherPage">Thông tin cá nhân</NavDropdown.Item>
+        <NavDropdown.Item href="/AnotherPage">Yêu cầu sửa chữa</NavDropdown.Item>
+        <NavDropdown.Item href="/AnotherPage">Đánh giá</NavDropdown.Item>
+      </NavDropdown>
+      <Nav.Link href="/Introduce" className="header-item">Giới thiệu</Nav.Link>
+      <Nav.Link href="/Co_Living" className="header-item">Co-Living</Nav.Link>
+      <Nav.Link href="#" className="header-item">Dịch vụ</Nav.Link>
+     
+      <div className="rectangle-parent23">
+        <Nav.Link href="/Sign_in" className="header-login">Đăng nhập</Nav.Link>
+      </div>
+      </div>
+  );
+}
 
 export default Header;
