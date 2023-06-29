@@ -50,6 +50,7 @@ a:hover {
   overflow: hidden;
   position: relative;
   color: #ffffff;
+  height: 360px;
 }
 
 .postcard.dark {
@@ -93,7 +94,7 @@ a:hover {
 .postcard .postcard__img_link {
   display: contents;
 }
-.postcard__title3{
+.postcard__title4{
   color: #e91616;
   font-weight: bold;
   font-size: 35px;
@@ -124,11 +125,15 @@ a:hover {
 
 .postcard .postcard__tagbox {
   display: flex;
-  flex-flow: row wrap;
+  /* flex-flow: row wrap; */
   font-size: 14px;
-  margin: 20px 0 0 0;
-  padding: 0;
+  /* margin: 20px 0 0 0; */
+  /* padding: 0; */
   justify-content: center;
+}
+.postcard__subtitlesmall{
+  color:#949191;
+  font-weight: 300px;
 }
 
 .postcard .postcard__tagbox .tag__item {
@@ -173,7 +178,13 @@ a:hover {
   }
   .postcard .postcard__title2 {
     font-size: 1.3rem;
-    margin-top: 10px;
+    color:#847f7f
+    
+  }
+  .postcard .postcard__title8 {
+    font-size: 1.3rem;
+    color:#847f7f
+    
   }
 
   .postcard .postcard__tagbox {

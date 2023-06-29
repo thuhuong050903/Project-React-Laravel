@@ -33,11 +33,11 @@ const Service = () => {
                 />
               </a>
               <div className="postcard__text">
-                <h1 class="postcard__title3">Dịch Vụ Dọn Dẹp Căn Hộ</h1>
-                <h1 className="postcard__title blue">
-                  <a href="#">{service.title}</a>
+                <h1 class="postcard__title3"></h1>
+                <h1 className="postcard__title4">
+                  <a>{service.title}</a>
                 </h1>
-                <div class="postcard__subtitle small">
+                <div class="postcard__subtitlesmall">
                   <time datetime="2020-05-25 12:00:00">
                     <i class="fas fa-calendar-alt mr-2"></i>Mon, May 25th 2020
                   </time>
@@ -52,13 +52,12 @@ const Service = () => {
                     Giá:
                     {service.price}
                   </h1>
-                </div>
-                <ul className="postcard__tagbox">
-                  <li className="tag__item play blue" >
-                    <h1 className="postcard__title2 blue">Contact: <a href="#">{service.contact_info}</a>
+                  
+                  <h1 className="postcard__title8 blue">Điện thoại: <a href="#">{service.phone}</a></h1>
+                    <h1 className="postcard__title8 blue">Email: <a href="#">{service.contact_info}</a>
                     </h1>
-                  </li>
-                </ul>
+                </div>
+                 
               </div>
             </article>
           ))}
