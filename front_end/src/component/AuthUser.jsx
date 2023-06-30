@@ -43,6 +43,20 @@ export default function AuthUser(){
             "Authorization" : `Bearer ${token}`
         }
     });
+    if (token) {
+        http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      }
+    // Trong component AuthUser
+// const checkEmailExists = async (email) => {
+//     try {
+//       const response = await http.get(`/check-email-exists/${email}`);
+//       return response.data.exists; // Trả về true nếu email đã tồn tại, ngược lại trả về false
+//     } catch (error) {
+//       console.error('Lỗi khi kiểm tra email:', error);
+//       return false;
+//     }
+//   };
+  
     return {
         setToken:saveToken,
         token,

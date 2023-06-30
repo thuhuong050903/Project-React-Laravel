@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\addresses;
 use App\Models\apartments;	
 use App\Models\users;
+use App\Models\contracts;
 use App\Models\book_apartments;						
 use Illuminate\Http\Request;							
 use Illuminate\Support\Facades\File;	
@@ -215,10 +216,26 @@ public function deleteUsers($id)
 
 
 
-//image
+
+public function getContracts()							
+{							
+$contracts = contracts::all();							
+return response()->json($contracts);							
+}	
 
 
 
+public function getSeederApartments($id)
+{
+    $apartments = apartments::where('user_id', $id)->get();
+    return response()->json($apartments);
+}
+
+public function getSeederInfo($userId)
+{
+    $seederInfo = users::findOrFail($userId);
+    return response()->json($seederInfo);
+}
 
 
 

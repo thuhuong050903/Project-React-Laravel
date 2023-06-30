@@ -5,6 +5,8 @@ import List_apartment from './view/Admin/List_apartment';
 import List_seeder from './view/Admin/List_seeder';
 import List_user from './view/Admin/List_user';
 import List_address from './view/Admin/List_address';
+import SeederApartmentsPage from './view/Admin/SeederApartmentsPage';
+import List_contract from './view/Admin/List_contract';
 function App_admin() {
   return (
     <div className='containers'>
@@ -14,6 +16,8 @@ function App_admin() {
             <Route path="/List_seeder" element={<List_seeder/>} />
             <Route path="/List_user" element={<List_user/>} />
             <Route path="/List_address" element={<List_address/>} />
+            <Route path="/List_contract" element={<List_contract/>} />
+            <Route path="/SeederApartmentsPage/:id" element={<SeederApartmentsPage/>}/>
         </Routes> 
               
     </div>

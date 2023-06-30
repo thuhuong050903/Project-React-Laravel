@@ -3,7 +3,7 @@
 
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Images;
 use App\Models\apartments;
@@ -44,5 +44,25 @@ class ImagesController extends Controller
         $relatedPhotos = Images::where('apartment_id', $apartmentId)->get();
 
         return response()->json($relatedPhotos);
+    }
+    public function deletePhoto($photoId)
+    {
+        try {
+            $photo = Images::findOrFail($photoId);
+
+            // Xóa ảnh từ lưu trữ (storage)
+            Storage::disk('public')->delete($photo->name);
+
+            // Xóa ảnh từ cơ sở dữ liệu
+            $photo->delete();
+            return response()->json([
+                'message' => 'Photo deleted successfully',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Failed to delete photo',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
