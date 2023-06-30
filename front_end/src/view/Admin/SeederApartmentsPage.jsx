@@ -101,7 +101,7 @@ const SeederApartmentsPage = () => {
                 </time>
               </div>
               <div className="postcard__bar"></div>
-              <div className="postcard__preview-txt">Diện tích: {apartment.area}</div>
+              <div className="postcard__preview-txt">Diện tích: {apartment.area} m2</div>
               <ul className="postcard__tagbox">
                 <p className="tag__item">
                   <i className="fas fa-tag mr-2"></i>Hình thức đặt phòng: {apartment.type_room}

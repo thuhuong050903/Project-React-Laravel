@@ -58,10 +58,12 @@ Route::group(['middleware'=>'api'],function(){
     Route::post('refresh', [App\Http\Controllers\AuthController::class,'refresh']);
     Route::post('me', [App\Http\Controllers\AuthController::class,'me']);
 });
+Route::get('/check-email-exists/{email}', [App\Http\Controllers\AuthController::class, 'checkEmailExists']);
 
 
 Route::post('/upload',[ImagesController::class,'upload']);
 Route::get('/images',[ImagesController::class,'index']);
+
 
 Route::post('/bookings',[App\Http\Controllers\BookApartController::class,'store']);
 Route::post('/bookAppointment',[App\Http\Controllers\BookAppointmentController::class,'store']);
@@ -93,9 +95,11 @@ Route::post('add-photo/{apartment_id}', [ImagesController::class, 'addPhoto']);
 Route::post('/upload',[ImagesController::class,'upload']);
 Route::delete('delete-photo/{image_id}', [\App\Http\Controllers\ImagesController::class, 'deletePhoto']);
 
+
 //-------------------- Address----------------------//
 Route::get('/get-address', [App\Http\Controllers\ApointmentController::class, 'getAddress']);
 Route::get('/get-address/{address_id}', [App\Http\Controllers\ApointmentController::class,'getOneAddress']);		
+
 
 Route::post('/ratings',[App\Http\Controllers\starRatingController::class,'store']);
 Route::get('/ratings', [App\Http\Controllers\starRatingController::class, 'getRatings']);
@@ -104,6 +108,8 @@ Route::get('/rating-count/{id}', [App\Http\Controllers\starRatingController::cla
 
 Route::get('/get-contract',[App\Http\Controllers\APIController::class,'getContracts']);
 
+
 Route::get('/SeederApartmentPage/{id}', [App\Http\Controllers\APIController::class, 'getSeederApartments']);
+
 
 Route::get('/SeederInfo/{userId}', [App\Http\Controllers\APIController::class, 'getSeederInfo']);
