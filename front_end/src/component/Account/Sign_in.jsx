@@ -57,8 +57,8 @@ export default function Sign_in() {
                     <h1 className="signin-welcome">Chào mừng bạn trở lại!</h1>
                     <h3 className="signin-title">Hãy đăng nhập để khám phá nhiều căn hộ đẹp
                     </h3>
-                    <button type="button">
-                    <Nav.Link href="/Sign_up" className="signin-mt-6" style={{fontWeight: 500}}>Đăng kí</Nav.Link></button>
+                    
+                    <Nav.Link href="/Sign_up" className="signin-mt-6" style={{fontWeight: 500, fontSize:'1rem', backgroundColor:'#ffffff',color:'black'}}>Đăng kí</Nav.Link>
         </div>
       <div className="col-sm-6 form-left">
         <div className="signin-p-4">

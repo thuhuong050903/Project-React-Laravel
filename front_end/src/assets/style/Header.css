@@ -8,24 +8,24 @@ html{
 .header{
   background-color: rgb(255, 253, 253);
   font-family: "Quicksand", sans-serif;
-  height: 100px;
+  height: 5.5rem;
   width: 100%;
   top:0;
   z-index: 9999;
   position: fixed;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;  display: flex;
-  font-size: 18px;
+  font-size: 1rem;
 
 }
 .header .header-item {
-  padding-top: 35px;
+  padding-top: 1.65rem;
   font-weight: 550;
 
 
 }
 
 .header .header-item:hover{
-  padding-top: 35px;
+  padding-top: 1.65rem;
   font-weight: 550;
   color: #ee0000;
 
@@ -33,47 +33,31 @@ html{
 }
  .dreamhome {
   margin-top: -1em;
-  margin-right: 30%;
+  margin-right: 20%;
   margin-left: 10%;
 
 }
 
 .header .header-login {
   color: #ffffff;
-  font-size: 19px;
+  font-size: 1rem;
   background-color: #dd0000;
-  padding: 10px 15px;
+  padding: 0.5rem 0.5rem;
   border-radius: 5px;
-margin-top: 25px;
-margin-left: 20px;
+margin-top: 1rem;
+margin-left: 1rem;
 }
 .header .header-login:hover {
   color: #ffffff;
-  font-size: 19px;
+  font-size: 1rem;
   background-color: #ee0000;
-  padding: 10px 15px;
+  padding: 0.5rem 0.5rem;
   border-radius: 5px;
-margin-top: 25px;
+margin-top: 1rem;
 
-}
-.header .header-signup {
-  color: #272626;
-  font-size: 19px;
-  background-color: rgb(163, 161, 161);
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-top: 25px;
-
-}
-.header .header-signup:hover {
-  color: #141414;
-  font-size: 19px;
-  background-color: rgb(141, 140, 140);
-  padding: 10px 15px;
-  border-radius: 5px;
 }
 .custom-dropdown {
-  padding-top: 26px;
+  padding-top: 1rem;
   font-weight: 550;
 }
 .custom-dropdown .dropdown-menu {
@@ -83,8 +67,8 @@ margin-top: 25px;
   border-radius: 0px;
   color: #e9ecef;
   width: 15em;
-  margin-left: 1em;
-  margin-top: 2em;
+  margin-left: 1rem;
+  margin-top: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -92,7 +76,7 @@ margin-top: 25px;
   color: #ffffff;
   font-weight: bold;
   padding: 15px 20px; /* Điều chỉnh padding tại đây */
-  font-size: 16px; /* Điều chỉnh font-size tại đây */
+  font-size: 1rem; /* Điều chỉnh font-size tại đây */
 }
 
 .custom-dropdown .dropdown-item:hover,

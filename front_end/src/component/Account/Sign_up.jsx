@@ -92,7 +92,7 @@ export default function Sign_up() {
   };
 
   return (
-    <div className="container">
+    <div className="signup-container">
       <div className="row signup-form">
         <div className="col-lg-6">
           <div className="social-icons">
@@ -100,10 +100,9 @@ export default function Sign_up() {
             <FontAwesomeIcon className="icon" icon={faInstagram} />
             <FontAwesomeIcon className="icon" icon={faTwitterSquare} />
           </div>
-          <h1 className="welcome">Chào mừng đến với DreamHome!</h1>
-          <h3 className="signup-title"> Hãy đăng nhập để tìm được căn hộ phù hợp ! </h3>
-          <button type="button">
-                    <Nav.Link href="/Sign_in" className="signin-mt-6" style={{fontWeight: 500}}>Đăng nhập</Nav.Link></button>
+          <h2 className="welcome">Chào mừng đến với DreamHome!</h2>
+          <h4 className="signup-title"> Hãy đăng nhập để tìm được căn hộ phù hợp ! </h4>
+                    <Nav.Link href="/Sign_in" className="signin-mt-6" style={{fontWeight: 500, fontSize:'1rem', backgroundColor:'#ffffff',color:'black'}}>Đăng nhập</Nav.Link>
         </div>
         <div className="col-sm-6 sign-up-card">
           <div className="p-4">
