@@ -18,6 +18,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 import HeaderManagement from "../view/Management/HeaderManagement";
 import MenuManagement from "../view/Management/MenuManagement";
 import ConfirmAppointment from "../view/Management/Shows/ConfirmAppointment";
+import History from "../view/User/History";
 function Auth({ id }) {
   const { token, logout } = AuthUser();
   const [hasAlertShown, setHasAlertShown] = useState(false);
@@ -33,15 +34,14 @@ function Auth({ id }) {
     }
   };
 
-  useEffect(() => {
-    fetchUserDetail();
-  }, []);
-
   const fetchUserDetail = () => {
     http.post("/me").then((res) => {
       setUserdetail(res.data);
     });
   };
+  useEffect(() => {
+    fetchUserDetail();
+  }, []);
 
   useEffect(() => {
     if (userdetail?.role === "Nguoi cho thue" && !hasAlertShown) {
@@ -78,8 +78,8 @@ function Auth({ id }) {
         onMouseEnter={() => setShowDropdown2(true)}
         onMouseLeave={() => setShowDropdown2(false)}
       >
-        <NavDropdown.Item href="/ShowApartment">Lịch sử</NavDropdown.Item>
-        <NavDropdown.Item href="/AnotherPage">Thông tin cá nhân</NavDropdown.Item>
+        <NavDropdown.Item href={`/History/${userdetail?.id}`}>Lịch sử</NavDropdown.Item>
+          <NavDropdown.Item href="/AnotherPage">Thông tin cá nhân</NavDropdown.Item>
         <NavDropdown.Item href="/AnotherPage">Yêu cầu sửa chữa</NavDropdown.Item>
         <NavDropdown.Item href="/AnotherPage">Đánh giá</NavDropdown.Item>
       </NavDropdown>
@@ -99,6 +99,7 @@ function Auth({ id }) {
             <Route path="ShowApartment" element={<List_Apartment />} />
             <Route path="apartment/:id" element={<Detail />} />
             <Route path="formBook/:id" />
+            <Route path="/History/:userId" element={<History/>}></Route>
           </Routes>
           <Footer></Footer>
         </div>
