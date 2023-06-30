@@ -14,6 +14,7 @@ import AppManagement from "../AppManagement";
 import Apartment from "../view/Management/Shows/Apartment";
 import Footer from "../component/Common/Footer";
 import App_admin from "../App_admin";
+import Service from "../view/User/Service";
 import { Navbar, Nav } from 'react-bootstrap';
 import HeaderManagement from "../view/Management/HeaderManagement";
 import MenuManagement from "../view/Management/MenuManagement";
@@ -85,7 +86,7 @@ function Auth({ id }) {
       </NavDropdown>
       <Nav.Link href="/Introduce" className="header-item">Giới thiệu</Nav.Link>
       <Nav.Link href="/Co_Living" className="header-item">Co-Living</Nav.Link>
-      <Nav.Link href="#" className="header-item">Dịch vụ</Nav.Link>
+      <Nav.Link href="/services" className="header-item">Dịch vụ</Nav.Link>
      
       <div className="rectangle-parent23">
         <Nav.Link href="/sign_in" onClick={logoutUser} className="header-logout">Đăng xuất</Nav.Link>
@@ -98,6 +99,8 @@ function Auth({ id }) {
             <Route path="Co_Living" element={<Co_Living />} />
             <Route path="ShowApartment" element={<List_Apartment />} />
             <Route path="apartment/:id" element={<Detail />} />
+            <Route path="services" element={<Service />} />
+
             <Route path="formBook/:id" />
             <Route path="/History/:userId" element={<History/>}></Route>
           </Routes>

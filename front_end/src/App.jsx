@@ -37,6 +37,7 @@ import {BrowserRouter as Router ,Routes,Route,useNavigationType,useLocation,} fr
 import Header from './component/Common/Header';
 import Footer from './component/Common/Footer';
 import Home from './view/User/Home';
+import Service from './view/User/Service';
 import Introduce from './view/User/Introduce';
 import Co_Living from './view/User/Co_Living';
 import Sign_in from './component/Account/Sign_in';
@@ -65,7 +66,8 @@ function App() {
            <Route path="/ResetPasswordForm" element={<ResetPasswordForm/>} />
            <Route path="/ConfirmPasswordResetPage" element={<ConfirmPasswordResetPage/>} />
            <Route path="/apartment/:id" element={<Detail/>} />
-      
+           <Route path="/services" element={<Service />} />
+
          </Routes>
          <Footer></Footer>
 
