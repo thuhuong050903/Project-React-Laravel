@@ -10,7 +10,6 @@ import App_admin from './App_admin.jsx'
 import './index.css'
 import {BrowserRouter} from "react-router-dom";
 
-import AppManagement from './AppManagement.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
 
