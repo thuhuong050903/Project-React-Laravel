@@ -39,7 +39,7 @@ class BookAppointmentController extends Controller
     
     public function show($userId)
     {
-        $appointment = Appointments::with('apartments')->where('user_id', $userId)->first();
+        $appointment = Appointments::with('apartments')->where('user_id', $userId)->get();
 
         if (!$appointment) {
             return response()->json(['error' => 'Appointment not found'], 404);

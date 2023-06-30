@@ -78,7 +78,7 @@ function Auth({ id }) {
         onMouseEnter={() => setShowDropdown2(true)}
         onMouseLeave={() => setShowDropdown2(false)}
       >
-        <NavDropdown.Item href={`/History/${userdetail?.id}`}>Lịch sử</NavDropdown.Item>
+        <NavDropdown.Item href={`/History/${userdetail.id}`}>Lịch sử</NavDropdown.Item>
           <NavDropdown.Item href="/AnotherPage">Thông tin cá nhân</NavDropdown.Item>
         <NavDropdown.Item href="/AnotherPage">Yêu cầu sửa chữa</NavDropdown.Item>
         <NavDropdown.Item href="/AnotherPage">Đánh giá</NavDropdown.Item>
