@@ -13,7 +13,7 @@ class Appointments extends Model
         'status',
         // các trường khác nếu có
     ];
-    public $timestamps = false; //phải tắt tự động cập nhật thơi gian thi  nó mới cho phép thay đổi status
+    public $timestamps = true; //phải tắt tự động cập nhật thơi gian thi  nó mới cho phép thay đổi status
     protected $table ='appointments';
     protected $primaryKey = 'appointment_id';
 

@@ -16,7 +16,7 @@ class ApointmentController extends Controller
 {
     public function getApartments()
     {
-        $apartments = apartments::all();
+        $apartments = apartments::orderByDesc('apartment_id')->get();
         return response()->json($apartments);
     }
     public function getOneApartments($id)
@@ -81,7 +81,7 @@ class ApointmentController extends Controller
     ///------------Get Appointment----------///
     public function getAppointment()
     {
-        $appointments = Appointments::with('users:id,fullname,email')->get();
+        $appointments = Appointments::with('users:id,fullname,email')->orderByDesc('appointment_id')->get();;
         return response()->json($appointments);
     }
 

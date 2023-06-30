@@ -1,26 +1,73 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+// import '../../assets/style/Management/MenuManagement.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 class MenuManagement extends Component {
+  state = {
+    hasNewAppointment: false,
+    isNotificationSeen: false
+  };
+
+  componentDidMount() {
+    this.checkNewAppointment();
+  }
+
+  checkNewAppointment() {
+    axios
+      .get("https://63a57216318b23efa793a737.mockapi.io/api/appointment")
+      .then((response) => {
+        const appointments = response.data;
+        const hasNewAppointment = appointments.length > 0;
+
+        this.setState({ hasNewAppointment });
+      })
+      .catch((error) => {
+        console.error("Error fetching new appointment:", error);
+      });
+  }
+
+
   render() {
+    const { hasNewAppointment, isNotificationSeen } = this.state;
+  
+    const handleConfirmAppointmentClick = () => {
+      // Lấy danh sách các mục từ API
+      axios
+        .get("https://63a57216318b23efa793a737.mockapi.io/api/appointment")
+        .then((response) => {
+          const appointments = response.data;
+  
+          // Xóa từng mục trong danh sách
+          appointments.forEach((appointment) => {
+            axios
+              .delete(`https://63a57216318b23efa793a737.mockapi.io/api/appointment/${appointment.id}`)
+              .then(() => {
+                console.log(`Appointment ${appointment.id} deleted successfully!`);
+              })
+              .catch((error) => {
+                console.error(`Error deleting appointment ${appointment.id}:`, error);
+              });
+          });
+  
+          // Đặt isNotificationSeen thành true để ẩn biểu tượng thông báo
+          this.setState({ isNotificationSeen: true });
+        })
+        .catch((error) => {
+          console.error("Error fetching appointment data:", error);
+        });
+    };
+  
     return (
       <div>
         <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ height: "100%" }}>
           {/* Brand Logo */}
           <a href="index3.html" className="brand-link">
-            {/* <img
-              src="dist/img/management.jpg"
-              alt="management"
-              className="brand-image img-circle elevation-3"
-              style={{ opacity: ".8" }}
-            /> */}
             <span className="brand-text font-weight-light">Management </span>
           </a>
           {/* Sidebar */}
           <div className="sidebar">
-            {/* Sidebar user panel (optional) */}
-
-            {/* SidebarSearch Form */}
             <div className="form-inline">
               <div className="input-group" data-widget="sidebar-search">
                 <input
@@ -36,16 +83,13 @@ class MenuManagement extends Component {
                 </div>
               </div>
             </div>
-            {/* Sidebar Menu */}
             <nav className="mt-2">
               <ul
-                className="nav nav-pills nav-sidebar flex-column"
+className="nav nav-pills nav-sidebar flex-column"
                 data-widget="treeview"
                 role="menu"
                 data-accordion="false"
               >
-        
-
                 <Link to={`./contact`}>
                   <li className="nav-item">
                     <a className="nav-link">
@@ -57,14 +101,18 @@ class MenuManagement extends Component {
                     </a>
                   </li>
                 </Link>
-
                 <Link to={`./confirmappointment`}>
-                  <li className="nav-item">
-                    <a href="#" className="nav-link">
+                  <li className={`nav-item ${hasNewAppointment && !isNotificationSeen ? "text-danger" : ""}`}>
+                    <a href="#" className={`nav-link ${hasNewAppointment && !isNotificationSeen ? "notification-button" : ""}`} onClick={handleConfirmAppointmentClick}>
                       <i className="nav-icon fas fa-chart-pie" />
                       <p>
-                      Confirm Appointment
-                        <i className="right fas fa-angle-left" />
+                        Confirm Appointment
+                        {hasNewAppointment && !isNotificationSeen && (
+                          <span>&nbsp;</span>
+                        )}
+                        {hasNewAppointment && !isNotificationSeen && (
+                          <FontAwesomeIcon icon={faBell} className="notification-button" style={{color:"red"}} />
+                        )}
                       </p>
                     </a>
                   </li>
@@ -78,7 +126,6 @@ class MenuManagement extends Component {
                     </a>
                   </li>
                 </Link>
-
                 <Link to={`./address`}>
                   <li className="nav-item">
                     <a className="nav-link">
@@ -87,11 +134,9 @@ class MenuManagement extends Component {
                     </a>
                   </li>
                 </Link>
-
               </ul>
             </nav>
           </div>
-          {/* /.sidebar */}
         </aside>
       </div>
     );
