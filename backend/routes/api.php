@@ -106,6 +106,10 @@ Route::get('/ratings', [App\Http\Controllers\starRatingController::class, 'getRa
 Route::get('/rating-count/{id}', [App\Http\Controllers\starRatingController::class, 'getRatingCountByUser']);
 
 
+Route::get('/history-appointments/{userId}', [App\Http\Controllers\BookAppointmentController::class, 'show']);
+
+Route::get('/history-apartments/{userId}', [App\Http\Controllers\BookApartController::class, 'show']);
+=======
 Route::get('/get-contract',[App\Http\Controllers\APIController::class,'getContracts']);
 
 

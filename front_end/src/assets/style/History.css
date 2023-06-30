@@ -1,0 +1,16 @@
+
+.card-history {
+  list-style: 1px;
+  display: flex;
+  flex-direction: row;
+}
+
+.card-preview-txt{
+  text-align: left;
+}
+.card-img {
+ border-radius: none;
+}
+.py-2{
+  margin: auto;
+}

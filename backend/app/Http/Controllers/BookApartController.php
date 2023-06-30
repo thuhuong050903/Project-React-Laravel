@@ -51,5 +51,15 @@ $totalAmount = $days * $price;
         // Return the created booking as JSON response
         return response()->json($booking, 201);
     }
+    public function show($userId)
+    {
+        $book_apartment = book_apartments::with('apartments')->where('user_id', $userId)->first();
+
+        if (!$book_apartment) {
+            return response()->json(['error' => 'Appointment not found'], 404);
+        }
+
+        return response()->json($book_apartment);
+    }
     
 }
