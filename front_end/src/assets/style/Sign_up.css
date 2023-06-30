@@ -3,13 +3,19 @@
   
   width: 100%;
   border-radius: 0px;
-  line-height: 7px;
+  line-height: 0.2rem;
 }
 .card {
   border-radius: 0px;
 }
+.signup-container{
+  margin-top: 9rem;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
 .signup-form {
-  height: 750px;
+  height: 45rem;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 .col-sm-6{
@@ -38,7 +44,7 @@
 .col-lg-6{
 position: absolute;
 width: 30%;
-height: 750px;
+height: 45rem;
 background: #DA291C;
 display: flex;
 flex-direction: column;
@@ -51,6 +57,15 @@ color: #FFFFFF;
   width: 30%;
   margin-top: 70px;
   height: 40px;
+  border:none;
+  background-color:#FFFFFF;
+  color: #000;
+  font-weight: 600;
+}
+.signin-mt-6 {
+  width: 8rem;
+  margin-top: 4rem;
+  height: 2.7rem;
   border:none;
   background-color:#FFFFFF;
   color: #000;

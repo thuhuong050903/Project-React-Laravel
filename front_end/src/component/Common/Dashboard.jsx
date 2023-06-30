@@ -8,6 +8,7 @@ const Dashboard = () => {
   const [addressCount, setAddressCount] = useState(0);
   const [seederCount, setSeederCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
+  const [contractCount, setContractCount] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -15,6 +16,58 @@ const Dashboard = () => {
     fetchSeederCount();
     fetchUserCount();
     fetchAddressCount();
+    fetchContractCount();
+    const interval = setInterval(() => {
+      setSeederCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+      setAddressCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+      setApartmentCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+      setUserCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+      setContractCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+    }, 10);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   const fetchApartmentCount = async () => {
@@ -65,10 +118,21 @@ const Dashboard = () => {
       setError("Error fetching user count");
     }
   };
+  const fetchContractCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-contract");
+      const contracts = response.data; // Assuming the response is an array of users
+      const count = contracts.length;
+      setContractCount(count);
+    } catch (error) {
+      console.error("Error fetching contract count:", error);
+      setError("Error fetching contract count");
+    }
+  };
   return (
     <div className="dashboard">
         <div id="wrapper" className="bg-danger">
-          <ul className="navbar-nav bg-danger-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+          <ul className="navbar-nav bg-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
               <div className="sidebar-brand-icon rotate-n-15">
                
@@ -85,11 +149,11 @@ const Dashboard = () => {
             <div className="sidebar-heading">
               Interface
             </div>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                 <Nav.Link href="Report">Report</Nav.Link>
               </a>
-            </li>
+            </li> */}
             <li className="nav-item">
               <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                 <Nav.Link href="List_user">List_User</Nav.Link>
@@ -113,21 +177,12 @@ const Dashboard = () => {
                 <Nav.Link href="List_address">List_Addresses</Nav.Link>
               </a>
             </li>
-            <hr className="sidebar-divider" />
-          
             <li className="nav-item">
-              <a className="nav-link" href="charts.html">
-                
-                <span>Charts</span></a>
+              <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <Nav.Link href="List_contract">List_Contracts</Nav.Link>
+              </a>
             </li>
-            
-            <li className="nav-item">
-              <a className="nav-link" href="tables.html">
-             
-                <span>Tables</span></a>
-            </li>
-            
-            <hr className="sidebar-divider d-none d-md-block" />
+           
           
            
           </ul>
@@ -145,7 +200,7 @@ const Dashboard = () => {
                   <div className="input-group">
                     <input type="text" className="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
                     <div className="input-group-append">
-                      <button className="btn btn-danger" type="button">
+                      <button className="btn btn-secondary" type="button">
                         <i className="fas fa-search fa-sm" />
                       </button>
                     </div>
@@ -207,7 +262,7 @@ const Dashboard = () => {
               <div className="container-fluid">         
                 <div className="d-sm-flex align-items-center justify-content-between mb-4">
                   <h1 className="h3 mb-0 text-gray-800" >Hello Boss</h1>
-                  <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i className="fas fa-download fa-sm text-white-50" /> Generate Report</a>
+                  <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i className="fas fa-download fa-sm text-white-50" /> Generate Report</a>
                 </div>       
                 <div className="row">          
                   <div className="col-xl-3 col-md-6 mb-4">
@@ -216,13 +271,13 @@ const Dashboard = () => {
                         <div className="row no-gutters align-items-center">
                           <div className="col mr-2">
                             <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                              Amount Users</div>
+                              Amount Seeder/users</div>
                               <div className="row no-gutters align-items-center">
                               <div className="col-auto">
                                 <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
                               </div>
                               <div className="col">
-                              <div className="card-body">{userCount}</div>
+                              <div className="card-body">{seederCount}/{userCount}</div>
                               </div>
                             </div>
                           </div>
@@ -239,13 +294,13 @@ const Dashboard = () => {
                         <div className="row no-gutters align-items-center">
                           <div className="col mr-2">
                             <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
-                              Amount Seeder</div>
+                              Amount Contarcts</div>
 <div className="row no-gutters align-items-center">
 <div className="col-auto">
                                 <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
                               </div>
                               <div className="col">
-                              <div className="card-body">{seederCount}</div>
+                              <div className="card-body">{contractCount}</div>
                               </div>
                               </div>
                           </div>
@@ -303,6 +358,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
+                  
                 </div>          
                 <div className="row">
                 </div>          
