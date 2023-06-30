@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
+import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagram, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
@@ -22,35 +23,38 @@ export default function Sign_up() {
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
     const isValid = validateForm();
-
+  
     if (isValid) {
       setIsLoading(true);
-
-      http
-        .post("/register", {
-          username: username,
-          fullname: fullname,
-          email: email,
-          phone: phone,
-          address: address,
-          password: password,
-          birthday: birthday,
-          role: role,
-        })
-        .then((res) => {
+  
+      try {
+  
+      
+       
+          await http.post("/register", {
+            username: username,
+            fullname: fullname,
+            email: email,
+            phone: phone,
+            address: address,
+            password: password,
+            birthday: birthday,
+            role: role,
+          });
+  
           alert("You registered successfully!");
           navigate("/Sign_in");
-        })
-        .catch((error) => {
-          alert("Email already exists. Please enter a different email!");
-          setIsLoading(false);
-        });
+        
+      } catch (error) {
+        console.error('An error occurred while checking email existence:', error);
+        alert("An error occurred while checking email existence!");
+        setIsLoading(false);
+      }
     }
   };
-
   const validateForm = () => {
     const errors = {};
 

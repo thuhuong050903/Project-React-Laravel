@@ -44,25 +44,44 @@ class AuthController extends Controller
 
     public function register()
     {
-        $credentials = request(['username','fullname','email','phone','address', 'password','birthday','role']);
+        $credentials = request(['username', 'fullname', 'email', 'phone', 'address', 'password', 'birthday', 'role']);
         $credentials['password'] = bcrypt($credentials['password']);
-        users::create($credentials);
-        
-
-        $user = users::where('email', request(['email']))->first();
-
+    
+        // Kiểm tra email đã được sử dụng chưa
+        $existingUsers = users::where('email', $credentials['email'])->get();
+        $numExistingUsers = $existingUsers->count();
+        $dem =0;
+        if ($numExistingUsers === 1) {
+            // Nếu chỉ có một người dùng với email này, kiểm tra vai trò của người dùng
+            $existingUser = $existingUsers->first();
+            if ($existingUser->role == $credentials['role']) {
+                return response()->json(['message' => 'Email has already been taken.'], 400);
+            }
+        } elseif ($numExistingUsers > 1) {
+            // Nếu có nhiều hơn một người dùng với email này, kiểm tra từng người dùng
+            foreach ($existingUsers as $existingUser) {
+                if ($existingUser->role == $credentials['role']) {
+                    return response()->json(['message' => 'Email has already been taken.'], 400);
+                }
+            }
+        }
+    
+        // Tạo người dùng mới
+        $user = users::create($credentials);
+    
         // Tạo mã xác nhận duy nhất cho người dùng
         $verificationToken = sha1($user->email . time());
     
-       
-    
         // Gửi email xác nhận
-        Mail::to(request(['email']))->send(new RegistrationConfirmation($verificationToken));
+        Mail::to($user->email)->send(new RegistrationConfirmation($verificationToken));
     
         // Trả về phản hồi thành công
-        return response()->json(['message' => 'Registration successful. Please check your email for verification.',], 201);
-       // tra ve loi neu khoong thanh cong
+        return response()->json(['message' => 'Registration successful. Please check your email for verification.'], 201);
+        // Trả về lỗi nếu không thành công
     }
+    
+
+
 
 
 
@@ -128,5 +147,16 @@ class AuthController extends Controller
         ]);
     }
     
+
+    public function checkEmailExists($email)
+    {
+        $user = \App\Models\users::where('email', $email)->first();
+
+        if ($user) {
+            return response()->json(['exists' => true, 'user' => $user]);
+        } else {
+            return response()->json(['exists' => false, 'user' => null]);
+        }
+    }
 
 }
