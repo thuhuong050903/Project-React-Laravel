@@ -1,0 +1,67 @@
+.list_apartment.contracts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card.contracts_card {
+  width: calc(27% - 0px);
+  background: linear-gradient( 120deg, #d4fc79 0%, #96e6a1 100%);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card-title.contracts_card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #dd0000;
+  display: contents;
+}
+
+.card-text.contracts_card-text {
+  margin-bottom: 10px;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.contract-info {
+  padding-top: 10px;
+  padding-left: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.contract-label {
+  flex-shrink: 0;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.contract-value {
+  flex-grow: 1;
+  text-align: end;
+}
+
+span.contract-value.status:hover {
+  color: #dd0000;
+  font-weight: bold;
+}
+
+@keyframes colorAnimation {
+  
+ 
+  0% { color: red; }
+    
+   
+  50% { color: blue; }
+    
+   
+  100% { color: green; }
+  }
+  
+  span.contract-value.status {
+    animation: colorAnimation 3s infinite;
+  }
+

@@ -7,6 +7,7 @@ use App\Mail\GuiEmail;
 use App\Models\addresses;
 use App\Models\apartments;
 use App\Models\Appointments;
+use App\Models\contracts;
 use App\Models\users;
 // use App\Models\book_apartments;						
 use Illuminate\Http\Request;
@@ -127,6 +128,30 @@ class ApointmentController extends Controller
     //     Mail::to(request(['email']))->send(new GuiEmail());
     // }
 
+    //-------get contracs----//
+    public function getContracts()
+{
+    $contracts = contracts::with('users:id,fullname') 
+        ->with(['apartments' => function ($query) {
+            $query->select('apartment_id', 'type_room', 'address_id');
+            $query->with(['addresses' => function ($query) {
+                $query->select('address_id', 'street', 'ward', 'district');
+            }]);
+        }])
+        ->orderByDesc('contract_id')
+        ->get();
+
+    return response()->json($contracts);
+}
+
+    
+    
+    
+    public function getOneContracts($id)
+    {
+        $contracts = contracts::find($id);
+        return response()->json($contracts);
+    }
 
 
 

@@ -2,3 +2,13 @@ div#cell-1-undefined {
   padding-left: 16px;
   padding-right: 16px;
 }
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card.contracts_card.apartment {
+  background-color: #98dfaf;
+  background: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d)
+}

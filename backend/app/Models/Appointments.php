@@ -28,4 +28,9 @@ class Appointments extends Model
         return $this->belongsTo('App\Models\apartments', 'apartment_id');
     }
 
+    public function contract()
+    {
+        return $this->hasMany('App\Models\contracts', 'user_id');
+    }
+
 }

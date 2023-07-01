@@ -90,12 +90,12 @@ className="nav nav-pills nav-sidebar flex-column"
                 role="menu"
                 data-accordion="false"
               >
-                <Link to={`./contact`}>
+                <Link to={`./contracts`}>
                   <li className="nav-item">
                     <a className="nav-link">
                       <i className="nav-icon fas fa-tree" />
                       <p>
-                        Contact
+                        Contracts
                         <i className="fas fa-angle-left right" />
                       </p>
                     </a>

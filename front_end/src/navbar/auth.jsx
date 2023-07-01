@@ -18,6 +18,7 @@ import { Navbar, Nav } from 'react-bootstrap';
 import HeaderManagement from "../view/Management/HeaderManagement";
 import MenuManagement from "../view/Management/MenuManagement";
 import ConfirmAppointment from "../view/Management/Shows/ConfirmAppointment";
+import Contract from "../view/Management/Shows/Contract";
 function Auth({ id }) {
   const { token, logout } = AuthUser();
   const [hasAlertShown, setHasAlertShown] = useState(false);
@@ -115,6 +116,12 @@ function Auth({ id }) {
               path="/confirmappointment"
               element={<ConfirmAppointment />}
             ></Route>
+
+            <Route
+              path="/contracts"
+              element={<Contract />}
+            ></Route>
+
           </Routes>
           <MenuManagement></MenuManagement>
         </div>

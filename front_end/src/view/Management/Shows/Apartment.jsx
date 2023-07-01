@@ -127,12 +127,13 @@ class Apartment extends Component {
     }
 
     return (
-      <div className="list_apartment">
+      <div className="list_apartment contracts">
         <div className="button-container"  >
           <button className="btn btn-success" onClick={this.handleAddNew} style={{margin: '10px'}}>
             Thêm mới căn hộ
           </button>
         </div>
+   
         {isAddFormVisible && (
           <Addapartment onAddSuccess={this.handleAddSuccess} />
         )}
@@ -145,13 +146,14 @@ class Apartment extends Component {
         {selectedApartmentId && (
           <Addphotoapartment apartmentId={selectedApartmentId} />
         )}
-        <div className="card-columns">
+        <div className="content">
           {apartments.map((apartment) => (
-            <div className="card" key={apartment.apartment_id}>
+            <div className="card contracts_card apartment" key={apartment.apartment_id}>
               <div className="card-body">
-                <h5 className="card-title">
+                <h5 className="card-title contracts_card-title">
                   Apartment ID: {apartment.apartment_id}
                 </h5>
+            
                 <p className="card-text">
                   <strong>Description:</strong> {apartment.description}
                 </p>
@@ -224,7 +226,8 @@ class Apartment extends Component {
             </div>
           ))}
         </div>
-      </div>
+        </div>
+      
     );
   }
 }
