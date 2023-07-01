@@ -126,8 +126,7 @@ class Addapartment extends Component {
     } = this.state;
 
     return (
-      <div className="form-container">
-        <h2>Thêm mới căn hộ</h2>
+      <div className="form-container Addapartment">
         {error && <div className="error">{error}</div>}
         <form onSubmit={this.handleSubmit}>
           <div>

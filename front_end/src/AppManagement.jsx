@@ -9,7 +9,7 @@ import Apartment from "./view/Management/Shows/Apartment";
 
 function AppManagement() {
   const { id } = useParams(); // Lấy ID từ URL
-
+ console.log(id);
   return (
     <div className="Wrapper">
       <div className="content-wrapper">
@@ -25,7 +25,7 @@ function AppManagement() {
                 <Route path="/contact" element={<Contact />} />
                 <Route
                   path="/apartment"
-                  element={<Apartment user_id={id} />} // Truyền ID người dùng vào prop user_id
+                  element={<Apartment user_id="17" />} // Truyền ID người dùng vào prop user_id
                 />
               </Routes>
             </div>

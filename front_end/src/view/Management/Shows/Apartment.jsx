@@ -1,37 +1,66 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import DataTable from "react-data-table-component";
-import "bootstrap/dist/css/bootstrap.css";
+import { Button, Modal } from "react-bootstrap";
 import "../../../assets/style/Management/Apartment.css";
 import Swal from "sweetalert";
+import PropTypes from "prop-types";
 import Addapartment from "../../../component/Pages/Management/Addapartment";
 import Editapartment from "../../../component/Pages/Management/Editapartment";
 import Addphotoapartment from "../../../component/Pages/Management/Addphotoapartment";
 
+
 class Apartment extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
+      isModalVisible: false,
       apartments: [],
       deletingApartmentId: null,
       error: null,
       isAddFormVisible: false,
       apartment_id: null,
       isEditFormVisible: false,
+      isEditModalVisible: false, // tắt modal edit
+      editingApartment: false,
+
       selectedApartmentId: null,
     };
     this.deleteApartments = this.deleteApartments.bind(this);
   }
 
+  static propTypes = {
+    user_id: PropTypes.number.isRequired, // user_id prop validation
+  };
+
+  //Mở modal
+  handleAddNew = () => {
+    this.setState({ isModalVisible: true, isEditModalVisible: false }); // Đặt isEditModalVisible thành false
+  };
+
+  // đóng modal
+  handleModalClose = () => {
+    this.setState({ isModalVisible: false, isEditModalVisible: false }); // Đặt cả isModalVisible và isEditModalVisible thành false
+  };
+
   async componentDidMount() {
-    const userId = 1;
-    await this.fetchApartments(userId);
+    const { user_id } = this.props; // Get user_id from props
+    await this.fetchApartments(user_id);
+    console.log(user_id)
+    console.log(this.props);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { user_id } = this.props;
+    if (prevProps.user_id !== user_id) {
+      this.fetchApartments(user_id);
+    }
   }
 
   async fetchApartments(userId) {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/get-appointment"
+        `http://127.0.0.1:8000/api/get-appointment?user_id=${userId}`
       );
       const filteredApartments = response.data.filter(
         (apartment) => apartment.user_id === userId
@@ -68,15 +97,14 @@ class Apartment extends Component {
       }
     }
   }
-  handleAddNew = () => {
-    this.setState({ isAddFormVisible: true });
-  };
 
   handleAddSuccess = async () => {
     await this.fetchApartments();
     this.setState({ isAddFormVisible: false });
   };
+
   handleEdit = async (apartment_id) => {
+    this.setState({ isEditModalVisible: true, editingApartment: apartment_id, isModalVisible: false }); // Đặt isModalVisible thành false
     try {
       const response = await axios.get(
         `http://localhost:8000/api/get-appointment/${apartment_id}`
@@ -101,9 +129,11 @@ class Apartment extends Component {
 
   handleEditSuccess = async () => {
     await this.fetchApartments();
+    this.setState({ isEditFormVisible: false, editingApartment: null });
     this.setState({
       apartment_id: null,
       isEditFormVisible: false,
+      isModalVisible: false, // Thêm dòng này
     });
   };
 
@@ -120,6 +150,9 @@ class Apartment extends Component {
       isEditFormVisible,
       apartment_id,
       selectedApartmentId,
+      isModalVisible,
+      isEditModalVisible,
+      editingApartment,
     } = this.state;
 
     if (error) {
@@ -128,32 +161,56 @@ class Apartment extends Component {
 
     return (
       <div className="list_apartment contracts">
-        <div className="button-container"  >
-          <button className="btn btn-success" onClick={this.handleAddNew} style={{margin: '10px'}}>
+        <div className="button-container">
+          <Button
+            className="btn btn-success"
+            onClick={this.handleAddNew}
+            style={{ margin: "10px" }}
+          >
             Thêm mới căn hộ
-          </button>
+          </Button>
         </div>
-   
-        {isAddFormVisible && (
-          <Addapartment onAddSuccess={this.handleAddSuccess} />
+
+        {isModalVisible && (
+          <Modal show={isModalVisible} onHide={this.handleModalClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Thêm mới căn hộ</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Addapartment onAddSuccess={this.handleAddSuccess} />
+            </Modal.Body>
+          </Modal>
         )}
-        {isEditFormVisible && (
-          <Editapartment
-            apartment_id={apartment_id}
-            onEditSuccess={this.handleEditSuccess}
-          />
+        {editingApartment && (
+          <Modal show={isEditModalVisible} onHide={this.handleModalClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Chỉnh sửa căn hộ</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Editapartment
+                apartment_id={editingApartment}
+                onEditSuccess={this.handleEditSuccess}
+              />
+            </Modal.Body>
+          </Modal>
         )}
+
+
+        
         {selectedApartmentId && (
           <Addphotoapartment apartmentId={selectedApartmentId} />
         )}
         <div className="content">
           {apartments.map((apartment) => (
-            <div className="card contracts_card apartment" key={apartment.apartment_id}>
+            <div
+              className="card contracts_card apartment"
+              key={apartment.apartment_id}
+            >
               <div className="card-body">
                 <h5 className="card-title contracts_card-title">
                   Apartment ID: {apartment.apartment_id}
                 </h5>
-            
+
                 <p className="card-text">
                   <strong>Description:</strong> {apartment.description}
                 </p>
@@ -182,7 +239,7 @@ class Apartment extends Component {
                       width="16"
                       height="16"
                       fill="currentColor"
-                      class="bi bi-pencil-fill"
+                      className="bi bi-pencil-fill"
                       viewBox="0 0 16 16"
                     >
                       <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
@@ -194,13 +251,14 @@ class Apartment extends Component {
                     onClick={() =>
                       this.deleteApartments(apartment.apartment_id)
                     }
+                    disabled={deletingApartmentId === apartment.apartment_id}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
                       height="16"
                       fill="currentColor"
-                      class="bi bi-trash-fill"
+                      className="bi bi-trash-fill"
                       viewBox="0 0 16 16"
                     >
                       <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
@@ -215,10 +273,11 @@ class Apartment extends Component {
                       width="16"
                       height="16"
                       fill="currentColor"
-                      class="bi bi-image-alt"
+                      className="bi bi-images"
                       viewBox="0 0 16 16"
                     >
-                      <path d="M7 2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm4.225 4.053a.5.5 0 0 0-.577.093l-3.71 4.71-2.66-2.772a.5.5 0 0 0-.63.062L.002 13v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4.5l-4.777-3.947z" />
+                      <path d="M.5 2.5A1.5 1.5 0 0 1 2 .998h12a1.5 1.5 0 0 1 1.5 1.5V13a1.5 1.5 0 0 1-1.5 1.5H2a1.5 1.5 0 0 1-1.5-1.5V2.5zM2 1.998A1.5 1.5 0 0 0 .5 3.498V13a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5V3.498a1.5 1.5 0 0 0-1.5-1.5H2z" />
+                      <path d="M10.516 5.183l-1.55 2.2-1.935-1.45a.5.5 0 0 0-.631.032l-2 1.667A.5.5 0 0 0 4 9.5V12h8V5l-1.484.183zM10.5 10a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm-2-1a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
                     </svg>
                   </button>
                 </div>
@@ -226,8 +285,7 @@ class Apartment extends Component {
             </div>
           ))}
         </div>
-        </div>
-      
+      </div>
     );
   }
 }

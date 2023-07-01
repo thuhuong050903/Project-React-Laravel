@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import '../EditApartmentForm.css';
+// import '../EditApartmentForm.css';
 import Swal from "sweetalert";
 import Select from "react-select";
 
@@ -126,19 +126,8 @@ class Editapartment extends Component {
     }
 
     return (
-      <div className="edit-apartment-form">
-        <h2>Edit Apartment</h2>
+      <div className="form-container Addapartment">
         <form onSubmit={this.handleSubmit}>
-          <div>
-            <label>User ID:</label>
-            <br/>
-            <input
-              type="text"
-              name="user_id"
-              value={user_id}
-              onChange={this.handleInputChange}
-            />
-          </div>
           <div>
             <label>Description:</label>
             <br/>

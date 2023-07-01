@@ -1,12 +1,12 @@
-.form-container {
+.form-container.Addapartment {
   display: flex;
   flex-direction: column;
-  max-width: 400px;
+  max-width: 100%;
   margin: 0 auto;
+  border: none;
+    border-radius: 0;
+    background-color: white;
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #3ef3f9;
 }
 
 .form-container label {
@@ -41,4 +41,8 @@
 
 .form-container button[type="submit"]:hover {
   background-color: #45a049;
+}
+
+textarea {
+  width: 100%;
 }

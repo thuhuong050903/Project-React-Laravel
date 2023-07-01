@@ -34,6 +34,7 @@ class Contract extends Component {
 
   render() {
     return (
+     
       <div className="list_apartment contracts">
         {this.state.contracts.map(contract => (
           <div className="card contracts_card" key={contract.contract_id}>
