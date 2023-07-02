@@ -80,11 +80,19 @@ class ApointmentController extends Controller
 
 
     ///------------Get Appointment----------///
-    public function getAppointment()
+    public function getAppointment($userId)
     {
-        $appointments = Appointments::with('users:id,fullname,email')->orderByDesc('appointment_id')->get();;
+        $appointments = Appointments::with('apartments', 'users')
+            ->whereHas('apartments', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->join('users', 'users.id', '=', 'appointments.user_id')
+            ->select('appointments.*', 'users.fullname', 'users.email')
+            ->get();
+    
         return response()->json($appointments);
     }
+    
 
     public function getOneAppointment($id)
     {

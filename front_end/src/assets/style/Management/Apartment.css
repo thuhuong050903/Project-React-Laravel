@@ -10,5 +10,7 @@ div#cell-1-undefined {
 
 .card.contracts_card.apartment {
   background-color: #98dfaf;
-  background: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d)
+  background: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);
+  max-height: 360px;
+  min-width: 390px;
 }

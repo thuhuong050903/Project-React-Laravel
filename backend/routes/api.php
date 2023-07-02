@@ -83,7 +83,7 @@ Route::put('/edit-appointment/{appointment}',[App\Http\Controllers\ApointmentCon
 
 
 ///------------------------- của ĐI nhớ bỏ vô Apointment-------------------------///
-Route::get('/get-confirmappointment',[App\Http\Controllers\ApointmentController::class,'getAppointment']);	
+Route::get('/get-confirmappointment/{userId}',[App\Http\Controllers\ApointmentController::class,'getAppointment']);	
 Route::get('/get-confirmappointment/{appointment_id}', [App\Http\Controllers\ApointmentController::class,'getOneAppointment']);	
 Route::put('update-appointment/{id}', [App\Http\Controllers\ApointmentController::class,'update']);
 

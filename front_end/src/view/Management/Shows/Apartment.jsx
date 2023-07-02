@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+// import AuthUser from "../../../component/AuthUser";
 import axios from "axios";
 import { Button, Modal } from "react-bootstrap";
 import "../../../assets/style/Management/Apartment.css";
@@ -10,6 +11,10 @@ import Addphotoapartment from "../../../component/Pages/Management/Addphotoapart
 
 
 class Apartment extends Component {
+
+  static propTypes = {
+    user_id: PropTypes.number.isRequired, // Add prop validation for user_id
+  };
 
   constructor(props) {
     super(props);
@@ -29,9 +34,7 @@ class Apartment extends Component {
     this.deleteApartments = this.deleteApartments.bind(this);
   }
 
-  static propTypes = {
-    user_id: PropTypes.number.isRequired, // user_id prop validation
-  };
+
 
   //Mở modal
   handleAddNew = () => {
@@ -43,19 +46,12 @@ class Apartment extends Component {
     this.setState({ isModalVisible: false, isEditModalVisible: false }); // Đặt cả isModalVisible và isEditModalVisible thành false
   };
 
+
   async componentDidMount() {
-    const { user_id } = this.props; // Get user_id from props
-    await this.fetchApartments(user_id);
-    console.log(user_id)
-    console.log(this.props);
+    const userId = this.props.user_id; // Lấy ID từ prop user_id
+    this.fetchApartments(userId);
   }
 
-  componentDidUpdate(prevProps) {
-    const { user_id } = this.props;
-    if (prevProps.user_id !== user_id) {
-      this.fetchApartments(user_id);
-    }
-  }
 
   async fetchApartments(userId) {
     try {
@@ -172,7 +168,7 @@ class Apartment extends Component {
         </div>
 
         {isModalVisible && (
-          <Modal show={isModalVisible} onHide={this.handleModalClose}>
+          <Modal show={isModalVisible} onHide={this.handleModalClose} style={{width: "130%",marginLeft: "-210px"}}>
             <Modal.Header closeButton>
               <Modal.Title>Thêm mới căn hộ</Modal.Title>
             </Modal.Header>

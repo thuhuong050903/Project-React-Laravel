@@ -19,7 +19,9 @@ import HeaderManagement from "../view/Management/HeaderManagement";
 import MenuManagement from "../view/Management/MenuManagement";
 import ConfirmAppointment from "../view/Management/Shows/ConfirmAppointment";
 import Contract from "../view/Management/Shows/Contract";
+// eslint-disable-next-line react/prop-types
 function Auth({ id }) {
+  console.log(id);
   const { token, logout } = AuthUser();
   const [hasAlertShown, setHasAlertShown] = useState(false);
   const [redirectAdmin, setRedirectAdmin] = useState(false);
@@ -33,6 +35,7 @@ function Auth({ id }) {
       logout();
     }
   };
+  const user = JSON.parse(sessionStorage.getItem('user'));
 
   useEffect(() => {
     fetchUserDetail();
@@ -108,19 +111,25 @@ function Auth({ id }) {
           <HeaderManagement></HeaderManagement>
           <Routes>
             <Route path="/" element={<AppManagement id={id} />} />
-            <Route
+            {userdetail && (
+            <>
+              <Route
               path="/apartment"
-              element={<Apartment user_id={id} />} // Truyền ID người dùng vào prop user_id
-            />
-            <Route
+              element={<Apartment user_id= {userdetail.id} />} // Truyền ID người dùng vào prop user_id
+            /> 
+              <Route
               path="/confirmappointment"
-              element={<ConfirmAppointment />}
-            ></Route>
-
+              element={<ConfirmAppointment user_id= {user.id} />}
+            >
+            </Route>
             <Route
               path="/contracts"
-              element={<Contract />}
-            ></Route>
+              element={<Contract user_id= {userdetail.id} />}
+            >
+            </Route>
+            </>
+          )}
+
 
           </Routes>
           <MenuManagement></MenuManagement>
