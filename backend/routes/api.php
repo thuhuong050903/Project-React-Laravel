@@ -109,7 +109,6 @@ Route::get('/rating-count/{id}', [App\Http\Controllers\starRatingController::cla
 Route::get('/history-appointments/{userId}', [App\Http\Controllers\BookAppointmentController::class, 'show']);
 
 Route::get('/history-apartments/{userId}', [App\Http\Controllers\BookApartController::class, 'show']);
-=======
 Route::get('/get-contract',[App\Http\Controllers\APIController::class,'getContracts']);
 
 
@@ -117,3 +116,6 @@ Route::get('/SeederApartmentPage/{id}', [App\Http\Controllers\APIController::cla
 
 
 Route::get('/SeederInfo/{userId}', [App\Http\Controllers\APIController::class, 'getSeederInfo']);
+
+
+Route::post('/apartment-issues', [App\Http\Controllers\ApartmentIssueController::class, 'store']);

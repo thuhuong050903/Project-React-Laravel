@@ -50,7 +50,6 @@ class AuthController extends Controller
         // Kiểm tra email đã được sử dụng chưa
         $existingUsers = users::where('email', $credentials['email'])->get();
         $numExistingUsers = $existingUsers->count();
-        $dem =0;
         if ($numExistingUsers === 1) {
             // Nếu chỉ có một người dùng với email này, kiểm tra vai trò của người dùng
             $existingUser = $existingUsers->first();

@@ -1,7 +1,10 @@
 <?php													
 namespace App\Http\Controllers;
 use App\Models\addresses;
+use App\Models\apartmentIssue;
 use App\Models\apartments;	
+use App\Models\Appointments;
+use App\Models\ratings;
 use App\Models\users;
 use App\Models\contracts;
 use App\Models\book_apartments;						
@@ -197,20 +200,37 @@ return response()->json($users);
 
 public function deleteUsers($id)
 {
-    try {
-         users::findOrFail($id)->apartmentIssue()->delete();
-         users::findOrFail($id)->apartment()->delete();
-         users::findOrFail($id)->contract()->delete();
-         users::findOrFail($id)->book_Apartment()->delete();
-         users::findOrFail($id)->rating()->delete();
-         users::findOrFail($id)->appointment()->delete();
-        // Xóa người dùng
-        users::findOrFail($id)->delete();
-        return response()->json(['message' => 'Xóa người dùng thành công'], 200);
-    } catch (\Exception $e) {
-        return response()->json(['message' => 'Đã xảy ra lỗi khi xóa người dùng: ' . $e->getMessage()], 500);
+    // Lấy thông tin người dùng
+    $user = users::find($id);
+
+    if ($user->role === 'Nguoi cho thue') {
+        // Xóa bài viết của người dùng
+
+        apartments::where('user_id', $id)->delete();
+
     }
+
+    // Xóa các bình luận của người dùng
+    apartmentIssue::where('user_id', $id)->delete();
+
+    // Xóa các hợp đồng của người dùng
+    contracts::where('user_id', $id)->delete();
+
+    // Xóa các đặt chỗ căn hộ của người dùng
+    book_apartments::where('user_id', $id)->delete();
+
+    // Xóa các đánh giá của người dùng
+    ratings::where('user_id', $id)->delete();
+
+    // Xóa các cuộc hẹn của người dùng
+    Appointments::where('user_id', $id)->delete();
+
+    // Xóa người dùng
+    users::where('id', $id)->delete();
+
+    return response()->json(['message' => 'Xóa người dùng và các bản ghi liên quan thành công']);
 }
+
 
 
 
@@ -227,7 +247,7 @@ return response()->json($contracts);
 
 public function getSeederApartments($id)
 {
-    $apartments = apartments::where('user_id', $id)->get();
+    $apartments = apartments::with('apartmentImage','users')->where('user_id', $id)->get();
     return response()->json($apartments);
 }
 
