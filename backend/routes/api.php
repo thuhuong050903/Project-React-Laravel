@@ -116,3 +116,6 @@ Route::get('/SeederApartmentPage/{id}', [App\Http\Controllers\APIController::cla
 
 
 Route::get('/SeederInfo/{userId}', [App\Http\Controllers\APIController::class, 'getSeederInfo']);
+
+
+Route::post('/apartment-issues', [App\Http\Controllers\ApartmentIssueController::class, 'store']);

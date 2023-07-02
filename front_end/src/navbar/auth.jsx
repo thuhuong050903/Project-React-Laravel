@@ -1,19 +1,19 @@
 import { Routes, Route, Link, useParams } from "react-router-dom";
 import Home from "../view/User/Home";
 import Introduce from "../view/User/Introduce";
-import Co_Living from "../view/User/Co_Living";
-import Dashboard from "../component/Common/Dashboard";
+import Co_Living from "../view/User/CoLiving";
+import Dashboard from "../view/Admin/AdminDashboard";
 import DashboardManagement from "../view/Management/DashboardManagement";
 import AuthUser from "../component/AuthUser";
 import "../assets/style/auth.css";
 import { NavDropdown } from 'react-bootstrap';
 import { useEffect, useState } from "react";
-import List_Apartment from "../view/User/List_Apartment";
+import List_Apartment from "../view/User/ListApartment";
 import Detail from "../view/User/Detail";
 import AppManagement from "../AppManagement";
 import Apartment from "../view/Management/Shows/Apartment";
 import Footer from "../component/Common/Footer";
-import App_admin from "../App_admin";
+import App_admin from "../AppAdmin";
 import Service from "../view/User/Service";
 import { Navbar, Nav } from 'react-bootstrap';
 import HeaderManagement from "../view/Management/HeaderManagement";
@@ -100,7 +100,6 @@ function Auth({ id }) {
             <Route path="ShowApartment" element={<List_Apartment />} />
             <Route path="apartment/:id" element={<Detail />} />
             <Route path="services" element={<Service />} />
-
             <Route path="formBook/:id" />
             <Route path="/History/:userId" element={<History/>}></Route>
           </Routes>

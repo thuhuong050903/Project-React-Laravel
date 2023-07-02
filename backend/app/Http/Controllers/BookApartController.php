@@ -53,13 +53,16 @@ $totalAmount = $days * $price;
     }
     public function show($userId)
     {
-        $book_apartment = book_apartments::with('apartments')->where('user_id', $userId)->first();
-
-        if (!$book_apartment) {
+        $book_apartment = book_apartments::with(['apartments', 'apartments.apartmentImage'])
+            ->where('user_id', $userId)
+            ->get();
+    
+        if ($book_apartment->isEmpty()) {
             return response()->json(['error' => 'Appointment not found'], 404);
         }
-
+    
         return response()->json($book_apartment);
     }
+    
     
 }

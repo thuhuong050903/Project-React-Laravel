@@ -7,8 +7,8 @@ import AuthUser from '../../component/AuthUser';
 import '../../assets/style/Modal_booking.css';
 import '../../assets/style/Detail.css'
 import Slider from 'react-slick';
-import Star_rating from './Star_rating';
-import Show_rating from './Show_rating';
+import Star_rating from './StarRating';
+import Show_rating from './ShowRating';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -35,17 +35,20 @@ function Detail() {
   }, []);
 
   const fetchUserDetail = () => {
-    http
-      .post('http://127.0.0.1:8000/api/me')
-      .then((res) => {
-        setUserdetail(res.data);
-        setUserLoaded(true);
-      })
-      .catch((error) => {
-        console.error('Lỗi khi lấy thông tin người dùng:', error);
-        setUserLoaded(true);
-      });
+    // Chỉ fetch khi showModal hoặc showLongTermBookingModal được thiết lập thành true
+      http
+        .post('http://127.0.0.1:8000/api/me')
+        .then((res) => {
+          setUserdetail(res.data);
+          setUserLoaded(true);
+        })
+        .catch((error) => {
+          console.error('Lỗi khi lấy thông tin người dùng:', error);
+          setUserLoaded(true);
+        });
+    
   };
+  
 
   const fetchApartmentDetail = () => {
     axios
@@ -67,13 +70,14 @@ function Detail() {
       }
     } else if (apartment.type_room === 'Phòng dài hạn') {
       if (userdetail && userdetail.id) {
+        setShowModal(false); // Đảm bảo rằng modal ngắn hạn không hiển thị
         setShowLongTermBookingModal(true);
       } else {
         alert('Bạn cần đăng nhập để đặt phòng');
       }
     }
   };
-
+  
   const handleBookingPhoneChange = (e) => {
     setBookingPhone(e.target.value);
   };
@@ -100,10 +104,12 @@ function Detail() {
 
   const handleBookingSubmit = () => {
     if (apartment.type_room === 'Phòng ngắn hạn') {
+      if (userdetail && userdetail.id) {
+
       const bookingData = {
-        user_id: apartment.users.id,
+        user_id: userdetail.id,
         apartment_id: apartment.apartment_id,
-        phone: bookingPhone,
+        phone: userdetail.phone,
         check_in_date: bookingcheck_in_date,
         check_out_date: bookingcheck_out_date,
       };
@@ -119,7 +125,8 @@ function Detail() {
         })
         .catch((error) => {
           console.error('Đặt phòng ngắn hạn thất bại:', error);
-        });
+        });}
+
     } else if (apartment.type_room === 'Phòng dài hạn') {
       if (userdetail && userdetail.id) {
         const longTermBookingData = {
@@ -188,7 +195,7 @@ function Detail() {
             )}
         </div>
       </div>
-
+{userdetail && (
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Đặt phòng ngắn hạn</Modal.Title>
@@ -196,7 +203,7 @@ function Detail() {
         <Modal.Body>
           <div>
             <label>Số điện thoại:</label>
-            <input type='text' value={bookingPhone} onChange={handleBookingPhoneChange} />
+            <input type='text' value={userdetail.phone} onChange={handleBookingPhoneChange} />
           </div>
           <div>
             <label>Ngày nhận phòng:</label>
@@ -213,7 +220,9 @@ function Detail() {
           </button>
         </Modal.Footer>
       </Modal>
+)};
 
+{userdetail &&(
       <Modal show={showLongTermBookingModal} onHide={() => setShowLongTermBookingModal(false)} centered>
         <Modal.Header closeButton>
           <Modal.Title>Đặt phòng dài hạn</Modal.Title>
@@ -221,7 +230,7 @@ function Detail() {
         <Modal.Body>
           <div>
             <label>Số điện thoại:</label>
-            <input type='text' value={bookingPhone} onChange={handleBookingPhoneChange} />
+            <input type='text' value={userdetail.phone} onChange={handleBookingPhoneChange} />
           </div>
           <div>
             <label>Giá mong muốn:</label>
@@ -242,6 +251,7 @@ function Detail() {
           </button>
         </Modal.Footer>
       </Modal>
+      )};
 
       {userdetail !== null && userdetail !== undefined ? (
   <div className='apartment-rating'>
