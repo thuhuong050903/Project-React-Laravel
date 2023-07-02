@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import axios from "axios";
-import './AddApartmentForm.css';
+import "../../assets/style/AddApartmentForm.css";
 import swal from "sweetalert";
+import { Link } from "react-router-dom";
+
 const successAlert = (user_id) => {
-    swal({
-      title: "Thank you!",
-      text: `You added a ${user_id} successfully! `,
-      icon: "success",
-    });
-  };
-class AddApartmentForm extends Component{
+  swal({
+    title: "Thank you!",
+    text: `You added a ${user_id} successfully!`,
+    icon: "success",
+  });
+};
+
+class AddApartmentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,19 +23,19 @@ class AddApartmentForm extends Component{
       area: "",
       address_id: "",
       type_room: "",
-      error: ""
+      error: "",
     };
   }
 
   handleInputChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
-  }
+  };
 
   handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const {
       user_id,
       description,
@@ -40,34 +43,39 @@ class AddApartmentForm extends Component{
       number_room,
       area,
       address_id,
-      type_room
+      type_room,
     } = this.state;
-  
+
     // Kiểm tra nếu giá trị type_room là chuỗi rỗng hoặc null
     if (type_room === "" || type_room === null) {
       alert("Vui lòng nhập giá trị cho Type of Room");
       return;
     }
-  
+
     try {
       // Gửi request để thêm mới căn hộ
-      const response = await axios.post("http://localhost:8000/api/add-apartment", {
-        user_id,
-        description,
-        price,
-        number_room,
-        area,
-        address_id,
-        type_room
-      });
-  
-      
-  
+      const response = await axios.post(
+        "http://localhost:8000/api/add-apartment",
+        {
+          user_id,
+          description,
+          price,
+          number_room,
+          area,
+          address_id,
+          type_room,
+        }
+      );
+
+      const addedApartmentId = response.data.apartment_id;
+
       // Gọi hàm callback để thông báo thành công cho component cha
       if (this.props.onAddSuccess) {
         this.props.onAddSuccess();
+        const url = `/add-photo/${addedApartmentId}`;
+        this.props.history.push(); // Chuyển qua trang thêm ảnh
       }
-  
+
       // Reset form
       this.setState({
         user_id: "",
@@ -77,17 +85,16 @@ class AddApartmentForm extends Component{
         area: "",
         address_id: "",
         type_room: "",
-        error: ""
+        error: "",
       });
     } catch (error) {
       console.error("Error adding apartment:", error);
       // Xử lý lỗi
       this.setState({
-        error: "Đã xảy ra lỗi khi thêm mới căn hộ"
+        error: "Đã xảy ra lỗi khi thêm mới căn hộ",
       });
     }
-  }
-  
+  };
 
   render() {
     const {
@@ -98,7 +105,7 @@ class AddApartmentForm extends Component{
       area,
       address_id,
       type_room,
-      error
+      error,
     } = this.state;
 
     return (
@@ -139,7 +146,7 @@ class AddApartmentForm extends Component{
               type="text"
               name="number_room"
               value={number_room}
-              onChange={this.handleInputChange} 
+              onChange={this.handleInputChange}
             />
           </div>
           <div>
@@ -170,7 +177,13 @@ class AddApartmentForm extends Component{
             />
           </div>
           <div>
-            <button className="btn btn-success" type="submit" onClick={() => successAlert(user_id)}>Thêm mới</button>
+            <button
+              className="btn btn-success"
+              type="submit"
+              onClick={() => successAlert(user_id)}
+            >
+              Thêm mới
+            </button>
           </div>
         </form>
       </div>

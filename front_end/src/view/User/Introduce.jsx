@@ -1,7 +1,21 @@
-import React from 'react';
 import '../../assets/style/Introduce.css';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 const Introduce = () => {
+  useEffect(()=>{
+    
+  }, []);
+  const [apartments, setApartments] = useState([]);
+  const sliderRef = useRef(null);
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/get-apartment')
+      .then(response => response.json())
+      .then(data => setApartments(data));
+  }, []);
+  const handleAddToCart = (apartment) => {
+    addToCart(apartment);
+  };
   return (
+    
     <div className="desktop-1">
       <div className="quy-m-container">
         <p className="quy-m">1. Quy mô:</p>
@@ -83,104 +97,32 @@ Home các cư dân sẽ có cơ hội gặp gỡ, giao tiếp và kết nối. C
       
       <div className="footer-parent">
       <div className="cc-d-n1">5. Trụ sở chính:</div>
-        <div className="footer1">
-         
-          <img className="image-4-icon1" alt="" src="/image-4@2x.png" />
-          <div className="cng-ty-tnhh2">
-            Công Ty TNHH Famous Express International
-          </div>
-          <div className="giy-chng-nhn1">
-            Giấy chứng nhận đăng ký kinh doanh số 0315758622
-          </div>
-          <div className="do-s-k1">
-            Do Sở Kế hoạch và Đầu tư Thành phố Đà Nẵng cấp ngày 27/06/2019
-          </div>
-          <div className="bis-nguyn-vn1">
-            101B Lê Hữu Trác, Quận Sơn Trà, Đà Nẵng
-          </div>
-<div className="icons8-address-64-1-parent1">
-            <div className="icons8-address-64-13" />
-            <div className="group-child62" />
-            <img
-              className="icons8-address-64-2-11"
-              alt=""
-              src="/icons8address64-2-1@2x.png"
-            />
-          </div>
-          <div className="icons8-address-64-1-parent2">
-            <div className="icons8-address-64-13" />
-            <div className="group-child62" />
-          </div>
-          <div className="icons8-address-64-1-parent3">
-            <div className="icons8-address-64-13" />
-            <div className="group-child62" />
-          </div>
-          <img
-            className="icons8-email-50-11"
-            alt=""
-            src="/icons8email50-1@2x.png"
-          />
-          <img
-            className="icons8-phone-50-11"
-            alt=""
-            src="/icons8phone50-1@2x.png"
-          />
-        </div>
+        
         <div className="group-child65" />
       </div>
-      <div className="desktop-1-item" />
-      <div className="desktop-1-inner" />
-      <div className="desktop-1-child1" />
-      <div className="desktop-1-child2" />
-    
-      <div className="room-for-rent-container19">
-        <p className="nm-2020-jinjoo">Room for rent – JinJoo</p>
-        <p className="nm-2020-jinjoo">{`Home – Ky Con, P.Nguyen Thai `}</p>
-        <p className="nm-2020-jinjoo">Binh, District 1</p>
+      {apartments.slice(0, 4).map(apartment => (
+  <div className="col-md-3 mb-3" key={apartment.id}>
+    <div className='Content'>
+    <div className="introduct-card">
+      <img src="https://danhkhoireal.vn/wp-content/uploads/2022/03/Can-ho-Calla-Apartment-Quy-Nhon.jpg" className="card-img-top" alt={apartment.description} />
+      <div className="card-body">
+        <h5 className="card-text">{apartment.address_id}</h5>
+        <p className="card-text">NumberRoom: {apartment.number_room}</p>
+        <p className="card-text">TypeRoom: {apartment.typeroom}</p>
+        <p className="card-text">Giá: {apartment.price}</p>
+        <p className="card-text">Area: {apartment.area}</p>
+        <div className="card-buttons">
+          <button className="btn btn-primary" onClick={() => handleAddToCart(product)}>
+            Add Cart
+          </button>
+          <button href="./Detail.jsx"  className="btn btn-secondary">Detail</button>
+        </div>
       </div>
-      <div className="div29">10.000.000 </div>
-      <div className="s-phng-0519">Số Phòng: 05</div>
-      <div className="district-1-ho19">District 1, Ho Chi Minh</div>
-      <img className="image-48-icon1" alt="" src="/image-36@2x.png" />
-      <img className="image-49-icon1" alt="" src="/image-37@2x.png" />
-      <div className="room-for-rent-container20">
-        <p className="nm-2020-jinjoo">Room for rent – JinJoo</p>
-        <p className="nm-2020-jinjoo">{`Home – Ky Con, P.Nguyen Thai `}</p>
-        <p className="nm-2020-jinjoo">Binh, District 1</p>
-      </div>
-      <div className="div30">10.000.000 </div>
-      <div className="s-phng-0520">Số Phòng: 05</div>
-      <div className="district-1-ho20">District 1, Ho Chi Minh</div>
-      <img className="image-57-icon" alt="" src="/image-36@2x.png" />
-      <div className="room-for-rent-container21">
-        <p className="nm-2020-jinjoo">Room for rent – JinJoo</p>
-        <p className="nm-2020-jinjoo">{`Home – Ky Con, P.Nguyen Thai `}</p>
-        <p className="nm-2020-jinjoo">Binh, District 1</p>
-      </div>
-      <div className="div31">10.000.000 </div>
-      <div className="s-phng-0521">Số Phòng: 05</div>
-      <div className="district-1-ho21">District 1, Ho Chi Minh</div>
-      <img className="image-59-icon" alt="" src="/image-36@2x.png" />
-      <img className="image-60-icon" alt="" src="/image-37@2x.png" />
-      <img className="image-63-icon" alt="" src="/image-37@2x.png" />
-      <div className="room-for-rent-container22">
-<p className="nm-2020-jinjoo">Room for rent – JinJoo</p>
-        <p className="nm-2020-jinjoo">{`Home – Ky Con, P.Nguyen Thai `}</p>
-        <p className="nm-2020-jinjoo">Binh, District 1</p>
-      </div>
-      <div className="div32">10.000.000 </div>
-      <div className="s-phng-0522">Số Phòng: 05</div>
-      <div className="district-1-ho22">District 1, Ho Chi Minh</div>
-      <img className="image-61-icon" alt="" src="/image-36@2x.png" />
-      <img className="image-62-icon" alt="" src="/image-37@2x.png" />
-      <div className="phng-dch-v20"> Phòng dịch vụ</div>
-      <div className="phng-dch-v21"> Phòng dịch vụ</div>
-      <div className="phng-dch-v22"> Phòng dịch vụ</div>
-      <div className="phng-dch-v23"> Phòng dịch vụ</div>
-      <img className="image-56-icon" alt="" src="/image-56@2x.png" />
-      <img className="image-64-icon" alt="" src="/image-56@2x.png" />
-      <img className="image-48-icon2" alt="" src="/image-24@2x.png" />
-      <img className="image-65-icon" alt="" src="/image-24@2x.png" />
+    </div>
+    </div>
+  </div>
+))}
+
     </div>
   );
 };

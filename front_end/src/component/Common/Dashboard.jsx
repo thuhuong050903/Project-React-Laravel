@@ -1,20 +1,145 @@
 import "../../assets/style/Dashboard.css";
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Navbar, Nav } from 'react-bootstrap';
 import { Container, Form, FormControl, Button} from 'react-bootstrap';
+import axios from 'axios';
 const Dashboard = () => {
+  const [apartmentCount, setApartmentCount] = useState(0);
+  const [addressCount, setAddressCount] = useState(0);
+  const [seederCount, setSeederCount] = useState(0);
+  const [userCount, setUserCount] = useState(0);
+  const [contractCount, setContractCount] = useState(0);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchApartmentCount();
+    fetchSeederCount();
+    fetchUserCount();
+    fetchAddressCount();
+    fetchContractCount();
+    const interval = setInterval(() => {
+      setSeederCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+      setAddressCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+      setApartmentCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+      setUserCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+      setContractCount((prevCount) => {
+        if (prevCount < 100) {
+          return prevCount + 1;
+        } else {
+          clearInterval(interval);
+          return prevCount;
+        }
+      }
+      );
+    }, 10);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const fetchApartmentCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-apartment");
+      const apartments = response.data; // Assuming the response is an array of apartments
+      const count = apartments.length;
+      setApartmentCount(count);
+    } catch (error) {
+      console.error("Error fetching apartment count:", error);
+      setError("Error fetching apartment count");
+    }
+  };
+
+  const fetchAddressCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-address");
+      const addresses = response.data; // Assuming the response is an array of addresses
+      const count = addresses.length;
+      setAddressCount(count);
+    } catch (error) {
+      console.error("Error fetching address count:", error);
+      setError("Error fetching address count");
+    }
+  };
+  const fetchSeederCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-user");
+      const seeders = response.data; // Assuming the response is an array of seeders
+      const filteredSeeders = seeders.filter(seeder => seeder.role === "Chủ sở hữu");
+      const count = filteredSeeders.length;
+      setSeederCount(count);
+    } catch (error) {
+      console.error("Error fetching seeder count:", error);
+      setError("Error fetching seeder count");
+    }
+  };
+  
+
+  const fetchUserCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-user");
+      const users = response.data; // Assuming the response is an array of users
+      const count = users.length;
+      setUserCount(count);
+    } catch (error) {
+      console.error("Error fetching user count:", error);
+      setError("Error fetching user count");
+    }
+  };
+  const fetchContractCount = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/get-contract");
+      const contracts = response.data; // Assuming the response is an array of users
+      const count = contracts.length;
+      setContractCount(count);
+    } catch (error) {
+      console.error("Error fetching contract count:", error);
+      setError("Error fetching contract count");
+    }
+  };
   return (
     <div className="dashboard">
         <div id="wrapper" className="bg-danger">
-          <ul className="navbar-nav bg-danger-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+          <ul className="navbar-nav bg-secondary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
               <div className="sidebar-brand-icon rotate-n-15">
                
               </div>
               <Navbar.Brand href="Dashboard" className="sidebar-brand-text mx-3 ">DREAMHOME </Navbar.Brand>
-            </a>
-            
-            <hr className="sidebar-divider my-0"/>      
+</a>
+<hr className="sidebar-divider my-0"/>      
             <li className="nav-item active">
               <a className="nav-link" href="index.html">
                 
@@ -24,11 +149,11 @@ const Dashboard = () => {
             <div className="sidebar-heading">
               Interface
             </div>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                 <Nav.Link href="Report">Report</Nav.Link>
               </a>
-            </li>
+            </li> */}
             <li className="nav-item">
               <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                 <Nav.Link href="List_user">List_User</Nav.Link>
@@ -52,36 +177,12 @@ const Dashboard = () => {
                 <Nav.Link href="List_address">List_Addresses</Nav.Link>
               </a>
             </li>
-          
-            
-            
-            <hr className="sidebar-divider" />
-          
-            <div className="sidebar-heading">
-              Addons
-            </div>
-         
             <li className="nav-item">
-              <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                
-                <span>Pages</span>
+              <a className="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <Nav.Link href="List_contract">List_Contracts</Nav.Link>
               </a>
-              
             </li>
-         
-            <li className="nav-item">
-              <a className="nav-link" href="charts.html">
-                
-                <span>Charts</span></a>
-            </li>
-            
-            <li className="nav-item">
-              <a className="nav-link" href="tables.html">
-             
-                <span>Tables</span></a>
-            </li>
-            
-            <hr className="sidebar-divider d-none d-md-block" />
+           
           
            
           </ul>
@@ -95,12 +196,11 @@ const Dashboard = () => {
                 <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">
                   <i className="fa fa-bars" />
                 </button>
-               
-                <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+<form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                   <div className="input-group">
                     <input type="text" className="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />
                     <div className="input-group-append">
-                      <button className="btn btn-danger" type="button">
+                      <button className="btn btn-secondary" type="button">
                         <i className="fas fa-search fa-sm" />
                       </button>
                     </div>
@@ -136,43 +236,7 @@ const Dashboard = () => {
                     </a>
                   
                     <div className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                      <h6 className="dropdown-header">
-                        Alerts Center
-                      </h6>
-                      <a className="dropdown-item d-flex align-items-center" href="#">
-                        <div className="mr-3">
-                          <div className="icon-circle bg-primary">
-                            <i className="fas fa-file-alt text-white" />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="small text-gray-500">December 12, 2019</div>
-                          <span className="font-weight-bold">A new monthly report is ready to download!</span>
-                        </div>
-                      </a>
-                      <a className="dropdown-item d-flex align-items-center" href="#">
-                        <div className="mr-3">
-                          <div className="icon-circle bg-success">
-                            <i className="fas fa-donate text-white" />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="small text-gray-500">December 7, 2019</div>
-                          $290.29 has been deposited into your account!
-                        </div>
-                      </a>
-                      <a className="dropdown-item d-flex align-items-center" href="#">
-                        <div className="mr-3">
-                          <div className="icon-circle bg-warning">
-                            <i className="fas fa-exclamation-triangle text-white" />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="small text-gray-500">December 2, 2019</div>
-                          Spending Alert: We've noticed unusually high spending for your account.
-                        </div>
-                      </a>
-                      <a className="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                     
                     </div>
                   </li>
                  
@@ -182,59 +246,8 @@ const Dashboard = () => {
                     
                     
                     </a>
-                   
-                    <div className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                      <h6 className="dropdown-header">
-                        Message Center
-                      </h6>
-                      <a className="dropdown-item d-flex align-items-center" href="#">
-                        <div className="dropdown-list-image mr-3">
-                          <img className="rounded-circle" src="img/undraw_profile_1.svg" alt="..." />
-                          <div className="status-indicator bg-success" />
-                        </div>
-                        <div className="font-weight-bold">
-                          <div className="text-truncate">Hi there! I am wondering if you can help me with a
-                            problem I've been having.</div>
-                          <div className="small text-gray-500">Emily Fowler · 58m</div>
-                        </div>
-                      </a>
-                      <a className="dropdown-item d-flex align-items-center" href="#">
-                        <div className="dropdown-list-image mr-3">
-                          <img className="rounded-circle" src="img/undraw_profile_2.svg" alt="..." />
-                          <div className="status-indicator" />
-                        </div>
-                        <div>
-                          <div className="text-truncate">I have the photos that you ordered last month, how
-                            would you like them sent to you?</div>
-                          <div className="small text-gray-500">Jae Chun · 1d</div>
-                        </div>
-                      </a>
-                      <a className="dropdown-item d-flex align-items-center" href="#">
-                        <div className="dropdown-list-image mr-3">
-                          <img className="rounded-circle" src="img/undraw_profile_3.svg" alt="..." />
-                          <div className="status-indicator bg-warning" />
-                        </div>
-                        <div>
-                          <div className="text-truncate">Last month's report looks great, I am very happy with
-                            the progress so far, keep up the good work!</div>
-                          <div className="small text-gray-500">Morgan Alvarez · 2d</div>
-                        </div>
-                      </a>
-                      <a className="dropdown-item d-flex align-items-center" href="#">
-                        <div className="dropdown-list-image mr-3">
-                          <img className="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="..." />
-                          <div className="status-indicator bg-success" />
-                        </div>
-                        <div>
-                          <div className="text-truncate">Am I a good boy? The reason I ask is because someone
-                            told me that people say this to all dogs, even if they aren't good...</div>
-                          <div className="small text-gray-500">Chicken the Dog · 2w</div>
-                        </div>
-                      </a>
-                      <a className="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                    </div>
-                  </li>
-                  <div className="topbar-divider d-none d-sm-block" />
+</li>
+<div className="topbar-divider d-none d-sm-block" />
                   
                   <li className="nav-item dropdown no-arrow">
                     <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -249,7 +262,7 @@ const Dashboard = () => {
               <div className="container-fluid">         
                 <div className="d-sm-flex align-items-center justify-content-between mb-4">
                   <h1 className="h3 mb-0 text-gray-800" >Hello Boss</h1>
-                  <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-danger shadow-sm"><i className="fas fa-download fa-sm text-white-50" /> Generate Report</a>
+                  <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm"><i className="fas fa-download fa-sm text-white-50" /> Generate Report</a>
                 </div>       
                 <div className="row">          
                   <div className="col-xl-3 col-md-6 mb-4">
@@ -258,8 +271,15 @@ const Dashboard = () => {
                         <div className="row no-gutters align-items-center">
                           <div className="col mr-2">
                             <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                              Amount Users</div>
-                            <div className="h5 mb-0 font-weight-bold text-gray-800"></div>
+                              Amount Seeder/users</div>
+                              <div className="row no-gutters align-items-center">
+                              <div className="col-auto">
+                                <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                              </div>
+                              <div className="col">
+                              <div className="card-body">{seederCount}/{userCount}</div>
+                              </div>
+                            </div>
                           </div>
                           <div className="col-auto">
                             <i className="fas fa-calendar fa-2x text-gray-300" />
@@ -274,8 +294,15 @@ const Dashboard = () => {
                         <div className="row no-gutters align-items-center">
                           <div className="col mr-2">
                             <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
-                              Amount Seeder</div>
-                            <div className="h5 mb-0 font-weight-bold text-gray-800"></div>
+                              Amount Contarcts</div>
+<div className="row no-gutters align-items-center">
+<div className="col-auto">
+                                <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                              </div>
+                              <div className="col">
+                              <div className="card-body">{contractCount}</div>
+                              </div>
+                              </div>
                           </div>
                           <div className="col-auto">
                             <i className="fas fa-dollar-sign fa-2x text-gray-300" />
@@ -297,9 +324,7 @@ const Dashboard = () => {
                                 <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
                               </div>
                               <div className="col">
-                                <div className="progress progress-sm mr-2">
-                                  <div className="progress-bar bg-info" role="progressbar" style={{width: '50%'}} aria-valuenow={50} aria-valuemin={0} aria-valuemax={100} />
-                                </div>
+                              <div className="card-body">{apartmentCount}</div>
                               </div>
                             </div>
                           </div>
@@ -317,15 +342,23 @@ const Dashboard = () => {
                           <div className="col mr-2">
                             <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
                               Amount Address</div>
-                            <div className="h5 mb-0 font-weight-bold text-gray-800"></div>
+                              <div className="row no-gutters align-items-center">
+                              <div className="col-auto">
+                                <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                              </div>
+                              <div className="col">
+                              <div className="card-body">{addressCount}</div>
+                              </div>
+</div>
                           </div>
-                          <div className="col-auto">
+<div className="col-auto">
                             <i className="fas fa-comments fa-2x text-gray-300" />
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  
                 </div>          
                 <div className="row">
                 </div>          

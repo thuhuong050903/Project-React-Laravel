@@ -1,51 +1,119 @@
-.form-container {
+
+.p-4{
+  
+  width: 100%;
+  border-radius: 0px;
+  line-height: 0.2rem;
+}
+.card {
+  border-radius: 0px;
+}
+.signup-container{
+  margin-top: 9rem;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.signup-form {
+  height: 45rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.col-sm-6{
+  margin-top: 200px;
+}
+.mb-3{
+  text-align: center;
+  
+}
+.title-title {
+  display: block;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+.welcome{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.signup-title{
+  color: #FFFFFF;
+  margin-left: 10px;
+  margin-right: auto;
+  text-align: center;
+}
+.col-lg-6{
+position: absolute;
+width: 30%;
+height: 45rem;
+background: #DA291C;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+text-align: center;
+color: #FFFFFF;
+}
+.signup-mt-6 {
+  width: 30%;
+  margin-top: 70px;
+  height: 40px;
+  border:none;
+  background-color:#FFFFFF;
+  color: #000;
+  font-weight: 600;
+}
+.signin-mt-6 {
+  width: 8rem;
+  margin-top: 4rem;
+  height: 2.7rem;
+  border:none;
+  background-color:#FFFFFF;
+  color: #000;
+  font-weight: 600;
+}
+.mt-4{
+  width: 20%;
+  margin-top: 0px;
+  height: 40px;
+  border:none;
+  background-color: #dd0000;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.mt-4:hover{
+  width: 20%;
+  margin-top: 0px;
+  height: 40px;
+  border:none;
+  background-color: #ee0000;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+
+.social-icons {
   display: flex;
+  margin-top: -20px;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  margin-bottom: 100px;
+}
+.social-icons .icon {
+  width: 100px;
+  height: 60px;
+
+}
+.social-icons a {
+  display: inline-block;
+  margin-right: 10px;
+  color: #000;
+  font-size: 20px;
 }
 
-.form-card {
-  max-width: 400px;
-  padding: 40px;
-  margin: auto;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
 
-.form-card h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
 
-.form-card .form-group {
-  margin-bottom: 15px;
-}
 
-.form-card label {
-  font-weight: bold;
-}
-
-.form-card input[type="text"],
-.form-card input[type="email"],
-.form-card input[type="number"],
-.form-card input[type="password"],
-.form-card input[type="date"] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.form-card button[type="button"] {
-  width: 100%;
-  padding: 10px;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.justify-content-left{
-  margin-top: 130px;
+.error-message {
+  margin-top: 0px;
 }

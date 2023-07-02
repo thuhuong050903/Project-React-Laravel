@@ -1,8 +1,9 @@
 .list_apartment{
-    position: absolute;
-    margin-top: 300px;
-    margin-left: 250px;
-    overflow: scroll;
-    width: 82%;
-    height: 70%;
+  position: absolute;
+  margin-top: 300px;
+  margin-left: 250px;
+  overflow: scroll;
+  width: 82%;
+  height: 70%;
+  background-color: bisque;
 }
