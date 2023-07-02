@@ -69,30 +69,30 @@ class users extends Authenticatable implements JWTSubject
     protected $table = 'users';
     protected $primaryKey = 'id';
 
-    public function rating()
+    public function ratings()
     {
-        return $this->hasMany('App\Models\ratings', 'user_id');
+        return $this->hasMany('App\Models\ratings', 'user_id')->onDelete('cascade');
     }
 
     public function contract()
     {
-        return $this->hasMany('App\Models\contracts', 'user_id');
+        return $this->hasMany('App\Models\contracts', 'user_id')->onDelete('cascade');
     }
     public function apartment()
     {
-        return $this->hasMany('App\Models\apartments', 'user_id');
+        return $this->hasMany('App\Models\apartments', 'user_id')->onDelete('cascade');
     }
     public function book_apartment()
     {
-        return $this->hasMany('App\Models\book_apartments', 'user_id');
+        return $this->hasMany('App\Models\book_apartments', 'user_id')->onDelete('cascade');
     }
     public function appointment()
     {
-        return $this->hasMany('App\Models\appointments', 'user_id');
+        return $this->hasMany('App\Models\appointments', 'user_id')->onDelete('cascade');
     }
     public function apartmentIssue()
     {
-        return $this->hasMany('App\Models\apartmentIssue', 'user_id');
+        return $this->hasMany('App\Models\apartmentIssue', 'user_id')->onDelete('cascade');
     }
 }
 

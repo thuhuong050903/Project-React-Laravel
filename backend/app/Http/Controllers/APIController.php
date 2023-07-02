@@ -3,21 +3,46 @@ namespace App\Http\Controllers;
 use App\Models\addresses;
 use App\Models\apartments;	
 use App\Models\users;
+use App\Models\contracts;
 use App\Models\book_apartments;						
 use Illuminate\Http\Request;							
 use Illuminate\Support\Facades\File;	
-use App\Models\Images;												
+use App\Models\apartmentImages;												
 class APIController extends Controller							
 {							
 public function getApartments()							
 {							
-$apartments = apartments::all();							
+    $apartments = Apartments::with([
+        'apartmentImage' => function ($query) {
+            $query->select('apartment_id', 'name');
+        },
+        'addresses' => function ($query) {
+            $query->select('address_id', 'number', 'street', 'ward', 'district');
+        }
+    ])->get();
 return response()->json($apartments);							
 }							
 public function getOneApartments($id)							
 {							
-$apartments = apartments::find($id);							
-return response()->json($apartments);							
+    $apartment = Apartments::with([
+        'apartmentImage' => function ($query) {
+            $query->select('apartment_id', 'name');
+        },
+        'users' => function ($query) {
+            $query->select('id', 'username');
+        },
+        'addresses' => function ($query) {
+            $query->select('address_id', 'number', 'street', 'ward', 'district');
+        },
+        'services' => function ($query) use ($id) {
+            $query->select('services.service_id', 'services.description')
+                ->join('service_apartment as sa', 'services.service_id', '=', 'sa.service_id')
+                ->where('sa.apartment_id', $id);
+        }
+        
+    ])->find($id);
+
+    return response()->json($apartment);							
 }							
 public function addApartments(Request $request)							
 {							
@@ -191,10 +216,26 @@ public function deleteUsers($id)
 
 
 
-//image
+
+public function getContracts()							
+{							
+$contracts = contracts::all();							
+return response()->json($contracts);							
+}	
 
 
 
+public function getSeederApartments($id)
+{
+    $apartments = apartments::where('user_id', $id)->get();
+    return response()->json($apartments);
+}
+
+public function getSeederInfo($userId)
+{
+    $seederInfo = users::findOrFail($userId);
+    return response()->json($seederInfo);
+}
 
 
 

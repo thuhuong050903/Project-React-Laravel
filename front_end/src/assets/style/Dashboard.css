@@ -2228,7 +2228,9 @@ html{
   .form-inline .form-check {
     width: 100%;
   }
-  
+  .content-wrapper {
+    z-index: -1;
+  }
   @media (min-width: 576px) {
     .form-inline label {
       display: flex;
