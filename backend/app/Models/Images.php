@@ -9,7 +9,7 @@ class Images extends Model
 {
     use HasFactory;
     protected $table ="apartment_images";
-    protected $fillable=['name'];
+    protected $fillable=['apartment_id','name'];
     protected $primaryKey = 'image_id';
     public function apartments()
     {

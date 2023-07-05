@@ -24,29 +24,23 @@ public function getApartments()
         }
     ])->get();
 return response()->json($apartments);							
-}							
-public function getOneApartments($id)							
-{							
+}					
+		
+public function getOneApartments($id)
+{
     $apartment = Apartments::with([
         'apartmentImage' => function ($query) {
             $query->select('apartment_id', 'name');
         },
-        'users' => function ($query) {
-            $query->select('id', 'username');
-        },
-        'addresses' => function ($query) {
-            $query->select('address_id', 'number', 'street', 'ward', 'district');
-        },
-        'services' => function ($query) use ($id) {
-            $query->select('services.service_id', 'services.description')
-                ->join('service_apartment as sa', 'services.service_id', '=', 'sa.service_id')
-                ->where('sa.apartment_id', $id);
+        'users',
+        'addresses',
+        'service_apartment' => function ($query) {
+            $query->with('services');
         }
-        
     ])->find($id);
-
-    return response()->json($apartment);							
-}							
+    return response()->json($apartment);
+}
+						
 public function addApartments(Request $request)							
 {							
 $apartments = new apartments();							
@@ -237,17 +231,24 @@ public function deleteUsers($id)
 
 
 
-public function getContracts()							
-{							
-$contracts = contracts::all();							
-return response()->json($contracts);							
-}	
+public function getContracts()
+{
+    try {
+        $contracts = contracts::with('apartment', 'user')
+            ->select('contract_id','user_id','apartment_id', 'start_date', 'end_date')
+            ->get();
+        return response()->json($contracts);
+    } catch (\Exception $e) {
+        return response()->json($e, 500);
+    }
+}
+
 
 
 
 public function getSeederApartments($id)
 {
-    $apartments = apartments::with('apartmentImage','users')->where('user_id', $id)->get();
+    $apartments = apartments::where('user_id', $id)->get();
     return response()->json($apartments);
 }
 
@@ -257,6 +258,17 @@ public function getSeederInfo($userId)
     return response()->json($seederInfo);
 }
 
+public function updateUser(Request $request, $id)
+{
+    try {
+        $user = users::findOrFail($id);
+        $user->status = $request->input('status', 'Active');
+        $user->save();
+        return response()->json(['message' => 'Cập nhật trạng thái thành công']);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật trạng thái'], 500);
+    }
+}
 
 
 

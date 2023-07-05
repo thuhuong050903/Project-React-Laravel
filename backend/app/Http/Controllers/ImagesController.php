@@ -22,7 +22,6 @@ class ImagesController extends Controller
             $file = $request->file('file');
             $filename = time() . '_' . $file->getClientOriginalName();
             $file->move(public_path('photos'), $filename);
-            // Save the photo information to the database
             $image = new Images();
             $image->name = $filename;
             $image->apartment_id = $apartmentId;

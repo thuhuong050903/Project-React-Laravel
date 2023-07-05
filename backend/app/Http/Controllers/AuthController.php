@@ -30,7 +30,7 @@ class AuthController extends Controller
      */
     public function login()
     {
-        $credentials = request(['email', 'password']);
+        $credentials = request(['email', 'password','status']);
     
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -46,7 +46,8 @@ class AuthController extends Controller
     {
         $credentials = request(['username', 'fullname', 'email', 'phone', 'address', 'password', 'birthday', 'role']);
         $credentials['password'] = bcrypt($credentials['password']);
-    
+        $credentials['status'] = 'Active'; // Thêm trường status với giá trị Active
+
         // Kiểm tra email đã được sử dụng chưa
         $existingUsers = users::where('email', $credentials['email'])->get();
         $numExistingUsers = $existingUsers->count();

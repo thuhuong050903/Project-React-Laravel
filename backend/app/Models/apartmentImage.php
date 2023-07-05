@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class apartmentImage extends Model
 {
     use HasFactory;
-    protected $fillable=['name'];
-    protected $primaryKey = 'id';
+    protected $table = "apartment_images";
+    protected $primaryKey = 'image_id';
+
     public function apartments()
     {
         return $this->belongsTo(apartments::class, 'apartment_id')->onDelete('cascade');

@@ -7,3 +7,30 @@
   height: 70%;
   background-color: bisque;
 }
+
+.user-listApartment {
+  display: flex;
+  margin-top: 10rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.filter-apartment ul li{
+  list-style-type: none;
+  background-color: rgb(240, 238, 238);
+  margin: 0.2rem;
+  border: 1px solid #605f5f;
+  width: 7rem;
+}
+.filter-apartment {
+  width: 20%;
+}
+.show-apartment {
+  width: 80%;
+}
+.apartment-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+}

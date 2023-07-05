@@ -16,18 +16,7 @@ function AppManagement() {
         <div className="content-header">
           <div className="container-fluid">
             <div className="row mb-2">
-              <Routes>
-                <Route
-                  exact
-                  path="/confirmappointment"
-                  element={<Confirmappointment />}
-                ></Route>
-                <Route path="/contact" element={<Contact />} />
-                <Route
-                  path="/apartment"
-                  element={<Apartment user_id={id} />} // Truyền ID người dùng vào prop user_id
-                />
-              </Routes>
+              
             </div>
           </div>
         </div>
