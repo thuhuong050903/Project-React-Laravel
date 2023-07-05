@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import "../../assets/style/Header.css";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faCog } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding } from "@fortawesome/free-regular-svg-icons";
+import { faUser, faCog,faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 const Header = () => {
   const user = JSON.parse(sessionStorage.getItem('user'));
-   
+  const handleLogout = () => {
+    sessionStorage.removeItem("user");
+    window.location.href="/sign-in";
+  };
   return (
     <div className="nav-bar">
       <div className="top-bar">
@@ -27,16 +31,29 @@ const Header = () => {
               </Link>
 
               <div className="float-right">
-        {user ? (
+              {user ? (
           <>
+            {user.role === "Nguoi cho thue" && (
+              <Link to="/lessor/dashboard" >
+                <FontAwesomeIcon icon={faBuilding} className="mr-2"/>
+                <span className="d-none d-md-inline-block">Quản lí tài sản</span>
+                <span className="mx-md-2 d-inline-block"></span>
+              </Link>
+              
+            )}
             <Link to="/" className="">
-            <FontAwesomeIcon icon={faUser} className="mr-2" />
-              <span className="d-none d-md-inline-block" >{user.username}</span>
+              <FontAwesomeIcon icon={faUser} className="mr-2" />
+              <span className="d-none d-md-inline-block">{user.username}</span>
             </Link>
             <span className="mx-md-2 d-inline-block"></span>
             <Link to="/user-profile" className="">
-            <FontAwesomeIcon icon={faCog} className="mr-2" />
+              <FontAwesomeIcon icon={faCog} className="mr-2" />
               <span className="d-none d-md-inline-block">Cài đặt</span>
+            </Link>
+            <span className="mx-md-2 d-inline-block"></span>
+            <Link to="#" className="" onClick={handleLogout}>
+              <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+              <span className="d-none d-md-inline-block">Đăng xuất</span>
             </Link>
           </>
         ) : (
@@ -71,7 +88,8 @@ const Header = () => {
             <div className="row align-items-center position-relative">
               <div className="site-logo">
                 <Link to="/" className="">
-                  <span className="" style={{color:"#ee0000", fontSize:"24px",fontFamily:"Segoe UI",fontWeight:700,textDecorationLine:"underline"}}>Dream Apartments</span>
+                  
+                  <span className="" style={{color:"#ee0000", fontSize:"24px",fontFamily:"Segoe UI",fontWeight:700,letterSpacing:"nomarl"}}>Dream Apartments</span>
                 </Link>
               </div>
               <div className="col-12">
@@ -92,17 +110,17 @@ const Header = () => {
                     </li>
                     <li className="has-children">
                       <Link to="/list-apartment" className="nav-link">
-                        Loại phòng
+                        Căn hộ
                       </Link>
                       <ul className="dropdown arrow-top">
                         <li>
-                          <Link to="#team-section" className="nav-link">
-                            Phòng ngắn hạn
+                          <Link to="/short-term-apartments" className="nav-link">
+                            Ngắn hạn
                           </Link>
                         </li>
                         <li>
-                          <Link to="#pricing-section" className="nav-link">
-                            Phòng dài hạn
+                          <Link to="/long-term-apartments" className="nav-link">
+                            Dài hạn
                           </Link>
                         </li>
                       </ul>
@@ -123,8 +141,8 @@ const Header = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="#contact-section" className="nav-link">
-                        Đối tác
+                      <Link to="/history" className="nav-link">
+                        Lịch sử
                       </Link>
                     </li>
                   </ul>

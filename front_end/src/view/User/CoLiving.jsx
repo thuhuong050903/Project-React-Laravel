@@ -17,9 +17,7 @@ const CoLiving = () => {
       .then((data) => setApartments(data));
   }, []);
 
-  const handleAddToCart = (apartment) => {
-    addToCart(apartment);
-  };
+
 
   const settings = {
     dots: true,
@@ -268,7 +266,7 @@ const CoLiving = () => {
                     ))}
                   </Slider>
                 </div>
-                <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.addresses.ward} - {apartment.addresses.district}</div>
+                <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.ward} - {apartment.district}</div>
                 <div className='apartment-price'>{apartment.price} đ</div>
                 <div className='apartment-item'>
                   <FontAwesomeIcon icon={faBuilding} className="icon" style={{ color: '#555555' }} />&nbsp;
@@ -280,7 +278,7 @@ const CoLiving = () => {
                 </div>
                 <div className='address'>
                   <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
-                  {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
+                  {apartment.number_address}, {apartment.street}, {apartment.ward}, {apartment.district}
                 </div>
               </Link>
               </div>

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Mail\GuiEmail;
 use App\Models\addresses;
 use App\Models\apartments;
 use App\Models\Appointments;
+use App\Models\contracts;
 use App\Models\users;
 // use App\Models\book_apartments;						
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ class ApointmentController extends Controller
 {
     public function getApartments()
     {
-        $apartments = apartments::all();
+        $apartments = apartments::orderByDesc('apartment_id')->get();
         return response()->json($apartments);
     }
     public function getOneApartments($id)
@@ -71,7 +71,7 @@ class ApointmentController extends Controller
             $apartment->address_id = intval($request->input('address_id'));
             $apartment->type_room = $request->input('type_room');
             $apartment->save();
-            return response()->json(['message' => 'Cập nhật căn hộ thành công'], 200);
+return response()->json(['message' => 'Cập nhật căn hộ thành công'], 200);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Đã xảy ra lỗi khi cập nhật căn hộ:' . $e->getMessage()], 500);
         }
@@ -79,11 +79,19 @@ class ApointmentController extends Controller
 
 
     ///------------Get Appointment----------///
-    public function getAppointment()
+    public function getAppointment($userId)
     {
-        $appointments = Appointments::with('users:id,fullname,email')->get();
+        $appointments = Appointments::with('apartments', 'users')
+            ->whereHas('apartments', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->join('users', 'users.id', '=', 'appointments.user_id')
+            ->select('appointments.*', 'users.fullname', 'users.email')
+            ->get();
+
         return response()->json($appointments);
     }
+
 
     public function getOneAppointment($id)
     {
@@ -106,6 +114,21 @@ class ApointmentController extends Controller
 
         return response()->json(['message' => 'Appointment status updated successfully']);
     }
+        ///=----------contract update------------///////////
+        public function updateContracts(Request $request, $id)
+    {
+        // Lấy thông tin cần cập nhật từ request
+        $contracts = $request->input('contracts');
+
+        // Cập nhật giá trị contracts trong cơ sở dữ liệu
+        $appointment = Appointments::find($id);
+        if (!$appointment) {
+            return response()->json(['message' => 'Appointment not found'], 404);
+        }
+        $appointment->update(['contracts' => $contracts]);
+
+        return response()->json(['message' => 'Contracts updated successfully']);
+    }
 
 
 
@@ -127,16 +150,44 @@ class ApointmentController extends Controller
     //     Mail::to(request(['email']))->send(new GuiEmail());
     // }
 
+    //-------get contracs----//
+    public function getContracts($userId)
+    {
+        $contracts = contracts::with('apartment', 'user')
+            ->whereHas('apartment', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+          
+            ->get();
+        return response()->json($contracts);
+    }
+
+    public function getaddContracts()
+    {
+        $contracts = Appointments::all();
+        return response()->json($contracts);
+    }
 
 
+    public function getOneContracts($id)
+    {
+        $contracts = contracts::find($id);
+        return response()->json($contracts);
+    }
 
+    public function addContracts(Request $request)
+    {
+        $contracts = new contracts;
+        $contracts->user_id = intval($request->input('user_id'));
+        $contracts->apartment_id = intval($request->input('apartment_id'));
+        $contracts->start_date = $request->input('start_date');
+        $contracts->end_date = $request->input('end_date');
+        $contracts->save();
+        return $contracts;
+    }
 
-
-
-
-
+    
     // user
-
     public function getUser()
     {
         $users = users::all();
@@ -164,13 +215,4 @@ class ApointmentController extends Controller
             return response()->json(['message' => 'Đã xảy ra lỗi khi xóa người dùng: ' . $e->getMessage()], 500);
         }
     }
-
-
-
-
-
-    // seeder
-
-
-
 }

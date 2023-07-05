@@ -1,0 +1,41 @@
+.add-photo-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-photo-form h2 {
+    margin-top: 0;
+  }
+  
+  .add-photo-form input[type="file"] {
+    margin-bottom: 10px;
+  }
+  
+  .add-photo-form button {
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .add-photo-form button:hover {
+    background-color: #45a049;
+  }
+  
+  .add-photo-form div {
+    margin-top: 10px;
+  }
+
+  .formaddphoto{
+    background-color: aqua;
+    padding: 5%;
+    width: 100%;
+  }
+  .related-photos{
+    background-color: rgb(74, 74, 74);
+    padding: 20px;
+  }

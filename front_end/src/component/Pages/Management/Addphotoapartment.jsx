@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "../../../assets/style/AddPhotoForm.css";
+import "../../../assets/style/RelatedPhoto.css";
 
 class AddPhotoForm extends Component {
   constructor(props) {

@@ -27,6 +27,7 @@ function App() {
             {routes.commonRoutes.map(route => (
               <Route key={route.path} path={route.path} element={route.element} />
             ))}
+            
           </Routes>
           </div>
           <Footer />
