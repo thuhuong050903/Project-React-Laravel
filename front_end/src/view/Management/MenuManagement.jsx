@@ -1,101 +1,124 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 
-class MenuManagement extends Component {
-  render() {
-    return (
-      <div>
-        <aside className="main-sidebar sidebar-dark-primary elevation-4" style={{ height: "100%" }}>
-          {/* Brand Logo */}
-          <a href="index3.html" className="brand-link">
-            {/* <img
-              src="dist/img/management.jpg"
-              alt="management"
-              className="brand-image img-circle elevation-3"
-              style={{ opacity: ".8" }}
-            /> */}
-            <span className="brand-text font-weight-light">Management </span>
-          </a>
-          {/* Sidebar */}
-          <div className="sidebar">
-            {/* Sidebar user panel (optional) */}
+const MenuManagement = () => {
+  const [hasNewAppointment, setHasNewAppointment] = useState(false);
+  const [isNotificationSeen, setNotificationSeen] = useState(false);
 
-            {/* SidebarSearch Form */}
-            <div className="form-inline">
-              <div className="input-group" data-widget="sidebar-search">
-                <input
-                  className="form-control form-control-sidebar"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <div className="input-group-append">
-                  <button className="btn btn-sidebar">
-                    <i className="fas fa-search fa-fw" />
-                  </button>
-                </div>
-              </div>
-            </div>
-            {/* Sidebar Menu */}
-            <nav className="mt-2">
-              <ul
-                className="nav nav-pills nav-sidebar flex-column"
-                data-widget="treeview"
-                role="menu"
-                data-accordion="false"
-              >
-        
+  useEffect(() => {
+    checkNewAppointment();
+  }, []);
 
-                <Link to={`./contact`}>
-                  <li className="nav-item">
-                    <a className="nav-link">
-                      <i className="nav-icon fas fa-tree" />
-                      <p>
-                        Contact
-                        <i className="fas fa-angle-left right" />
-                      </p>
-                    </a>
-                  </li>
-                </Link>
+  const checkNewAppointment = () => {
+    axios
+      .get("https://63a57216318b23efa793a737.mockapi.io/api/appointment")
+      .then((response) => {
+        const appointments = response.data;
+        const hasNewAppointment = appointments.length > 0;
+        setHasNewAppointment(hasNewAppointment);
+      })
+      .catch((error) => {
+        console.error("Error fetching new appointment:", error);
+      });
+  };
 
-                <Link to={`./confirmappointment`}>
-                  <li className="nav-item">
-                    <a href="#" className="nav-link">
-                      <i className="nav-icon fas fa-chart-pie" />
-                      <p>
-                      Confirm Appointment
-                        <i className="right fas fa-angle-left" />
-                      </p>
-                    </a>
-                  </li>
-                </Link>
+  const handleConfirmAppointmentClick = () => {
+    axios
+      .get("https://63a57216318b23efa793a737.mockapi.io/api/appointment")
+      .then((response) => {
+        const appointments = response.data;
+  
+        appointments.forEach((appointment) => {
+          axios
+            .delete(
+              `https://63a57216318b23efa793a737.mockapi.io/api/appointment/${appointment.id}`
+            )
+            .then(() => {
+              console.log(
+                `Appointment ${appointment.id} deleted successfully!`
+              );
+            })
+            .catch((error) => {
+              console.error(
+                `Error deleting appointment ${appointment.id}:`,
+                error
+              );
+            });
+        });
+  
+        setNotificationSeen(true);
+      })
+      .catch((error) => {
+        console.error("Error fetching appointment data:", error);
+      });
+  };
+  
+  
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
-                <Link to={`./apartment`}>
-                  <li className="nav-item">
-                    <a className="nav-link">
-                      <i className="far fa-circle nav-icon" />
-                      <p>My Apartment</p>
-                    </a>
-                  </li>
-                </Link>
+  return (
+    <div style={{ marginTop: "5rem" }}>
+      <div className="sidebar" style={{ borderRight: "1px solid #ddd", paddingTop: "4rem" }}>
+        <nav className="mt-2">
+          <ul
+            className="nav nav-pills nav-sidebar flex-column"
+            data-widget="treeview"
+            role="menu"
+            data-accordion="false"
+          >
+            <Link to={`./contact`}>
+              <li className="nav-item">
+                <a className="nav-link">
+                  <i className="nav-icon fas fa-tree" />
+                  <p>
+                    Contact
+                    <i className="fas fa-angle-left right" />
+                  </p>
+                </a>
+              </li>
+            </Link>
 
-                <Link to={`./address`}>
-                  <li className="nav-item">
-                    <a className="nav-link">
-                      <i className="far fa-circle nav-icon" />
-                      <p>Address table</p>
-                    </a>
-                  </li>
-                </Link>
+            <Link to={`/lessor/appointments`}>
+              <li className={`nav-item ${hasNewAppointment && !isNotificationSeen ? "text-danger" : ""}`}>
+                <a href="#" className="nav-link" onClick={handleConfirmAppointmentClick}>
+                  <i className="nav-icon fas fa-chart-pie" />
+                  <p>
+                    Xác nhận cuộc hẹn
+                    {hasNewAppointment && !isNotificationSeen && <span>&nbsp;</span>}
+                    {hasNewAppointment && !isNotificationSeen && (
+                      <FontAwesomeIcon icon={faBell} style={{ color: "red" }} />
+                    )}
+                    <i className="right fas fa-angle-left" />
+                  </p>
+                </a>
+              </li>
+            </Link>
 
-              </ul>
-            </nav>
-          </div>
-          {/* /.sidebar */}
-        </aside>
+            <Link to={`/lessor/get-apartments-byLessorId/${user.id}`}>
+              <li className="nav-item">
+                <a className="nav-link">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Danh sách căn hộ</p>
+                </a>
+              </li>
+            </Link>
+
+            <Link to={`/lessor/contracts`}>
+              <li className="nav-item">
+                <a className="nav-link">
+                  <i className="far fa-circle nav-icon" />
+                  <p>Danh sách hợp đồng</p>
+                </a>
+              </li>
+            </Link>
+          </ul>
+        </nav>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default MenuManagement;

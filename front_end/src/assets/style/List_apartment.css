@@ -1,0 +1,13 @@
+.list_apartment{
+    top: 20px;
+    margin-left: 230px;
+    overflow: scroll;
+    width: 84%;
+  }
+  .watch-detail{
+    background: linear-gradient(to right, #7A7FBA, #FF0000);
+  }
+  .watch-image{
+    background: linear-gradient(to right, #7A7FBA, #FF0000);
+  }
+  

@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Button, Form, Col } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagram, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
-
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import AuthUser from '../AuthUser';
 import '../../assets/style/SignUp.css';
 
@@ -17,190 +17,167 @@ export default function SignUp() {
   const [address, setAddress] = useState('');
   const [birthday, setBirthday] = useState('');
   const [role, setRole] = useState('');
+  const [status, setStatus]=useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    const isValid = validateForm();
+    setIsLoading(true);
 
-    if (isValid) {
-      setIsLoading(true);
-
-      http
-        .post("/register", {
-          username: username,
-          fullname: fullname,
-          email: email,
-          phone: phone,
-          address: address,
-          password: password,
-          birthday: birthday,
-          role: role,
-        })
-        .then((res) => {
-          alert("You registered successfully!");
-          navigate("/sign-in");
-        })
-        .catch((error) => {
-          alert("Email already exists. Please enter a different email!");
-          setIsLoading(false);
-        });
+    try {
+      const response = await http.post("/register", {
+        username: username,
+        fullname: fullname,
+        email: email,
+        phone: phone,
+        address: address,
+        password: password,
+        birthday: birthday,
+        role: role,
+      });
+      alert("You registered successfully!");
+      navigate("/sign-in");
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.errors) {
+        setFormErrors(error.response.data.errors);
+      } else {
+        alert("An error occurred. Please try again later.");
+      }
+      setIsLoading(false);
     }
   };
 
 
-
   return (
-    <div className="container">
-      <div className="row signup-form">
+      <div className="row signup-form" style={{margin:"9rem auto"}}>
         <div className="col-lg-6">
           <div className="social-icons">
             <FontAwesomeIcon className="icon" icon={faFacebookSquare} />
-             <FontAwesomeIcon className="icon" icon={faInstagram} />
+            <FontAwesomeIcon className="icon" icon={faInstagram} />
             <FontAwesomeIcon className="icon" icon={faTwitterSquare} />
           </div>
           <h1 className="welcome">Chào mừng đến với DreamHome!</h1>
           <h3 className="signup-title"> Hãy đăng nhập để tìm được căn hộ phù hợp ! </h3>
-<button type="button">
-                    <Nav.Link href="/sign-in" className="signin-mt-6" style={{fontWeight: 500}}>Đăng nhập</Nav.Link></button>
+          <Button variant="primary" href="/sign-in" className="signin-mt-6" style={{ fontWeight: 500, backgroundColor:"#ffffff", color:"#000", border:"none"}}>
+            Đăng nhập
+          </Button>
         </div>
         <div className="col-sm-6 sign-up-card">
           <div className="p-4">
             <h1 className="text-center mb-3">Tạo tài khoản mới</h1>
-            <form onSubmit={submitForm}>
-              <div className="form-group">
-                <label className="title-title" htmlFor="username">
-                  Tên tài khoản:
-                </label>
-                <input
+            <Form onSubmit={submitForm}>
+              <Form.Group controlId="username">
+                <Form.Label className="title-title">Tên tài khoản:</Form.Label>
+                <Form.Control
                   type="text"
-                  className="form-control"
                   placeholder="Nhập tên"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  id="username"
                   required
                 />
                 {formErrors.username && <div className="error-message">{formErrors.username}</div>}
-              </div>
-              <div className="form-group mt-3">
-                <label className="title-title" htmlFor="fullname">
-                  Tên đầy đủ:
-                </label>
-                <input
+              </Form.Group>
+              <Form.Group controlId="fullname" className="mt-3">
+                <Form.Label className="title-title">Tên đầy đủ:</Form.Label>
+                <Form.Control
                   type="text"
-                  className="form-control"
                   placeholder="Tên đầy đủ"
                   value={fullname}
                   onChange={(e) => setFullname(e.target.value)}
-                  id="fullname"
                   required
                 />
                 {formErrors.fullname && <div className="error-message">{formErrors.fullname}</div>}
-              </div>
-              <div className="form-group mt-3">
-                <label className="title-title" htmlFor="email">
-                  Email:
-                </label>
-                <input
+              </Form.Group>
+              <Form.Group controlId="email" className="mt-3">
+                <Form.Label className="title-title">Email:</Form.Label>
+                <Form.Control
                   type="email"
-                  className="form-control"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  id="email"
                   required
                 />
                 {formErrors.email && <div className="error-message">{formErrors.email}</div>}
-              </div>
-              <div className="form-group mt-3">
-                <label className="title-title" htmlFor="phone">
-                  Số điện thoại:
-                </label>
-                <input
+              </Form.Group>
+              <Form.Group controlId="phone" className="mt-3">
+                <Form.Label className="title-title">Số điện thoại:</Form.Label>
+                <Form.Control
                   type="number"
-                  className="form-control"
                   placeholder="Số điện thoại"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  id="phone"
                   required
                 />
                 {formErrors.phone && <div className="error-message">{formErrors.phone}</div>}
-              </div>
-              <div className="form-group mt-3">
-                <label className="title-title" htmlFor="address">
-                  Địa chỉ:
-                </label>
-                <input
-type="text"
-                  className="form-control"
+              </Form.Group>
+              <Form.Group controlId="address" className="mt-3">
+                <Form.Label className="title-title">Địa chỉ:</Form.Label>
+                <Form.Control
+                  type="text"
                   placeholder="Địa chỉ"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  id="address"
                   required
                 />
                 {formErrors.address && <div className="error-message">{formErrors.address}</div>}
-              </div>
-              <div className="form-group mt-3">
-                <label className="title-title" htmlFor="pwd">
-                  Mật khẩu:
-                </label>
-                <input
+              </Form.Group>
+              <Form.Group controlId="pwd" className="mt-3">
+                <Form.Label className="title-title">Mật khẩu:</Form.Label>
+                <Form.Control
                   type="password"
-                  className="form-control"
                   placeholder="Mật khẩu"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  id="pwd"
                   required
                 />
                 {formErrors.password && <div className="error-message">{formErrors.password}</div>}
-              </div>
-              <div className="form-group mt-3">
-                <label className="title-title" htmlFor="birthday">
-                 Ngày sinh:
-                </label>
-                <input
+              </Form.Group>
+              <Form.Group controlId="birthday" className="mt-3">
+                <Form.Label className="title-title">Ngày sinh:</Form.Label>
+                <Form.Control
                   type="date"
-                  className="form-control"
                   placeholder="Ngày sinh"
                   value={birthday}
                   onChange={(e) => setBirthday(e.target.value)}
-                  id="birthday"
                   required
                 />
                 {formErrors.birthday && <div className="error-message">{formErrors.birthday}</div>}
-              </div>
-              <div className="form-group mt-3">
-                <label className="title-title" htmlFor="role">
-                  Đăng kí với tư cách:
-                </label>
-                <select
-                  className="form-control"
+              </Form.Group>
+              <Form.Group controlId="role" className="mt-3">
+                <Form.Label className="title-title">Đăng kí với tư cách:</Form.Label>
+                <Form.Select
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  id="role"
                   required
                 >
                   <option value="">Select role</option>
                   <option value="Nguoi cho thue">Người cho thuê</option>
                   <option value="Nguoi thue">Người thuê</option>
-                </select>
+                </Form.Select>
                 {formErrors.role && <div className="error-message">{formErrors.role}</div>}
-              </div>
-              <button type="submit" className="mt-4">
-                Đăng kí
-              </button>
-              {isLoading && <div>Loading</div>}
-            </form>
+              </Form.Group>
+              <Button
+      type="submit"
+      className="btn-signup"
+      onClick={submitForm}
+      style={{ backgroundColor: "#DA291C", border: "none", marginTop: "1rem", marginLeft: "9rem" }}
+      disabled={isLoading} // Disable nút khi đang tải
+    >
+      {isLoading ? (
+        <>
+        <FontAwesomeIcon icon={faSpinner} spin style={{ marginRight: "0.5rem" }} />
+        Đang đăng kí...
+      </>
+      ) : (
+        "Đăng kí"
+      )}
+    </Button>
+            </Form>
           </div>
         </div>
       </div>
-    </div>
   );
 }

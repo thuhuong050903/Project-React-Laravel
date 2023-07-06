@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import "bootstrap/dist/css/bootstrap.css";
-import "../../assets/style/ListApartment.css";
+import "../../assets/style/List_apartment.css";
+
 class AdminListContract extends Component {
   constructor(props) {
     super(props);
     this.state = {
       contracts: [],
       error: null,
-     
     };
   }
 
@@ -21,34 +21,7 @@ class AdminListContract extends Component {
     try {
       const response = await axios.get("http://localhost:8000/api/get-contract");
       const contracts = response.data;
-
-      const updatedContracts = await Promise.all(
-        contracts.map(async (contract) => {
-          const apartmentId = contract.apartment_id;
-          const userId = contract.user_id;
-
-          // Truy vấn thông tin căn hộ
-          const [apartmentResponse, userResponse, addressResponse] = await Promise.all([
-            axios.get(`http://localhost:8000/api/get-apartment/${apartmentId}`),
-            axios.get(`http://localhost:8000/api/get-user/${userId}`),
-            axios.get(`http://localhost:8000/api/get-address/${apartmentId}`)
-          ]);
-
-          const apartment = apartmentResponse.data;
-          const user = userResponse.data;
-          const address = addressResponse.data;
-
-          // Tạo đối tượng hợp đồng mới chứa thông tin từ cả căn hộ và người dùng
-          return {
-            ...contract,
-            apartment,
-            user,
-            address,
-          };
-        })
-      );
-
-      this.setState({ contracts: updatedContracts });
+      this.setState({ contracts });
     } catch (error) {
       console.error("Error fetching contracts:", error);
       this.setState({ error: "Error fetching contracts" });
@@ -65,8 +38,13 @@ class AdminListContract extends Component {
         sortable: true,
       },
       {
-        name: "User Name",
+        name: "User name",
         selector: "user.username",
+        sortable: true,
+      },
+      {
+        name: "Full name",
+        selector: "user.fullname",
         sortable: true,
       },
       {
@@ -75,23 +53,28 @@ class AdminListContract extends Component {
         sortable: true,
       },
       {
-        name: "Apartment description",
+        name: "User Address",
+        selector: "user.address",
+        sortable: true,
+      },
+      {
+        name: "User Birthday",
+        selector: "user.birthday",
+        sortable: true,
+      },
+      {
+        name: "Apartment Description",
         selector: "apartment.description",
         sortable: true,
       },
       {
-        name: "Apartment price",
+        name: "Apartment Price",
         selector: "apartment.price",
         sortable: true,
       },
       {
-        name: "Room Number",
+        name: "Number Room",
         selector: "apartment.number_room",
-        sortable: true,
-      },
-      {
-        name: "Room Type",
-        selector: "apartment.type_room",
         sortable: true,
       },
       {
@@ -100,14 +83,31 @@ class AdminListContract extends Component {
         sortable: true,
       },
       {
-        name: "Address",
-        selector: "address",
-        cell: (row) => {
-          const {number, street, ward, district } = row.address;
-          return `${number},${street}, ${ward}, ${district}`;
-        },
+        name: "Type Room",
+        selector: "apartment.type_room",
         sortable: true,
       },
+      {
+        name: "Number Address",
+        selector: "apartment.number_address",
+        sortable: true,
+      },
+      {
+        name: "Street",
+        selector: "apartment.street",
+        sortable: true,
+      },
+      {
+        name: "Ward",
+        selector: "apartment.ward",
+        sortable: true,
+      },
+      {
+        name: "District",
+        selector: "apartment.district",
+        sortable: true,
+      },
+     
       {
         name: "Start Date",
         selector: "start_date",
@@ -126,16 +126,15 @@ class AdminListContract extends Component {
     }
 
     return (
-      <div className="list_apartment">
-        <div className="button-container"></div>
+      <div className="list_apartment" style={{ zIndex: 9999,backgroundColor:"#ffffff",marginTop:"2.2rem",marginLeft:"14rem",height:"50rem", border:"1px solid grey", width:"82%"}}>
         <DataTable
-          title="Contracts List"
+          title="List Contracts"
           columns={columns}
           data={contracts}
           paginationPerPage={5}
           defaultSortField="contract_id"
           pagination
-        />
+/>
       </div>
     );
   }

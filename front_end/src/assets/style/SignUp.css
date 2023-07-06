@@ -8,13 +8,18 @@
 .card {
   border-radius: 0px;
 }
+
+.btn-signup {
+  background-color: #DA291C;
+}
 .signup-container{
   margin-top: 9rem;
-  width: 70%;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
 }
 .signup-form {
+  width: 70%;
   height: 45rem;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
@@ -112,8 +117,22 @@ color: #FFFFFF;
 }
 
 
-
-
+/* Thêm CSS cho thông báo lỗi */
 .error-message {
-  margin-top: 0px;
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+/* Thêm CSS để tránh chồng lấn lên ô input */
+.form-group {
+  position: relative;
+}
+
+.form-group .title-title {
+  position: absolute;
+  top: -1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #495057;
 }

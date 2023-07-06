@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
@@ -29,23 +31,60 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function login()
-    {
-        $credentials = request(['email', 'password']);
-    
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-    
-        $user = auth()->user();
-        $role = $user->role; // Retrieve the role of the authenticated user
-    
-        return $this->respondWithToken($token, $role);
+{
+    $credentials = request(['email', 'password', 'status']);
+
+    if (empty($credentials['email']) || empty($credentials['password'])) {
+        return response()->json(['error' => 'Email and password are required'], 400);
     }
+
+    // Kiểm tra xem người dùng đã nhập dữ liệu hay chưa
+    if (empty($credentials['email']) || empty($credentials['password'])) {
+        return response()->json(['error' => 'Please enter your email and password'], 400);
+    }
+
+    // Tìm kiếm người dùng theo email
+    $user = users::where('email', $credentials['email'])->first();
+
+    if (!$user) {
+        return response()->json(['error' => 'Email is not registered'], 401);
+    }
+
+    // Kiểm tra xem mật khẩu đã nhập có khớp với mật khẩu của người dùng hay không
+    if (!Hash::check($credentials['password'], $user->password)) {
+        return response()->json(['error' => 'Incorrect password'], 401);
+    }
+    if (! $token = auth()->attempt($credentials)) {
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+    $user = auth()->user();
+    $role = $user->role; // Retrieve the role of the authenticated user
+
+    return $this->respondWithToken($token, $role);
+}
+
 
     public function register()
     {
-        $credentials = request(['username', 'fullname', 'email', 'phone', 'address', 'password', 'birthday', 'role']);
+        $validator = Validator::make(request()->all(), [
+            'username' => 'required|unique:users',
+            'fullname' => 'required',
+            'email' => 'required|email|unique:users',
+            'phone' => 'required',
+            'address' => 'required',
+            'password' => 'required|min:8',
+            'birthday' => 'required|date|before:today|before:-16 years',
+            'role' => 'required',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+    
+        $credentials = $validator->validated();
         $credentials['password'] = bcrypt($credentials['password']);
+        $credentials['status'] = 'Active'; // Thêm trường status với giá trị Active
     
         // Kiểm tra email đã được sử dụng chưa
         $existingUsers = users::where('email', $credentials['email'])->get();
@@ -78,7 +117,6 @@ class AuthController extends Controller
         return response()->json(['message' => 'Registration successful. Please check your email for verification.'], 201);
         // Trả về lỗi nếu không thành công
     }
-    
 
 
 

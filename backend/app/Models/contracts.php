@@ -12,13 +12,12 @@ class contracts extends Model
     protected $table = 'contracts';
     protected $primaryKey = 'contract_id';
     public $timestamps = false;
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(users::class, 'user_id')->onDelete('cascade');
+        return $this->belongsTo(users::class, 'user_id');
     }
     public function apartment()
     {
-        return $this->belongsTo('App\Models\contracts', 'contract_id')->onDelete('cascade');
+        return $this->belongsTo(apartments::class, 'apartment_id');
     }
-
 }

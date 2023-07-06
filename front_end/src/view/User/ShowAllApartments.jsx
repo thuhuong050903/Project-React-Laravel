@@ -35,12 +35,12 @@ function ShowAllApartments() {
 
   // Lọc căn hộ theo quận được chọn cho phòng ngắn hạn
   const filteredShortTermApartments = selectedDistrict
-    ? shortTermApartments.filter(apartment => apartment.addresses.district === selectedDistrict)
+    ? shortTermApartments.filter(apartment => apartment.district === selectedDistrict)
     : shortTermApartments;
 
   // Lọc căn hộ theo quận được chọn cho phòng dài hạn
   const filteredLongTermApartments = selectedDistrict
-    ? longTermApartments.filter(apartment => apartment.addresses.district === selectedDistrict)
+    ? longTermApartments.filter(apartment => apartment.district === selectedDistrict)
     : longTermApartments;
 
   // Hiển thị tất cả căn hộ hoặc căn hộ đã được lọc
@@ -71,12 +71,12 @@ function ShowAllApartments() {
                 <Slider arrows={false} dots={false} autoplay={true} speed={3000} autoplaySpeed={10000}>
                   {apartment.apartment_image.map((image, index) => (
                     <div key={index}>
-                      <img src={`http://localhost:8000/photos/${image.name}`} alt="Apartment" />
+                      <img src={`http://localhost:8000/uploads/${image.name}`} alt="Apartment" />
                     </div>
                   ))}
                 </Slider>
               </div>
-              <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.addresses.ward} - {apartment.addresses.district}</div>
+              <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.ward} - {apartment.district}</div>
               <div className='apartment-price'>{apartment.price} đ</div>
               <div className='apartment-item'>
                 <FontAwesomeIcon icon={faBuilding} className="icon" style={{ color: '#555555' }} />&nbsp;
@@ -88,7 +88,7 @@ function ShowAllApartments() {
               </div>
               <div className='address'>
                 <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
-                {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
+                {apartment.number_address}, {apartment.street}, {apartment.ward}, {apartment.district}
               </div>
             </Link>
           ))}
@@ -101,12 +101,12 @@ function ShowAllApartments() {
                 <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
                   {apartment.apartment_image.map((image, index) => (
                     <div key={index}>
-                      <img src={image.name} alt="Apartment" />
+                      <img src={`http://localhost:8000/uploads/${image.name}`} alt="Apartment" />
                     </div>
                   ))}
                 </Slider>
               </div>
-              <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.addresses.ward} - {apartment.addresses.district}</div>
+              <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.ward} - {apartment.district}</div>
               <div className='apartment-price'>{apartment.price} đ</div>
               <div className='apartment-item'>
                 <FontAwesomeIcon icon={faBuilding} className="icon" style={{ color: '#555555' }} />&nbsp;
@@ -118,7 +118,7 @@ function ShowAllApartments() {
               </div>
               <div className='address'>
                 <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
-                {apartment.addresses.number}, {apartment.addresses.street}, {apartment.addresses.ward}, {apartment.addresses.district}
+                {apartment.number_address}, {apartment.street}, {apartment.ward}, {apartment.district}
               </div>
             </Link>
           ))}
