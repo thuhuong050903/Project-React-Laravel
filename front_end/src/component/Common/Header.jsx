@@ -1,52 +1,168 @@
 import React, { useState } from "react";
-import { Navbar, Nav } from 'react-bootstrap';
-import { NavDropdown } from 'react-bootstrap';
-import { Container, Form, FormControl, Button } from 'react-bootstrap';
 import "../../assets/style/Header.css";
-
-function Header() {
-  const [showDropdown1, setShowDropdown1] = useState(false);
-  const [showDropdown2, setShowDropdown2] = useState(false);
-
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBuilding } from "@fortawesome/free-regular-svg-icons";
+import { faUser, faCog,faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+const Header = () => {
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  const handleLogout = () => {
+    sessionStorage.removeItem("user");
+    window.location.href="/sign-in";
+  };
   return (
-     
-      <div className="header">
-      <Nav.Link href="/" className="dreamhome">
-        <img src={`http://localhost:8000/photos/LogoWeb.png`} style={{ width: '7rem' }}></img>
-      </Nav.Link>
-      <NavDropdown
-        title="Loại phòng"
-        className="custom-dropdown"        
-        show={showDropdown1}
-        onMouseEnter={() => setShowDropdown1(true)}
-        onMouseLeave={() => setShowDropdown1(false)}
-      >
-        <NavDropdown.Item href="/ShowApartment">Phòng dài hạn</NavDropdown.Item>
-        <NavDropdown.Item href="/AnotherPage">Phòng ngắn hạn</NavDropdown.Item>
-      </NavDropdown>
-      <NavDropdown
-        title="Tùy chọn"
-        className="custom-dropdown"        
+    <div className="nav-bar">
+      <div className="top-bar">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <Link to="#" className="">
+                <span className="mr-2  icon-envelope-open-o"></span>{" "}
+                <span className="d-none d-md-inline-block">
+                  info@yourdomain.com
+                </span>
+              </Link>
+              <span className="mx-md-2 d-inline-block"></span>
+              <Link to="#" className="">
+                <span className="mr-2  icon-phone"></span>{" "}
+                <span className="d-none d-md-inline-block">
+                  1+ (234) 5678 9101
+                </span>
+              </Link>
 
-        show={showDropdown2}
-        onMouseEnter={() => setShowDropdown2(true)}
-        onMouseLeave={() => setShowDropdown2(false)}
+              <div className="float-right">
+              {user ? (
+          <>
+            {user.role === "Nguoi cho thue" && (
+              <Link to="/lessor/dashboard" >
+                <FontAwesomeIcon icon={faBuilding} className="mr-2"/>
+                <span className="d-none d-md-inline-block">Quản lí tài sản</span>
+                <span className="mx-md-2 d-inline-block"></span>
+              </Link>
+              
+            )}
+            <Link to="/" className="">
+              <FontAwesomeIcon icon={faUser} className="mr-2" />
+              <span className="d-none d-md-inline-block">{user.username}</span>
+            </Link>
+            <span className="mx-md-2 d-inline-block"></span>
+            <Link to="/user-profile" className="">
+              <FontAwesomeIcon icon={faCog} className="mr-2" />
+              <span className="d-none d-md-inline-block">Cài đặt</span>
+            </Link>
+            <span className="mx-md-2 d-inline-block"></span>
+            <Link to="#" className="" onClick={handleLogout}>
+              <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+              <span className="d-none d-md-inline-block">Đăng xuất</span>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="/sign-in" className="">
+              <span className="mr-2 icon-twitter"></span>{" "}
+              <span className="d-none d-md-inline-block">Đăng nhập</span>
+            </Link>
+            <span className="mx-md-2 d-inline-block"></span>
+            <Link to="/sign-up" className="">
+              <span className="mr-2 icon-facebook"></span>{" "}
+              <span className="d-none d-md-inline-block">Đăng kí</span>
+            </Link>
+          </>
+        )}
+      </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="sticky-wrapper"
+        className="sticky-wrapper"
+        style={{ height: "96px" }}
       >
-        <NavDropdown.Item href="/History">Lịch sử</NavDropdown.Item>
-        <NavDropdown.Item href="/AnotherPage">Thông tin cá nhân</NavDropdown.Item>
-        <NavDropdown.Item href="/AnotherPage">Yêu cầu sửa chữa</NavDropdown.Item>
-        <NavDropdown.Item href="/AnotherPage">Đánh giá</NavDropdown.Item>
-      </NavDropdown>
-
-      <Nav.Link href="/Introduce" className="header-item">Giới thiệu</Nav.Link>
-      <Nav.Link href="/Co_Living" className="header-item">Co-Living</Nav.Link>
-      <Nav.Link href="/services" className="header-item">Dịch vụ</Nav.Link>
-     
-      <div className="rectangle-parent23">
-        <Nav.Link href="/Sign_in" className="header-login">Đăng nhập</Nav.Link>
+        <header
+          className="site-navbar js-sticky-header site-navbar-target"
+          role="banner"
+          style={{ width: "1263.33px" }}
+        >
+          <div className="container">
+            <div className="row align-items-center position-relative">
+              <div className="site-logo">
+                <Link to="/" className="">
+                  
+                  <span className="" style={{color:"#ee0000", fontSize:"24px",fontFamily:"Segoe UI",fontWeight:700,letterSpacing:"nomarl"}}>Dream Apartments</span>
+                </Link>
+              </div>
+              <div className="col-12">
+                <nav
+                  className="site-navigation text-right ml-auto"
+                  role="navigation"
+                >
+                  <ul className="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
+                    <li>
+                      <Link to="/" className="nav-link">
+                        Trang chủ
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/services" className="nav-link">
+                        Dịch vụ
+                      </Link>
+                    </li>
+                    <li className="has-children">
+                      <Link to="/list-apartment" className="nav-link">
+                        Căn hộ
+                      </Link>
+                      <ul className="dropdown arrow-top">
+                    
+                        <li>
+                          <Link to="/short-term-apartments" className="nav-link">
+                            Ngắn hạn
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/long-term-apartments" className="nav-link">
+                            Dài hạn
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <Link to="/introduce" className="nav-link">
+                        Giới thiệu
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="" className="nav-link">
+                        Về chúng tôi
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/co-living" className="nav-link">
+                        Co-Living
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/history" className="nav-link">
+                        Lịch sử
+                      </Link>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+              <div className="toggle-button d-inline-block d-lg-none">
+                <Link
+                  to="#"
+                  className="site-menu-toggle py-5 js-menu-toggle text-black"
+                >
+                  <span className="icon-menu h3"></span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </header>
       </div>
-      </div>
+    </div>
   );
-}
+};
 
 export default Header;

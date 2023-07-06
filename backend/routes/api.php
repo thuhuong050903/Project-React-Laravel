@@ -33,24 +33,41 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/get-apartment',[App\Http\Controllers\APIController::class,'getApartments']);					
-Route::get('/get-apartment/{apartment_id}', [App\Http\Controllers\APIController::class,'getOneApartments']);								
-Route::post('/add-apartment',[App\Http\Controllers\APIController::class,'addApartments']);								
-Route::delete('/delete-apartment/{apartment_id}', [App\Http\Controllers\APIController::class,'deleteApartments']);
-Route::put('/edit-apartment/{apartment_id}',[App\Http\Controllers\APIController::class,'editApartments']);								          
-Route::post('/upload-image',[App\Http\Controllers\APIController::class,'uploadImage']);
+// Book apartment and appointments
 
-Route::get('/get-address',[App\Http\Controllers\APIController::class,'getAddresses']);					
-Route::get('/get-address/{address_id}', [App\Http\Controllers\APIController::class,'getOneAddresses']);								
-Route::post('/add-address',[App\Http\Controllers\APIController::class,'addAddresses']);								
-Route::delete('/delete-address/{address_id}', [App\Http\Controllers\APIController::class,'deleteAddresses']);
-Route::put('/edit-address/{address_id}',[App\Http\Controllers\APIController::class,'editAddresses']);								          
-Route::post('/upload-image',[App\Http\Controllers\APIController::class,'uploadImage']);
+Route::post('/bookings',[App\Http\Controllers\BookApartController::class,'store']);
+Route::post('/bookAppointment',[App\Http\Controllers\BookAppointmentController::class,'store']);
 
-Route::get('/get-user',[App\Http\Controllers\APIController::class,'getUser']);
-Route::get('/get-user/{id}', [App\Http\Controllers\APIController::class,'getOneUsers']);								
-Route::delete('/delete-user/{id}', [App\Http\Controllers\APIController::class,'deleteUsers']);
+// Route related to Apointments 
+Route::get('/get-appointment/{userId}', [App\Http\Controllers\ApointmentController::class, 'getAppointment']);
+Route::get('/get-appointment/{appointment_id}', [App\Http\Controllers\ApointmentController::class, 'getOneAppointment']);
+Route::put('/update-appointment/{id}', [App\Http\Controllers\ApointmentController::class, 'update']);
+Route::get('/get-appointments', [App\Http\Controllers\ApointmentController::class, 'getAppointments']);
+// Route ratings//
+Route::post('/add-ratings', [App\Http\Controllers\starRatingController::class, 'store']);
+Route::get('/get-ratings', [App\Http\Controllers\starRatingController::class, 'getRatings']);
+Route::get('/rating-count/{id}', [App\Http\Controllers\starRatingController::class, 'getRatingCountByUser']);
 
+//-------------------------Contracts---------------//
+Route::get('/get-contracts/{userId}', [App\Http\Controllers\ApointmentController::class, 'getContracts']);
+Route::get('/get-contracts/{contract_id}', [App\Http\Controllers\ApointmentController::class, 'getOneContracts']);
+Route::post('/add-contracts', [App\Http\Controllers\ApointmentController::class, 'addContracts']);
+Route::put('/update-contracts/{id}', [App\Http\Controllers\ApointmentController::class, 'updateContracts']);
+Route::get('/get-contract',[App\Http\Controllers\ContractController::class,'getContracts']);
+
+// Route history
+Route::get('/history-appointments/{userId}', [App\Http\Controllers\BookAppointmentController::class, 'show']);
+Route::get('/history-apartments/{userId}', [App\Http\Controllers\BookApartController::class, 'show']);
+
+// Route post  apartment issues
+Route::post('/apartment-issues', [App\Http\Controllers\ApartmentIssueController::class, 'store']);
+
+// Route related to user
+Route::put('/update-user/{id}', [App\Http\Controllers\UserController::class,'updateUser']);
+Route::get('/SeederInfo/{userId}', [App\Http\Controllers\UserController::class, 'getSeederInfo']);
+Route::get('/get-user',[App\Http\Controllers\UserController::class,'getUser']);
+Route::get('/get-user/{id}', [App\Http\Controllers\UserController::class,'getOneUsers']);								
+Route::delete('/delete-user/{id}', [App\Http\Controllers\UserController::class,'deleteUsers']);
 Route::post('login', [App\Http\Controllers\AuthController::class,'login']);
 Route::post('register', [App\Http\Controllers\AuthController::class,'register']);
 Route::group(['middleware'=>'api'],function(){
@@ -61,59 +78,14 @@ Route::group(['middleware'=>'api'],function(){
 Route::get('/check-email-exists/{email}', [App\Http\Controllers\AuthController::class, 'checkEmailExists']);
 
 
-Route::post('/upload',[ImagesController::class,'upload']);
-Route::get('/images',[ImagesController::class,'index']);
-
-
-Route::post('/bookings',[App\Http\Controllers\BookApartController::class,'store']);
-Route::post('/bookAppointment',[App\Http\Controllers\BookAppointmentController::class,'store']);
-
-
-Route::get('/photos/{apartment_id}', [ImagesController::class, 'getRelatedPhotos']);
-Route::post('add-photo/{apartment_id}', [ImagesController::class, 'addPhoto']);
-Route::post('/upload',[ImagesController::class,'upload']);
-
-
-///--------------Đoạn này của Đi-----------////
-Route::get('/get-appointment',[App\Http\Controllers\ApointmentController::class,'getApartments']);					
-Route::get('/get-appointment/{appointment}', [App\Http\Controllers\ApointmentController::class,'getOneApartments']);								
-Route::post('/add-appointment',[App\Http\Controllers\ApointmentController::class,'addApartments']);								
-Route::delete('/delete-appointment/{appointment}', [App\Http\Controllers\ApointmentController::class,'deleteApartments']);
-Route::put('/edit-appointment/{appointment}',[App\Http\Controllers\ApointmentController::class,'editApartments']);	
-
-
-
-
-///------------------------- của ĐI nhớ bỏ vô Apointment-------------------------///
-Route::get('/get-confirmappointment',[App\Http\Controllers\ApointmentController::class,'getAppointment']);	
-Route::get('/get-confirmappointment/{appointment_id}', [App\Http\Controllers\ApointmentController::class,'getOneAppointment']);	
-Route::put('update-appointment/{id}', [App\Http\Controllers\ApointmentController::class,'update']);
-
-
-Route::get('related-photos/{apartment_id}', [ImagesController::class, 'getRelatedPhotos']);
-Route::post('add-photo/{apartment_id}', [ImagesController::class, 'addPhoto']);
-Route::post('/upload',[ImagesController::class,'upload']);
-Route::delete('delete-photo/{image_id}', [\App\Http\Controllers\ImagesController::class, 'deletePhoto']);
-
-
-//-------------------- Address----------------------//
-Route::get('/get-address', [App\Http\Controllers\ApointmentController::class, 'getAddress']);
-Route::get('/get-address/{address_id}', [App\Http\Controllers\ApointmentController::class,'getOneAddress']);		
-
-
-Route::post('/ratings',[App\Http\Controllers\starRatingController::class,'store']);
-Route::get('/ratings', [App\Http\Controllers\starRatingController::class, 'getRatings']);
-Route::get('/rating-count/{id}', [App\Http\Controllers\starRatingController::class, 'getRatingCountByUser']);
-
-
-Route::get('/history-appointments/{userId}', [App\Http\Controllers\BookAppointmentController::class, 'show']);
-
-Route::get('/history-apartments/{userId}', [App\Http\Controllers\BookApartController::class, 'show']);
-=======
-Route::get('/get-contract',[App\Http\Controllers\APIController::class,'getContracts']);
-
-
-Route::get('/SeederApartmentPage/{id}', [App\Http\Controllers\APIController::class, 'getSeederApartments']);
-
-
-Route::get('/SeederInfo/{userId}', [App\Http\Controllers\APIController::class, 'getSeederInfo']);
+// Route Related to Apartments
+Route::get('/get-apartments-byLessorId/{userId}', [App\Http\Controllers\ApartmentController::class, 'getApartmentByLessorId']);
+Route::put('/update-apartment/{apartmentId}', [App\Http\Controllers\ApartmentController::class, 'update']);
+Route::post('/add-apartment', [App\Http\Controllers\ApartmentController::class,'addApartment']);
+Route::post('/add-photo', [App\Http\Controllers\ApartmentController::class,'addPhoto']);
+Route::get('/get-apartment/{apartment_id}', [App\Http\Controllers\ApartmentController::class,'getOneApartments']);								
+Route::get('/get-apartment',[App\Http\Controllers\ApartmentController::class,'getApartments']);					
+Route::get('/search-apartment', [App\Http\Controllers\ApartmentController::class, 'search']);
+Route::delete('/delete-apartments/{apartment_id}', [App\Http\Controllers\ApartmentController::class, 'deleteApartments']);
+Route::get('/SeederApartmentPage/{id}', [App\Http\Controllers\ApartmentController::class, 'getSeederApartments']);
+Route::delete('/delete-photo/{photoId}', [App\Http\Controllers\ApartmentController::class,'deletePhoto']);

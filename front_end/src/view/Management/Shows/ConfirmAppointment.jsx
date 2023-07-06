@@ -1,189 +1,332 @@
-import React, { Component } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
-import "bootstrap/dist/css/bootstrap.css";
+import { Button, Modal } from "react-bootstrap";
 
-class ConfirmAppointment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      appointment: [],
-      canceledAppointments: [],
-    };
-  }
-  handleCancellation(appointmentId,userEmail) {
-    // Update the status of the appointment in the database
+const ConfirmAppointment = () => {
+  const user = JSON.parse(sessionStorage.getItem('user'));
+
+  const [appointments, setAppointments] = useState([]);
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [contractData, setContractData] = useState({
+    user_id: null,
+    apartment_id: null,
+    start_date: "",
+    end_date: "",
+
+  });
+  const [showModal, setShowModal] = useState(false);
+
+
+  const fetchAppointment = () => {
+    axios
+      .get(`http://localhost:8000/api/get-appointment/${user.id}`)
+      .then((response) => {
+        const appointments = response.data.map((appointment) => ({
+          ...appointment,
+          statusText:
+            appointment.status === "Chờ xác nhận"
+              ? "Chờ xác nhận"
+              : appointment.status === "confirmed"
+                ? "Confirmed"
+                : "Canceled",
+        }));
+        setAppointments(appointments);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch appointment:", error);
+      });
+  };
+
+  useEffect(() => {
+    fetchAppointment();
+  }, []);
+
+  const handleCancellation = (appointmentId, userEmail) => {
     axios
       .put(`http://127.0.0.1:8000/api/update-appointment/${appointmentId}`, {
-        status: "Hủy",  
+        status: "you canceled",
       })
-      .then((response) => {
-        // Update the status in the state
-        const updatedAppointments = this.state.appointment.map((appointment) => {
+      .then(() => {
+        // Update the status and contracts in the state
+        const updatedAppointments = appointments.map((appointment) => {
           if (appointment.appointment_id === appointmentId) {
-            return { ...appointment, canceled: true };
+            return {
+              ...appointment,
+              statusText: "Canceled",
+
+            };
           }
           return appointment;
         });
-  
-        const canceledAppointment = this.state.appointment.find(
-          (appointment) => appointment.appointment_id === appointmentId
-        );
-  
-        this.setState((prevState) => ({
-          appointment: updatedAppointments,
-          canceledAppointments: [...prevState.canceledAppointments, canceledAppointment],
-        }));
-  
-        console.log("Appointment status updated successfully");
+        setAppointments(updatedAppointments);
 
+        console.log("Appointment status updated successfully");
 
         // Send email to the retrieved email address
         axios
           .get(`http://127.0.0.1:8000/failemail?email=${userEmail}`)
-          .then((response) => {
+          .then(() => {
             console.log("Email sent successfully");
           })
           .catch((error) => {
             console.error("Error sending email:", error);
           });
-  
-  
-        // Reload the page
-        window.location.reload();
       })
       .catch((error) => {
         console.error("Error updating appointment status:", error);
       });
-  }
+  };
 
-  handleConfirmation(appointmentId, userEmail) {
-    // Update the status of the appointment in the database
+  const handleConfirmation = (appointmentId, userEmail) => {
     axios
       .put(`http://127.0.0.1:8000/api/update-appointment/${appointmentId}`, {
-        status: "Đã xác nhận",
+        status: "confirmed",
       })
-      .then((response) => {
-        // Update the status in the state
-        const updatedAppointment = this.state.appointment.map((appointment) => {
+      .then(() => {
+        // Update the status and contracts in the state
+        const updatedAppointments = appointments.map((appointment) => {
           if (appointment.appointment_id === appointmentId) {
-            return { ...appointment, status: true };
+            return {
+              ...appointment,
+              statusText: "Confirmed",
+
+            };
           }
           return appointment;
-        });
-        this.setState({ appointment: updatedAppointment });
+        }); setAppointments(updatedAppointments);
         console.log("Appointment status updated successfully");
-  
+
         // Send email to the retrieved email address
         axios
           .get(`http://127.0.0.1:8000/mailsuccessfull?email=${userEmail}`)
-          .then((response) => {
+          .then(() => {
             console.log("Email sent successfully");
           })
           .catch((error) => {
             console.error("Error sending email:", error);
           });
-  
-        // Reload the page
-        window.location.reload();
       })
       .catch((error) => {
         console.error("Error updating appointment status:", error);
       });
-  }
-  
-  
+  };
 
-  //---------//-------------------///
-  async componentDidMount() {
-    await this.fetchAppointments();
-  }
+  const handleContractCreation = () => {
+    const { user_id, apartment_id, start_date, end_date } = contractData;
+    axios
+      .post("http://localhost:8000/api/add-contracts", contractData)
+      .then((response) => {
+        alert("Bạn đã tạo hợp đồng thành công!")
+        console.log("Dữ liệu đã được gửi thành công:", response.data);
 
-  async fetchAppointments() {
-    try {
-      const response = await axios.get("http://127.0.0.1:8000/api/get-confirmappointment");
-      const appointments = response.data.map(appointment => ({
-        ...appointment,
-        confirmed: appointment.status === 'Đã xác nhận',
-        canceled: appointment.status === 'Hủy'
-      }));
-      this.setState({ appointment: appointments });
-    } catch (error) {
-      console.error("Error fetching appointments:", error);
-    }
-  }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi gửi yêu cầu:", error);
+        // Xử lý lỗi nếu có
+      });
+
+    setShowModal(false);
+  };
 
 
-  render() {
-    const columns = [
-      {
-        name: "Appointment ID",
-        selector: "appointment_id",
-        sortable: true,
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setContractData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault(); /// Ngăn chặn hành vi mặc định của form khi gửi
+    // Gửi yêu cầu POST đến máy chủ Laravel
+    handleContractCreation(); // Gọi hàm xử lý gửi yêu cầu POST
+  };
+
+  const openModal = (appointment) => {
+    setSelectedAppointment(appointment);
+    setContractData({
+      user_id: appointment.user_id,
+      apartment_id: appointment.apartment_id,
+      start_date: "",
+      end_date: "",
+    });
+    setShowModal(true);
+
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const columns = [
+    {
+      name: "Appointment ID",
+      selector: "appointment_id",
+      sortable: true,
+    },
+    {
+      name: "Apartment ID",
+      selector: "apartment_id",
+      sortable: true,
+    },
+    {
+      name: "User Name",
+      cell: (row) => row.fullname,
+      sortable: true,
+    },
+    {
+      name: "Appointment_date_time",
+      selector: "appointment_date_time",
+      sortable: true,
+    },
+    {
+      name: "Status",
+      cell: (row) => {
+        if (row.statusText === "Chờ xác nhận") {
+          return (
+            <div>
+              <button
+                className="btn btn-sm btn-success"
+                style={{ width: "80px" }}
+                onClick={() =>
+                  handleConfirmation(row.appointment_id, row.email)
+                }
+                type="button"
+              >
+                Confirm
+              </button>
+              <button
+                className="btn btn-sm btn-danger"
+                style={{ width: "80px" }}
+                onClick={() =>
+                  handleCancellation(row.appointment_id, row.email)
+                }
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>);
+        } else {
+          return <span>{row.statusText}</span>;
+        }
       },
-      {
-        name: "Apartment ID",
-        selector: "apartment_id",
-        sortable: true,
-      },
-      {
-        name: "User Name",
-        cell: (row) => row.users.fullname,
-        sortable: true,
-      },
+      compact: true,
+    },
 
-      {
-        name: "Appointment_date_time",
-        selector: "appointment_date_time",
-        sortable: true,
-      },
-      {
-        name: "Status",
-        cell: (row) => {
-          if (row.canceled) {
-            return <span>Bạn đã hủy</span>;
-          } else if (row.confirmed) {
-            return <span>Đã xác nhận</span>;
-          } else {  
-            return (
-              <div>
-                <button
-                  className="btn btn-sm btn-success"
-                  style={{ width: "80px" }}
-                  onClick={() => this.handleConfirmation(row.appointment_id, row.users.email)}
-                  type="button"
-                >
-                  Xác nhận
-                </button>
-                <button
-                  className="btn btn-sm btn-danger"
-                  style={{ width: "80px" }}
-                  onClick={() => this.handleCancellation(row.appointment_id,row.users.email)}
-                  type="button"
-                >
-                  Hủy
-                </button>
-              </div>
-            );
-          }
-        },
-        compact: true,
-      },
-    ];
+    {
+      name: "Contract",
+      selector: "contracts",
+      sortable: true,
+      cell: (row) => {
+        if (row.status === "confirmed") {
+          return (
+            <button
+              className="btn btn-sm btn-primary"
+              style={{ width: "80px" }}
+              onClick={() => openModal(row)}
+              type="button"
 
-    return (
-      <div className="list_apartment">
-        <DataTable
-          title="ConfirmAppointment"
-          columns={columns}
-          data={this.state.appointment}
-          paginationPerPage={10}
-          defaultSortField="apartment_id"
-          pagination
-        />
-      </div>
-    );
-  }
-}
+            >
+              Ký hợp đồng {/* Thay đổi chữ hiển thị ở đây */}
+            </button>
+          );
+        } else {
+          return <span>-</span>;
+        }
+      },
+      compact: true,
+    },
+  ];
+
+  return (
+    <div style={{marginTop:"10rem"}}>
+      {appointments && appointments.length > 0 ? (
+
+          <DataTable
+            style={{ marginLeft: "28px", with: "96%" }}
+            title="ConfirmAppointment"
+            columns={columns}
+            data={appointments}
+            paginationPerPage={10}
+            defaultSortField="apartment_id"
+            pagination
+          />
+
+      ) : (
+        <h1>No appointments available</h1>
+      )}
+      <form onSubmit={handleSubmit}>
+        <Modal show={showModal} onHide={closeModal}>
+          <Modal.Header closeButton>
+            <Modal.Title
+              style={{ color: "firebrick", display: "flex", margin: "0 auto" }}
+            >
+              Contract Creation
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>
+              <label>User ID:</label>
+              <input
+                style={{ marginLeft: "26%" }}
+                type="text"
+                name="user_id"
+                value={contractData.user_id}
+                disabled
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Apartment ID:</label>
+              <input
+                style={{ marginLeft: "15.2%", marginTop: "6px" }}
+                type="text"
+                name="apartment_id"
+                value={contractData.apartment_id}
+                disabled
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>Start Date:</label>
+              <input
+                style={{ marginLeft: "21.5%", width: "42%", marginTop: "6px" }}
+                type="Date"
+                name="start_date"
+                value={contractData.start_date}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label>End Date:</label>
+              <input
+                style={{ marginLeft: "23.5%", width: "42%", marginTop: "6px" }}
+                type="Date"
+                name="end_date"
+                value={contractData.end_date}
+                onChange={handleChange}
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button type="submit"
+              variant="primary"
+              onClick={handleContractCreation}
+            >
+              Create Contract
+            </Button>
+            <Button variant="secondary" onClick={closeModal}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </form>
+    </div>
+  );
+};
 
 export default ConfirmAppointment;
