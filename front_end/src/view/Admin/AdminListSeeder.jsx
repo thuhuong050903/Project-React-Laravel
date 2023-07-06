@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import { Link } from "react-router-dom";
-import SeederApartmentsPage from "./SeederApartmentsPage";
 import "../../assets/style/ListApartment.css";
 class AdminListSeeder extends Component {
   constructor(props) {
@@ -64,11 +63,6 @@ class AdminListSeeder extends Component {
         sortable: true,
       },
       {
-        name: "Password",
-        selector: "password",
-        sortable: true,
-      },
-      {
         name: "Birthday",
         selector: "birthday",
         sortable: true,
@@ -99,12 +93,12 @@ class AdminListSeeder extends Component {
     }
 
     return (
-      <div className="list_apartment">
+      <div className="list_apartment" style={{marginTop:"2.6rem",marginLeft:"14rem",height:"40rem",backgroundColor:"#ffffff",border:"1px solid grey",width:"82.5%"}}>
         <DataTable
-          title="List seeder"
+          title="Danh sách chủ sở hữu"
           columns={columns}
           data={users}
-          paginationPerPage={5}
+          paginationPerPage={10}
           defaultSortField="id"
           pagination
         />

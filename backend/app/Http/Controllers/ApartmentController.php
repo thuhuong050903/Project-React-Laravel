@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\apartmentImage;
 use App\Models\apartments;
 use App\Models\Images;
 use Illuminate\Http\Request;
@@ -14,26 +15,62 @@ class ApartmentController extends Controller
     
     public function addApartment(Request $request)
     {
-        // Lưu thông tin căn hộ vào bảng apartments
-        $apartment = new apartments;
-        $apartment->user_id = $request->input('user_id');
-        $apartment->description = $request->input('description');
-        $apartment->price = $request->input('price');
-        $apartment->number_room = $request->input('number_room');
-        $apartment->area = $request->input('area');
-        $apartment->type_room = $request->input('type_room');
-        $apartment->number_address = $request->input('number_address');
-        $apartment->street = $request->input('street');
-        $apartment->ward = $request->input('ward');
-        $apartment->district = $request->input('district');
+        // Validate the request data
+        $validatedData = $request->validate([
+            'user_id' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'number_room' => 'required',
+            'area' => 'required',
+            'type_room' => "required",
+            'number_address' => 'required',
+            'street' => 'required',
+            'ward' => 'required',
+            'district' => 'required',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:2048' // Kiểm tra các trường ảnh
+        ]);
+
+        // Tạo một đối tượng căn hộ mới
+        $apartment = new apartments();
+        $apartment->user_id = $validatedData['user_id'];
+        $apartment->description = $validatedData['description'];
+        $apartment->price = $validatedData['price'];
+        $apartment->number_room = $validatedData['number_room'];
+        $apartment->area = $validatedData['area'];
+        $apartment->type_room = $validatedData['type_room'];
+        $apartment->number_address = $validatedData['number_address'];
+        $apartment->street = $validatedData['street'];
+        $apartment->ward = $validatedData['ward'];
+        $apartment->district = $validatedData['district'];
+
+
+
+        // Lưu căn hộ vào cơ sở dữ liệu
         $apartment->save();
-    
-        return response()->json(['message' => 'Apartment added successfully'], 200);
+
+        // Lưu các ảnh liên quan đến căn hộ
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move('uploads/', $imageName);
+
+                // Tạo một đối tượng ảnh căn hộ mới
+                $apartmentImage = new apartmentImage();
+                $apartmentImage->apartment_id = $apartment->apartment_id;
+                $apartmentImage->name = $imageName;
+
+                // Lưu ảnh căn hộ vào cơ sở dữ liệu
+                $apartmentImage->save();
+            }
+        }
+
+        return response()->json(['message' => 'Apartment added successfully'], 201);
     }
+    
     
   
 // Thêm ảnh cho apartment đó
-    public function addPhoto(Request $request) {
+    public function addPhoto(Request $request, $apartment_id) {
         $response = [];
  
         $validator = Validator::make($request->all(),
@@ -46,8 +83,6 @@ class ApartmentController extends Controller
         if($validator->fails()) {
             return response()->json(["status" => "failed", "message" => "Validation error", "errors" => $validator->errors()]);
         }
-        $lastApartment = apartments::latest('apartment_id')->first();
-        $lastApartmentId = $lastApartment->apartment_id;
 
         if($request->has('images')) {
             foreach($request->file('images') as $image) {
@@ -55,7 +90,7 @@ class ApartmentController extends Controller
                 $image->move('uploads/', $filename);
 
                 Images::create([
-                    "apartment_id" => $lastApartmentId,
+                    "apartment_id" => $apartment_id,
                     'name' => $filename
                 ]);
             }
@@ -71,19 +106,12 @@ class ApartmentController extends Controller
         return response()->json($response);
     }
 
-    // Lấy id cuối cùng của bảng apartments để thêm ảnh
-    public function getLastApartmentId()
-    {
-        $lastApartment = apartments::latest()->first(); // Lấy căn hộ cuối cùng
-        $apartmentId = $lastApartment ? $lastApartment->apartment_id : null; // Lấy id của căn hộ cuối cùng
 
-        return response()->json(['id' => $apartmentId], 200);
-    }
 
     // lấy dữ liệu căn hộ của một chủ sở hữu
     public function getApartmentByLessorId($userId)
     {
-        $apartments = apartments::with('apartmentImage')
+        $apartments = apartments::with(['apartmentImage', 'users'])
             ->where('user_id', $userId)
             ->get();
 
@@ -162,4 +190,34 @@ public function search(Request $request)
 
         return response()->json($apartments);
     }
+
+//Lấy tất cả căn hộ
+    public function getApartments()							
+{							
+    $apartments = Apartments::with(
+        ['apartmentImage','users' ]
+    )->get();
+return response()->json($apartments);							
+}	
+
+// Xóa apartments
+public function deleteApartments($id)
+{
+    try {
+        // Xóa các bản ghi trong bảng apartment_images liên quan đến căn hộ
+        apartments::findOrFail($id)->apartmentImage()->delete();
+        apartments::findOrFail($id)->apartmentIssues()->delete();
+        apartments::findOrFail($id)->contracts()->delete();
+        apartments::findOrFail($id)->book_Apartments()->delete();
+        apartments::findOrFail($id)->ratings()->delete();
+        apartments::findOrFail($id)->service_Apartment()->delete();
+        apartments::findOrFail($id)->appointments()->delete();
+        // Xóa căn hộ
+        apartments::findOrFail($id)->delete();
+        return response()->json(['message' => 'Xóa căn hộ thành công'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Đã xảy ra lỗi khi xóa căn hộ: ' . $e->getMessage()], 500);
+    }
+}
+
 }

@@ -117,8 +117,22 @@ color: #FFFFFF;
 }
 
 
-
-
+/* Thêm CSS cho thông báo lỗi */
 .error-message {
-  margin-top: 0px;
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+}
+
+/* Thêm CSS để tránh chồng lấn lên ô input */
+.form-group {
+  position: relative;
+}
+
+.form-group .title-title {
+  position: absolute;
+  top: -1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #495057;
 }

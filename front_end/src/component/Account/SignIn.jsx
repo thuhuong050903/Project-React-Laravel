@@ -6,6 +6,7 @@ import ResetPasswordPage from "./ResetPasswordPage";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagram, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
 import '../../assets/style/SignIn.css';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export default function SignIn() {
   const { http, setToken } = AuthUser();
@@ -13,6 +14,8 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [resetToken, setResetToken] = useState("");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem('user'));
@@ -22,22 +25,38 @@ export default function SignIn() {
   }, []);
 
   const submitForm = () => {
+    setIsLoggingIn(true);
+    setLoginError(""); // Reset thông báo lỗi trước khi gửi yêu cầu đăng nhập
+
     http.post('/login', { email: email, password: password })
       .then((res) => {
-        const { user, access_token,} = res.data;
+        const { user, access_token } = res.data;
 
         if (user.status === "Active") {
           setToken(user, access_token);
           window.location.reload(); // Refresh the page after successful login
-
         }
         else if (user.status === "Block") {
-          alert("Tài khoản của bạn bị khóa! Vui lòng liên hệ admin!")
+          alert("Tài khoản của bạn bị khóa! Vui lòng liên hệ admin!");
           console.log("User is blocked and cannot login.");
         } else {
           console.log("Unknown user status.");
         }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data && error.response.data.errors) {
+          const errorMessage = Object.values(error.response.data.errors)[0];
+          setLoginError(errorMessage);
+        } else if (error.response && error.response.data && error.response.data.error === "Unauthorized") {
+          setLoginError("Sai mật khẩu."); // Thêm thông báo lỗi khi nhập sai mật khẩu
+        } else {
+          setLoginError("An error occurred. Please try again later.");
+        }
+      })
+      .finally(() => {
+        setIsLoggingIn(false);
       });
+      
   };
 
   const handleForgotPassword = () => {
@@ -50,6 +69,9 @@ export default function SignIn() {
       .then((res) => {
         setResetToken(res.data.resetToken);
         setIsForgotPassword(true);
+      })
+      .catch((error) => {
+        console.log("An error occurred while requesting password reset.", error);
       });
   };
 
@@ -58,11 +80,14 @@ export default function SignIn() {
     http.post("/confirm-password-reset", { verificationCode: resetToken, newPassword })
       .then((res) => {
         // Xử lý thành công, bạn có thể thực hiện hành động bổ sung ở đây, ví dụ: chuyển hướng đến trang đăng nhập, hiển thị thông báo thành công, v.v.
+      })
+      .catch((error) => {
+        console.log("An error occurred while setting new password.", error);
       });
   };
 
   return (
-    <div className="signin-container" style={{width:"60%"}}>
+    <div className="signin-container" style={{ width: "60%" }}>
       <div className="row signin-form">
         <div className="col-sm-6 form-right">
           <div className="social-icons">
@@ -73,7 +98,7 @@ export default function SignIn() {
           <h1 className="signin-welcome">Chào mừng bạn trở lại!</h1>
           <h3 className="signin-title">Hãy đăng nhập để khám phá nhiều căn hộ đẹp</h3>
 
-          <Button href="/sign-up" className="" style={{ fontWeight: 500, fontSize: '1rem', backgroundColor: '#ffffff', color: 'black',border:"none"}}>Đăng kí</Button>
+          <Button href="/sign-up" className="" style={{ fontWeight: 500, fontSize: '1rem', backgroundColor: '#ffffff', color: 'black', border: "none" }}>Đăng kí</Button>
         </div>
         <div className="col-sm-6 form-left">
           <div className="signin-p-4">
@@ -94,6 +119,7 @@ export default function SignIn() {
                     onChange={(e) => setEmail(e.target.value)}
                     id="email"
                   />
+
                 </div>
                 <div className="form-group mt-3">
                   <label>Mật khẩu:</label>
@@ -104,14 +130,24 @@ export default function SignIn() {
                     onChange={(e) => setPassword(e.target.value)}
                     id="pwd"
                   />
+{loginError && <div className="error-message">{loginError}</div>}
+
                 </div>
                 <Button
-                  variant="primary"
-                  type="button"
-                  onClick={submitForm}
-                  className="mt-4"
-                  style={{backgroundColor:"#DA291C", border:"none", marginTop:"1rem", marginLeft:"0rem", width:"7rem"  }}            >
-                  Đăng nhập
+                  type="submit"
+                  className="btn-signin"
+                  style={{ backgroundColor: "#DA291C", border: "none", marginTop: "1rem", marginLeft: "1rem" }}
+                  disabled={isLoggingIn} // Disable nút khi đang tải
+                  onClick={submitForm} // Thêm sự kiện onClick cho nút
+                >
+                  {isLoggingIn ? (
+                    <>
+                      <FontAwesomeIcon icon={faSpinner} spin style={{ marginRight: "0.5rem" }} />
+                      Đang đăng nhập...
+                    </>
+                  ) : (
+                    "Đăng nhập"
+                  )}
                 </Button>
                 <div className="text-center mt-3" >
                   <Link to="#" onClick={handleForgotPassword}>

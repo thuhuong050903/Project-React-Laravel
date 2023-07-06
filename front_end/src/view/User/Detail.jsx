@@ -23,6 +23,8 @@ function Detail() {
   const [desiredRent, setDesiredRent] = useState('');
   const [desiredMoveInDate, setDesiredMoveInDate] = useState('');
   const [desiredViewingDate, setDesiredViewingDate] = useState('');
+  const [bookingError, setBookingError] = useState("");
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     fetchApartmentDetail();
@@ -103,9 +105,14 @@ function Detail() {
           })
           .catch((error) => {
             console.error('Đặt phòng ngắn hạn thất bại:', error);
-            alert("Không thể đặt phòng!")
-
+            if (error.response && error.response.data && error.response.data.message) {
+              const errors = Object.values(error.response.data.errors);
+              setBookingError(errors);
+            } else {
+              setBookingError("Không thể đặt phòng!");
+            }
           });
+          
       }
 
     } else if (apartment.type_room === 'Phòng dài hạn') {
@@ -117,23 +124,30 @@ function Detail() {
           desired_move_in_date: desiredMoveInDate,
           appointment_date_time: desiredViewingDate,
         };
-
-        axios
-          .post('http://127.0.0.1:8000/api/bookAppointment', longTermBookingData)
-          .then((response) => {
-            console.log('Đặt lịch dài hạn thành công:', response.data);
+        const postRequest1 = axios.post('http://127.0.0.1:8000/api/bookAppointment', longTermBookingData);
+        const postRequest2 = axios.post('https://63a57216318b23efa793a737.mockapi.io/api/appointment', longTermBookingData);
+      
+        Promise.all([postRequest1, postRequest2])
+          .then((responses) => {
+            const response1 = responses[0];
+            const response2 = responses[1];
+            alert('Bạn đã đặt lịch thành công! Vui lòng theo dõi trạng thái!')
+            console.log('Đặt lịch dài hạn thành công:', response1.data);
+            console.log('Response from anotherEndpoint:', response2.data);
             setDesiredRent('');
             setDesiredMoveInDate('');
             setDesiredViewingDate('');
             setShowLongTermBookingModal(false);
-            alert("Bạn đã đặt thành công!");
-
-          })
-          .catch((error) => {
-            console.error('Đặt lịch dài hạn thất bại:', error);
-            alert("Không thể đặt lịch hẹn!");
-
-          });
+      })
+      .catch((error) => {
+        // Xử lý lỗi
+        console.error('Đặt phòng dài hạn thất bại:', error);
+        if (error.response && error.response.data && error.response.data.errors) {
+          setFormErrors(error.response.data.errors);
+        } else {
+          setBookingError("Không thể đặt phòng!"); // Lỗi mặc định
+        }
+      });
       }
     }
   };
@@ -203,6 +217,8 @@ function Detail() {
             <Button variant='primary' onClick={handleBookingSubmit}>
               Đặt phòng
             </Button>
+            {bookingError && <div className="error-message">{bookingError}</div>}
+
           </Modal.Footer>
         </Modal>
       )}
@@ -220,20 +236,27 @@ function Detail() {
             <div>
               <label>Giá mong muốn:</label>
               <input type='text' value={desiredRent} onChange={handleDesiredRentChange} />
+              {formErrors.desired_rent && <div className="error-message">{formErrors.desired_rent}</div>}
+
             </div>
             <div>
               <label>Ngày dự kiến dọn vào:</label>
               <input type='date' value={desiredMoveInDate} onChange={handleDesiredMoveInDateChange} />
+              {formErrors.desired_move_in_date && <div className="error-message">{formErrors.desired_move_in_date}</div>}
+
             </div>
             <div>
               <label>Ngày hẹn xem căn hộ:</label>
               <input type='datetime-local' value={desiredViewingDate} onChange={handleDesiredViewingDateChange} />
+              {formErrors.appointment_date_time && <div className="error-message">{formErrors.appointment_date_time}</div>}
+
             </div>
           </Modal.Body>
           <Modal.Footer>
             <button className='booking-submit' onClick={handleBookingSubmit}>
-              Đặt phòng
+              Đặt lịch dài hạn
             </button>
+
           </Modal.Footer>
         </Modal>
       )};
@@ -241,6 +264,8 @@ function Detail() {
       {userdetail !== null && userdetail !== undefined ? (
         <div className='apartment-rating'>
           <Star_rating userId={userdetail.id} apartmentId={apartment.apartment_id} rating={apartment.rating} />
+          <Show_rating apartmentId={apartment.apartment_id} />
+
         </div>
       ) : (
         <div className='apartment-rating'>

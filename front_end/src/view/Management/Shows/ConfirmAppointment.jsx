@@ -20,7 +20,7 @@ const ConfirmAppointment = () => {
 
   const fetchAppointment = () => {
     axios
-      .get(`http://localhost:8000/api/get-confirmappointment/${user.id}`)
+      .get(`http://localhost:8000/api/get-appointment/${user.id}`)
       .then((response) => {
         const appointments = response.data.map((appointment) => ({
           ...appointment,

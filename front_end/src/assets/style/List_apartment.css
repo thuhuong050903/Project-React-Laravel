@@ -1,11 +1,8 @@
 .list_apartment{
-    position: absolute;
-    margin-top: 250px;
+    top: 20px;
     margin-left: 230px;
     overflow: scroll;
-    width: 82%;
-    height: 70%;
-    background: linear-gradient(to right, #7A7FBA, #FF0000);
+    width: 84%;
   }
   .watch-detail{
     background: linear-gradient(to right, #7A7FBA, #FF0000);

@@ -14,6 +14,7 @@ function EditApartment({ apartmentId, onClose }) {
   const [district, setDistrict] = useState('');
   const [apartmentImages, setApartmentImages] = useState([]);
   const [showAddPhotoModal, setShowAddPhotoModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     fetchApartmentData();
@@ -56,14 +57,15 @@ function EditApartment({ apartmentId, onClose }) {
       });
       console.log(response.data);
       onClose();
-      // Handle success, perform other operations (e.g., display a notification, redirect the user to the apartment list page, etc.)
+      // Xử lý thành công, thực hiện các thao tác khác (ví dụ: hiển thị thông báo, chuyển hướng người dùng đến trang danh sách căn hộ, v.v.)
     } catch (error) {
       console.error(error);
-      // Handle error, display error message or perform other error handling
+      // Xử lý lỗi, hiển thị thông báo lỗi hoặc thực hiện xử lý lỗi khác
     }
   };
 
   const handleClose = () => {
+    setShowModal(false);
     onClose();
   };
 
@@ -71,21 +73,21 @@ function EditApartment({ apartmentId, onClose }) {
     setShowAddPhotoModal(true);
   };
 
-  const handleAddPhotoClose = () => {
-    setShowAddPhotoModal(false);
-  };
+  const handleDeletePhoto = async (photoId) => {
+    try {
+      // Gọi API để xóa ảnh từ Laravel backend
+      await axios.delete(`http://localhost:8000/api/delete-photo/${photoId}`);
+      setShowModal(true);
+      setApartmentImages(apartmentImages.filter((image) => image.id !== photoId));
 
-  const handleAddPhotoSave = () => {
-    // Logic to handle photo save
-    setShowAddPhotoModal(false);
-  };
-
-  const handleDeletePhoto = (photoId) => {
-    // Logic to delete photo by photoId
+    } catch (error) {
+      console.error(error);
+      // Xử lý lỗi khi xóa ảnh
+    }
   };
 
   return (
-    <Modal show={true} onHide={handleClose}>
+    <Modal show={showModal} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Chỉnh sửa căn hộ</Modal.Title>
       </Modal.Header>
@@ -132,7 +134,7 @@ function EditApartment({ apartmentId, onClose }) {
             {apartmentImages.map((image) => (
               <div key={image.name} style={{display:"flex",flexDirection:"row", flexWrap:"wrap",gap:"1px"}}>
                       <img src={`http://localhost:8000/uploads/${image.name}`} alt="Apartment" style={{width:"5rem"}} />
-                <button onClick={() => handleDeletePhoto(image.id)} style={{height:"2rem"}}>x</button>
+                <button onClick={() => handleDeletePhoto(image.image_id)} style={{height:"2rem"}}>x</button>
               </div>
             ))}
             <Button variant="success" onClick={handleAddPhoto}>
@@ -149,26 +151,6 @@ function EditApartment({ apartmentId, onClose }) {
       </Modal.Body>
       <Modal.Footer>
       </Modal.Footer>
-
-      {showAddPhotoModal && (
-        <Modal show={true} onHide={handleAddPhotoClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Thêm ảnh</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {/* AddPhotoForm or your custom photo upload component */}
-            <p>AddPhotoForm</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleAddPhotoClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleAddPhotoSave}>
-              Lưu
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
     </Modal>
   );
 }

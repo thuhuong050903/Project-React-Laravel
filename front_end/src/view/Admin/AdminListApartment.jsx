@@ -12,12 +12,10 @@ class AdminListApartment extends Component {
       apartments: [],
     
       error: null,
-      // isAddFormVisible: false,
       apartment_id: null,
       isEditFormVisible: false,
       selectedApartmentId: null,
     };
-    // this.deleteApartment = this.deleteApartment.bind(this);
   }
 
   async componentDidMount() {
@@ -49,82 +47,60 @@ class AdminListApartment extends Component {
 
     const columns = [
       {
-        name: "Apartment ID",
+        name: "ID",
         selector: "apartment_id",
         sortable: true,
+        width:"70px"
       },
       {
-        name: "User ID",
-        selector: "user_id",
+        name: "Chủ sở hữu",
+        selector: "users.fullname",
         sortable: true,
       },
       {
-        name: "Description",
+        name: "Mô tả",
         selector: "description",
         sortable: true,
         wrap: true,
+        width: "400px",
+
+       
       },
       {
-        name: "Price",
+        name: "Giá",
         selector: "price",
         sortable: true,
       },
       {
-        name: "Number of Rooms",
+        name: "Số lượng phòng",
         selector: "number_room",
         sortable: true,
+        wrap: true,
+        width: "100px"
       },
       {
-        name: "Area",
+        name: "Diện tích",
         selector: "area",
         sortable: true,
       },
      
       {
-        name: "Type of Room",
+        name: "Loại phòng",
         selector: "type_room",
         sortable: true,
+        width: "150px"
+
       },
       {
-        name: "Address number",
-        selector: "number_address",
-        sortable: true,
-      },
-      {
-        name: "Street",
-        selector: "street",
-        sortable: true,
-      },
-      {
-        name: "Ward",
-        selector: "ward",
-        sortable: true,
-      },
-      {
-        name: "District",
-        selector: "district",
-        sortable: true,
-      },
-      {
-        name: "Action",
+        name: "Address",
         cell: (row) => (
           <div>
-           
-            <button
-              className="btn btn-sm watch-image"
-              style={{ width: "80px" }}
-              onClick={() => this.handleRelatedPhoto(row.apartment_id)}
-              type="button"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-image" viewBox="0 0 16 16">
-  <path d="M8.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
-  <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v8l-2.083-2.083a.5.5 0 0 0-.76.063L8 11 5.835 9.7a.5.5 0 0 0-.611.076L3 12V2z"/>
-</svg>
-            </button>
+            {row.number_address}, {row.street}, {row.ward}, {row.district}
           </div>
         ),
-        compact: true,
+        sortable: true,
       },
+     
     ];
 
     if (error) {
@@ -132,17 +108,22 @@ class AdminListApartment extends Component {
     }
     
     return (
-      <div className="list_apartment">
+      <div className="list_apartment" style={{ zIndex: 9999,backgroundColor:"#ffffff",marginTop:"2.6rem",marginLeft:"14rem",height:"50rem", border:"1px solid grey", width:"82.5%"}}>
        
-        {selectedApartmentId && <RelatedPhoto apartmentId={selectedApartmentId} />}
-        <DataTable
-          title="Apartment List" 
-          columns={columns}
-          data={apartments}
-          paginationPerPage={5}
-          defaultSortField="apartment_id"
-          pagination
-        />
+    <DataTable
+      title="Danh sách căn hộ" 
+      columns={columns}
+      data={apartments}
+      paginationPerPage={10}
+      defaultSortField="apartment_id"
+      pagination
+      columnStyles={{
+        description: {
+          width: "auto",
+        },
+      }}
+/>
+
       </div>
     );
   }
