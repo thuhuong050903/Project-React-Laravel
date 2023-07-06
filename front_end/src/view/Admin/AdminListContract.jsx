@@ -126,7 +126,7 @@ class AdminListContract extends Component {
     }
 
     return (
-      <div className="list_apartment">
+      <div className="list_apartment" style={{ zIndex: 9999,backgroundColor:"#ffffff",marginTop:"2.2rem",marginLeft:"14rem",height:"50rem", border:"1px solid grey", width:"82%"}}>
         <DataTable
           title="List Contracts"
           columns={columns}

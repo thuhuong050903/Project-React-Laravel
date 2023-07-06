@@ -46,9 +46,9 @@ function LessorShowApartment() {
   };
 
   return (
-    <div style={{ marginTop: '8rem' }}>
-      <h3>Căn hộ của bạn</h3>
-      <button onClick={openAddModal}>Thêm căn hộ</button>
+    <div style={{ marginTop: '8rem'}}>
+      <h3 style={{marginLeft:"2rem"}}>Căn hộ của bạn</h3>
+      <button onClick={openAddModal} style={{marginLeft:"2rem"}}>Thêm căn hộ</button>
       <div className="apartment-list" style={{ marginTop: '0rem', display: 'flex', flexWrap: 'wrap', gap: '1rem', marginLeft: '0.8rem' }}>
         {apartments ? (
           apartments.map((apartment) => (

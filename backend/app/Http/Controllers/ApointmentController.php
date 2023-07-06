@@ -215,4 +215,17 @@ return response()->json(['message' => 'Cập nhật căn hộ thành công'], 20
             return response()->json(['message' => 'Đã xảy ra lỗi khi xóa người dùng: ' . $e->getMessage()], 500);
         }
     }
+
+    public function getAppointments()
+{
+    try {
+        $appointments = Appointments::with('apartments','apartments.users', 'users')
+            ->select('appointment_id', 'user_id', 'apartment_id', 'desired_rent', 'desired_move_in_date', 'appointment_date_time', 'status')
+            ->get();
+
+        return response()->json($appointments);
+    } catch (\Exception $e) {
+        return response()->json($e, 500);
+    }
+}
 }

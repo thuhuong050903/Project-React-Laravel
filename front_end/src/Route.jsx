@@ -6,13 +6,14 @@ import SignIn from './component/Account/SignIn';
 import SignUp from './component/Account/SignUp';
 import AdminListApartment from './view/Admin/AdminListApartment';
 import AdminDashboard from './view/Admin/AdminDashboard';
-import AdminListAddress from './view/Admin/AdminListAddress';
 import AdminListUser from './view/Admin/AdminListUser';
 import Detail from './view/User/Detail';
 import ResetPasswordForm from './component/Account/ResetPasswordPage';
 import ConfirmPasswordResetPage from './component/Account/ConfirmPasswordResetPage';
 import AdminListSeeder from './view/Admin/AdminListSeeder';
 import AdminListContract from './view/Admin/AdminListContract';
+import AdminListAppointment from './view/Admin/AdminListAppointment';
+// import AdminListService from './view/Admin/AdminListService';
 import SeederApartmentsPage from './view/Admin/SeederApartmentsPage';
 import ShowAllApartments from './view/User/ShowAllApartments';
 import UserProfile from './view/User/UserProfile';
@@ -30,10 +31,10 @@ import ShowLongTermApartment from './view/User/ShowLongTermApartment';
     { path: "/admin/list-users", element: <AdminListUser /> },
     { path: "/admin/list-seeders", element: <AdminListSeeder /> },
     { path: "/admin/list-contracts", element: <AdminListContract /> },
-    { path: "/admin/list-address", element: <AdminListAddress /> },
     { path: "/admin/list-apartments", element: <AdminListApartment />},
-    { path: "/admin/show-user-apartments/:id", element: <SeederApartmentsPage/>}
-
+    // { path: "/admin/list-services", element: <AdminListService />},
+    { path: "/admin/show-user-apartments/:id", element: <SeederApartmentsPage/>},
+    { path: "/admin/list-appointments", element: <AdminListAppointment />},
   ];
   
 //user routes

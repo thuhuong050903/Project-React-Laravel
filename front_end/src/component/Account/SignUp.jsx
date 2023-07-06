@@ -4,7 +4,7 @@ import { Navbar, Nav, Button, Form, Col } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faInstagram, faTwitterSquare } from '@fortawesome/free-brands-svg-icons';
-
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import AuthUser from '../AuthUser';
 import '../../assets/style/SignUp.css';
 
@@ -23,11 +23,12 @@ export default function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
     try {
-      http
-      .post("/register", {
+      const response = await http.post("/register", {
         username: username,
         fullname: fullname,
         email: email,
@@ -36,16 +37,19 @@ export default function SignUp() {
         password: password,
         birthday: birthday,
         role: role,
-      })
-      .then((res) => {
-        alert("You registered successfully!");
-        navigate("/sign-in");
-      })
+      });
+      alert("You registered successfully!");
+      navigate("/sign-in");
     } catch (error) {
-        alert("Email already exists. Please enter a different email!");
-        setIsLoading(false);
+      if (error.response && error.response.data && error.response.data.errors) {
+        setFormErrors(error.response.data.errors);
+      } else {
+        alert("An error occurred. Please try again later.");
+      }
+      setIsLoading(false);
     }
-  }
+  };
+
 
   return (
       <div className="row signup-form" style={{margin:"9rem auto"}}>
@@ -155,8 +159,22 @@ export default function SignUp() {
                 </Form.Select>
                 {formErrors.role && <div className="error-message">{formErrors.role}</div>}
               </Form.Group>
-              <Button type="submit" className="btn-signup" style={{backgroundColor:"#DA291C", border:"none", marginTop:"1rem", marginLeft:"9rem"}}>Đăng kí</Button>
-              {isLoading && <div>Loading</div>}
+              <Button
+      type="submit"
+      className="btn-signup"
+      onClick={submitForm}
+      style={{ backgroundColor: "#DA291C", border: "none", marginTop: "1rem", marginLeft: "9rem" }}
+      disabled={isLoading} // Disable nút khi đang tải
+    >
+      {isLoading ? (
+        <>
+        <FontAwesomeIcon icon={faSpinner} spin style={{ marginRight: "0.5rem" }} />
+        Đang đăng kí...
+      </>
+      ) : (
+        "Đăng kí"
+      )}
+    </Button>
             </Form>
           </div>
         </div>

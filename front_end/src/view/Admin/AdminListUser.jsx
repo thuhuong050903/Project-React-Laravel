@@ -62,12 +62,12 @@ class AdminListUser extends Component {
         sortable: true,
       },
       {
-        name: "Username",
+        name: "Tên người dùng",
         selector: "username",
         sortable: true,
       },
       {
-        name: "Fullname",
+        name: "Tên đầy đủ",
         selector: "fullname",
         sortable: true,
         wrap: true,
@@ -78,39 +78,34 @@ class AdminListUser extends Component {
         sortable: true,
       },
       {
-        name: "Phone",
+        name: "Số điện thoại",
         selector: "phone",
         sortable: true,
       },
       {
-        name: "Address",
+        name: "Địa chỉ",
         selector: "address",
         sortable: true,
       },
       {
-        name: "Password",
-        selector: "password",
-        sortable: true,
-      },
-      {
-        name: "Birthday",
+        name: "Ngày sinh",
         selector: "birthday",
         sortable: true,
       },
       {
-        name: "Role",
+        name: "Vai trò",
         selector: "role",
         sortable: true,
       },
       {
-        name: "Status",
+        name: "Trạng thái",
         cell: (row) => (
           <div>{row.status}</div>
         ),
         sortable: true,
       },
       {
-        name: "Action",
+        name: "Hành động",
         cell: (row) => (
           <div>
             <button
@@ -133,12 +128,12 @@ compact: true,
     }
 
     return (
-      <div className="list_apartment">
+      <div className="list_apartment" style={{ zIndex: 9999,backgroundColor:"#ffffff",marginTop:"2.2rem",marginLeft:"14rem",height:"50rem", border:"1px solid grey", width:"82.5%"}}>
         <DataTable
-          title="User List"
+          title="Danh sách User"
           columns={columns}
           data={users}
-          paginationPerPage={5}
+          paginationPerPage={10}
           defaultSortField="id"
           pagination
         />
