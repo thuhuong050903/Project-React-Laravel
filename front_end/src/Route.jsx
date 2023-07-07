@@ -13,7 +13,7 @@ import ConfirmPasswordResetPage from './component/Account/ConfirmPasswordResetPa
 import AdminListSeeder from './view/Admin/AdminListSeeder';
 import AdminListContract from './view/Admin/AdminListContract';
 import AdminListAppointment from './view/Admin/AdminListAppointment';
-// import AdminListService from './view/Admin/AdminListService';
+import AdminListService from './view/Admin/AdminListService';
 import SeederApartmentsPage from './view/Admin/SeederApartmentsPage';
 import ShowAllApartments from './view/User/ShowAllApartments';
 import UserProfile from './view/User/UserProfile';
@@ -32,7 +32,7 @@ import ShowLongTermApartment from './view/User/ShowLongTermApartment';
     { path: "/admin/list-seeders", element: <AdminListSeeder /> },
     { path: "/admin/list-contracts", element: <AdminListContract /> },
     { path: "/admin/list-apartments", element: <AdminListApartment />},
-    // { path: "/admin/list-services", element: <AdminListService />},
+    { path: "/admin/list-services", element: <AdminListService />},
     { path: "/admin/show-user-apartments/:id", element: <SeederApartmentsPage/>},
     { path: "/admin/list-appointments", element: <AdminListAppointment />},
   ];
