@@ -1,16 +1,72 @@
+/* History.css */
 
-.card-history {
-  list-style: 1px;
-  display: flex;
-  flex-direction: row;
+.history-container {
+  padding: 20px;
+  margin-top: 8rem;
 }
 
-.card-preview-txt{
+.history-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: black;
+}
+
+
+.card-body {
   text-align: left;
 }
-.card-img {
- border-radius: none;
+
+.card-history {
+  padding: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
-.py-2{
-  margin: auto;
+.card-history .card-subtitle {
+  margin-bottom: 10px;
+  font-weight: bold;
+
+  color: #777;
+}
+
+.card-history .card-preview-txt {
+  color: #777;
+
+  margin-top: 20px;
+}
+
+.card-history .card-highlighted {
+  color: #777;
+  font-weight: bold;
+}
+
+.card-history .card-status {
+  color: #ee0000;
+  font-weight: bold;
+
+  margin-top: 10px;
+}
+section {
+  width: 100%;
+}
+.edit-button {
+  display: block;
+  margin-top: 10rem;
+  margin-left: 1.5rem;
+}
+
+.history-small-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.each-card {
+  width: calc(100% - 0px);
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .each-card {
+    width: 100%;
+  }
 }

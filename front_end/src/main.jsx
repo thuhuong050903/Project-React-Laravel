@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import App_admin from './App_admin.jsx'
-
+// import User_profile from './view/User/UserProfile.jsx'
 // import './index.css'
 // import reportWebVitals from './reportWebVitals';
 // import App from './App.jsx'
@@ -12,11 +11,8 @@ import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-
     <BrowserRouter>
-    <App></App>
-    {/* <AppManagement></AppManagement> */}
-  {/* <App_admin></App_admin> */}
+    <App/>
     </BrowserRouter>
   </React.StrictMode>,
 )

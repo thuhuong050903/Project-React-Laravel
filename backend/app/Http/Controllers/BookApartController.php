@@ -16,31 +16,26 @@ class BookApartController extends Controller
             'user_id' => 'required',
             'phone' => 'required',
             'apartment_id' => 'required',
-            'check_in_date' => 'required|date',
-            'check_out_date' => 'required|date'
+            'check_in_date' => 'required|date|after:today',
+            'check_out_date' => 'required|date|after:check_in_date|before_or_equal:'.now()->addDays(15)->format('Y-m-d'),
         ]);
-        $apartment_id = ($validatedData['apartment_id']);
-        // Calculate the number of days
-        
     
-      // Get the apartment price
-$apartment = Apartments::find($apartment_id); // Replace with your actual logic to retrieve the apartment
-$price = $apartment->price;
-
-// Calculate the total amount
-$checkInDate = \Carbon\Carbon::createFromFormat('Y-m-d', $validatedData['check_in_date']);
-$checkOutDate = \Carbon\Carbon::createFromFormat('Y-m-d', $validatedData['check_out_date']);
-$days = $checkOutDate->diffInDays($checkInDate);
-
-$totalAmount = $days * $price;
-
-$totalAmount = $days * $price;
-
+        // Get the apartment price
+        $apartment = Apartments::find($validatedData['apartment_id']); // Replace with your actual logic to retrieve the apartment
+        $price = $apartment->price;
+    
+        // Calculate the number of days
+        $checkInDate = \Carbon\Carbon::createFromFormat('Y-m-d', $validatedData['check_in_date']);
+        $checkOutDate = \Carbon\Carbon::createFromFormat('Y-m-d', $validatedData['check_out_date']);
+        $days = $checkOutDate->diffInDays($checkInDate);
+    
+        // Calculate the total amount
+        $totalAmount = $days * $price;
+    
         // Create a new booking
         $booking = new book_apartments();
         $booking->user_id = $validatedData['user_id'];
         $booking->apartment_id = $validatedData['apartment_id'];
-
         $booking->phone = $validatedData['phone'];
         $booking->check_in_date = $validatedData['check_in_date'];
         $booking->check_out_date = $validatedData['check_out_date'];
@@ -51,15 +46,19 @@ $totalAmount = $days * $price;
         // Return the created booking as JSON response
         return response()->json($booking, 201);
     }
+    
     public function show($userId)
     {
-        $book_apartment = book_apartments::with('apartments')->where('user_id', $userId)->first();
-
-        if (!$book_apartment) {
+        $book_apartment = book_apartments::with(['apartments', 'apartments.apartmentImage'])
+            ->where('user_id', $userId)
+            ->get();
+    
+        if ($book_apartment->isEmpty()) {
             return response()->json(['error' => 'Appointment not found'], 404);
         }
-
+    
         return response()->json($book_apartment);
     }
+    
     
 }
