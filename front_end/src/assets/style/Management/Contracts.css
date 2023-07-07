@@ -1,11 +1,17 @@
-.list_apartment.contracts {
+.containers {
+  margin-top: 100px;
+}
+
+.contracts {
+  margin-top: 0px !important;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
   }
   
   .card.contracts_card {
-    width: calc(27% - 0px);
+    margin-top: 60px !important;
+    width: calc(30% - 0px);
     background: linear-gradient( 120deg, #d4fc79 0%, #96e6a1 100%);
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -27,12 +33,7 @@
       padding-left: 15px;
   }
   
-  .contract-info {
-    padding-top: 10px;
-    padding-left: 8px;
-    display: flex;
-    align-items: center;
-  }
+
   
   .contract-label {
     flex-shrink: 0;

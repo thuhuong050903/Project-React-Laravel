@@ -68,7 +68,7 @@ const Home = () => {
           <Slider {...settings} ref={sliderRef} className="coLiving-slider">
           {apartments.map(apartment => (
             <div className="coLiving-apartment-item">
-              <Link to={`/apartment/${apartment.apartment_id}`} key={apartment.apartment_id} className="card">
+              <Link to={`/detail-apartment/${apartment.apartment_id}`} key={apartment.apartment_id} className="card">
                 <div className="coLiving-image-gallery">
                   <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
                     {apartment.apartment_image.map((image, index) => (

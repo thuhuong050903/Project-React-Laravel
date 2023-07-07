@@ -110,11 +110,11 @@ function AddApartment({ onClose }) {
           </div>
           <div>
             <label>Số phòng:</label>
-            <input type="text" value={number_room} onChange={(e) => setNumberRoom(e.target.value)} />
+            <input type="number" value={number_room} onChange={(e) => setNumberRoom(e.target.value)} />
           </div>
           <div>
             <label>Diện tích:</label>
-            <input type="text" value={area} onChange={(e) => setArea(e.target.value)} />
+            <input type="number" value={area} onChange={(e) => setArea(e.target.value)} />
           </div>
           <div>
             <label>Loại phòng:</label>

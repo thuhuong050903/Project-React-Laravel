@@ -66,7 +66,13 @@ function ShowAllApartments() {
         <h3>PHÒNG NGẮN HẠN</h3>
         <div className="apartment-list">
           {displayedShortTermApartments.map(apartment => (
-            <Link to={`/detail-apartment/${apartment.apartment_id}`} key={apartment.apartment_id} className="card">
+           <Link
+           to={`/detail-apartment/${apartment.apartment_id}`}
+           key={apartment.apartment_id}
+           className={`card ${apartment.status === 'Hết phòng' ? 'unavailable' : ''}`}
+           onClick={apartment.status === 'Hết phòng' ? e => e.preventDefault() : null}
+         >
+         
               <div className="image-gallery">
                 <Slider arrows={false} dots={false} autoplay={true} speed={3000} autoplaySpeed={10000}>
                   {apartment.apartment_image.map((image, index) => (
@@ -76,15 +82,18 @@ function ShowAllApartments() {
                   ))}
                 </Slider>
               </div>
-              <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.ward} - {apartment.district}</div>
+              <div className={`apartment-item ${apartment.status === 'Hết phòng' ? 'unavailable' : ''}`}>
+                Cho thuê phòng - Dream Home - {apartment.ward} - {apartment.district}
+              </div>
               <div className='apartment-price'>{apartment.price} đ</div>
-              <div className='apartment-item'>
+              <div className={`apartment-item ${apartment.status === 'Hết phòng' ? 'unavailable' : ''}`}>
                 <FontAwesomeIcon icon={faBuilding} className="icon" style={{ color: '#555555' }} />&nbsp;
                 Số phòng:{apartment.number_room}
               </div>
-              <div className='apartment-item'>
+              <div className={`apartment-item ${apartment.status === 'Hết phòng' ? 'unavailable' : ''}`}>
                 <FontAwesomeIcon icon={faExpand} className="icon" style={{ color: '#555555' }} />&nbsp;
-                Diện tích: {apartment.area}
+
+              : {apartment.area}
               </div>
               <div className='address'>
                 <FontAwesomeIcon icon={faMapMarkerAlt} className="address-icon" style={{ color: '#555555' }} />&nbsp;
@@ -96,7 +105,12 @@ function ShowAllApartments() {
         <h3>PHÒNG DÀI HẠN</h3>
         <div className="apartment-list">
           {displayedLongTermApartments.map(apartment => (
-            <Link to={`/detail-apartment/${apartment.apartment_id}`} key={apartment.apartment_id} className="card">
+            <Link
+              to={`/detail-apartment/${apartment.apartment_id}`}
+              key={apartment.apartment_id}
+              className={`card ${apartment.status === 'Hết phòng' ? 'unavailable' : ''}`}
+              onClick={apartment.status === 'Hết phòng' ? e => e.preventDefault() : null}
+            >
               <div className="image-gallery">
                 <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
                   {apartment.apartment_image.map((image, index) => (
@@ -106,13 +120,15 @@ function ShowAllApartments() {
                   ))}
                 </Slider>
               </div>
-              <div className='apartment-item'>Cho thuê phòng - Dream Home - {apartment.ward} - {apartment.district}</div>
+              <div className={`apartment-item ${apartment.status === 'Hết phòng' ? 'unavailable' : ''}`}>
+                Cho thuê phòng - Dream Home - {apartment.ward} - {apartment.district}
+              </div>
               <div className='apartment-price'>{apartment.price} đ</div>
-              <div className='apartment-item'>
+              <div className={`apartment-item ${apartment.status === 'Hết phòng' ? 'unavailable' : ''}`}>
                 <FontAwesomeIcon icon={faBuilding} className="icon" style={{ color: '#555555' }} />&nbsp;
                 Số phòng:{apartment.number_room}
               </div>
-              <div className='apartment-item'>
+              <div className={`apartment-item ${apartment.status === 'Hết phòng' ? 'unavailable' : ''}`}>
                 <FontAwesomeIcon icon={faExpand} className="icon" style={{ color: '#555555' }} />&nbsp;
                 Diện tích: {apartment.area}
               </div>
