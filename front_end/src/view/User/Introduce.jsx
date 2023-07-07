@@ -66,7 +66,7 @@ const Introduce = () => {
         <p className="nm-2020-jinjoo">
           Chúng tôi hướng đến những tiện nghi của co-living và loại bỏ những
           phiền toái của việc thuê nhà trọ thông thường. Trong cộng đồng JinJoo
-Home các cư dân sẽ có cơ hội gặp gỡ, giao tiếp và kết nối. Chúng tôi
+          Home các cư dân sẽ có cơ hội gặp gỡ, giao tiếp và kết nối. Chúng tôi
           có các hoạt động cộng đồng độc quyền, các chương trình sinh hoạt vui
           chơi giải trí, các khóa học bổ ích, … Và một điều quan trọng hơn hết
           co-living giúp bạn tiết kiệm chi phí. Khi là một thành viên của cộng
@@ -96,7 +96,7 @@ Home các cư dân sẽ có cơ hội gặp gỡ, giao tiếp và kết nối. C
       <iframe className='video_1' width="639" height="315" src="https://www.youtube.com/embed/_qNDxJhNZrg" title="[JinJoo Home] Cùng JinJoo kiến tạo không gian sống || Cho thuê phòng - Căn hộ dịch vụ tại TP.HCM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       
       <div className="footer-parent">
-      <div className="cc-d-n1">5. Trụ sở chính:</div>
+     
         
         <div className="group-child65" />
       </div>
