@@ -4,6 +4,7 @@
   .nm-2020-jinjoo,
   .quy-m {
     margin: 0;
+    color: black;
   }
   .nhim-v-s-container,
   .quy-m-container {
@@ -13,12 +14,14 @@
     text-align: justify;
     display: inline-block;
     font-family: var(--font-poppins);
+
   }
   .quy-m-container {
     top: 175px;
     line-height: 30px;
     width: 694px;
     height: 195px;
+    color: black;
   }
   .nhim-v-s-container {
     top: 560px;
@@ -41,14 +44,14 @@
     display: inline-block;
   }
   .tr-s-chnh {
-    top: 1614px;
+    top: 1414px;
     left: 90px;
     font-weight: 600;
     width: 268px;
     height: 53px;
   }
   .cng-ty-tnhh-container {
-    top: 1690px;
+    top: 1470px;
     left: 92px;
     line-height: 25px;
     width: 532px;
@@ -56,7 +59,7 @@
   }
   .map {
     position: absolute;
-    top: 1667px;
+    top: 1470px;
     left: 800px;
     width: 743px;
     height: 376px;
@@ -592,7 +595,7 @@ height: 57px;
     overflow: hidden;
     text-align: left;
    
-    color: var(--color-black);
+    color:black;
     font-family: 'Roboto';
     font-size: 18px;
   }

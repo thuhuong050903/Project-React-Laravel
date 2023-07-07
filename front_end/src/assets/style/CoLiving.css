@@ -19,6 +19,7 @@
 }
 .nu-co-working-l {
   margin: 0;
+  color:#000
 }
 .nu-co-working-l-container {
   position: absolute;
@@ -28,6 +29,7 @@
   display: inline-block;
   width: 752px;
   height: 381px;
+  color:#000
 }
 .blank-line1 {
   margin: 0;
@@ -780,6 +782,8 @@
 }
 .nim-vui {
   margin: 0;
+  color: #1d1c1c;
+  font-weight:400;
 }
 .nng-lng-container,
 .nim-vui-container {
@@ -787,6 +791,7 @@
   top: 322px;
   left: 483px;
   text-align: center;
+  color: #000;
 }
 .nng-lng-container {
   left: 749px;
@@ -795,6 +800,7 @@
   position: absolute;
   top: 322px;
   left: 1038px;
+  color: #000;
 }
 .slideshow {
   display: flex;
