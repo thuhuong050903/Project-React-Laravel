@@ -82,7 +82,7 @@ const Header = () => {
         <header
           className="site-navbar js-sticky-header site-navbar-target"
           role="banner"
-          style={{ width: "1263.33px" }}
+          style={{ width: "100%" }}
         >
           <div className="container">
             <div className="row align-items-center position-relative">

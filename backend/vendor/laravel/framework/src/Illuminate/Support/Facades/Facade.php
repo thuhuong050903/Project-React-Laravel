@@ -11,6 +11,7 @@ use Illuminate\Support\Testing\Fakes\Fake;
 use Mockery;
 use Mockery\LegacyMockInterface;
 use RuntimeException;
+
 abstract class Facade
 {
     /**

@@ -290,8 +290,11 @@
 
  .sticky-wrapper {
    position: relative;
-   z-index: 100;
+   z-index: 100%;
    width: 100%;
+ }
+ .container{
+  width: 100%;
  }
 
  .sticky-wrapper .site-navbar {
