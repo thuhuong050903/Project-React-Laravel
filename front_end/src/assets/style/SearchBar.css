@@ -1,4 +1,4 @@
-
+.s01 form .inner-form
 html {
     line-height: 1.15;
     /* 1 */
@@ -182,7 +182,7 @@ html {
   .fixed-searchbar {
     position: absolute;
     top:8rem;
-    left: 8rem;
+    left: 18rem;
   }
   /* Embedded content
      ========================================================================== */
