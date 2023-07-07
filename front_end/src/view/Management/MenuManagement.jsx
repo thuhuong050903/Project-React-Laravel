@@ -69,18 +69,28 @@ const MenuManagement = () => {
             role="menu"
             data-accordion="false"
           >
-            <Link to={`./contact`}>
+            <Link to={`/lessor/book_apartment`}>
               <li className="nav-item">
                 <a className="nav-link">
                   <i className="nav-icon fas fa-tree" />
                   <p>
-                    Contact
+                    Căn hộ đã đặt
                     <i className="fas fa-angle-left right" />
                   </p>
                 </a>
               </li>
             </Link>
-
+            <Link to={`/lessor/apartment_issue`}>
+              <li className="nav-item">
+                <a className="nav-link">
+                  <i className="nav-icon fas fa-tree" />
+                  <p>
+                    Yêu cầu sửa chữa
+                    <i className="fas fa-angle-left right" />
+                  </p>
+                </a>
+              </li>
+            </Link>
             <Link to={`/lessor/appointments`}>
               <li className={`nav-item ${hasNewAppointment && !isNotificationSeen ? "text-danger" : ""}`}>
                 <a href="#" className="nav-link" onClick={handleConfirmAppointmentClick}>

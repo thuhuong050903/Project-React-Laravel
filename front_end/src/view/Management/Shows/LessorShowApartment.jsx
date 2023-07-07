@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Swal from "sweetalert";
 import EditApartment from './EditApartment';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -26,7 +27,10 @@ function LessorShowApartment() {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/api/get-apartments-byLessorId/${user.id}`);
-        setApartments(response.data);
+        
+        const sortApartment = response.data.sort((a,b) => b.apartment_id-a.apartment_id) 
+        setApartments(sortApartment);
+        console.log(sortApartment);
       } catch (error) {
         console.error(error);
       }

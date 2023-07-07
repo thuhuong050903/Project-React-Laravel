@@ -36,7 +36,7 @@ function StarRating({ apartmentId, userId }) {
     };
 
     axios
-      .post('http://localhost:8000/api/ratings', ratingData)
+      .post('http://localhost:8000/api/add-ratings', ratingData)
       .then((response) => {
         console.log('Rating submitted successfully:', response.data);
         setSelectedRating(0);
@@ -52,7 +52,7 @@ function StarRating({ apartmentId, userId }) {
 
   const fetchStarCount = () => {
     axios
-      .get(`http://localhost:8000/api/ratings?apartment_id=${apartmentId}&user_id=${userId}`)
+      .get(`http://localhost:8000/api/get-ratings?apartment_id=${apartmentId}&user_id=${userId}`)
       .then((response) => {
         setStarCount(response.data.number_of_stars);
       })

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../../../assets/style/ModalAddApartment.css'
+import Swal from "sweetalert";
 import { Modal, Button } from 'react-bootstrap';
+
 
 function EditApartment({ apartmentId, onClose }) {
   const [description, setDescription] = useState('');
@@ -55,7 +58,13 @@ function EditApartment({ apartmentId, onClose }) {
         ward: ward,
         district: district,
       });
+      Swal({
+        text: "Update successfully",
+        icon: "success",
+        button: "OK",
+      })
       console.log(response.data);
+      
       onClose();
       // Xử lý thành công, thực hiện các thao tác khác (ví dụ: hiển thị thông báo, chuyển hướng người dùng đến trang danh sách căn hộ, v.v.)
     } catch (error) {
@@ -73,13 +82,14 @@ function EditApartment({ apartmentId, onClose }) {
     setShowAddPhotoModal(true);
   };
 
-  const handleDeletePhoto = async (photoId) => {
+  const handleDeletePhoto = async (e, photoId) => {
     try {
+      e.preventDefault();
       // Gọi API để xóa ảnh từ Laravel backend
       await axios.delete(`http://localhost:8000/api/delete-photo/${photoId}`);
-      setShowModal(true);
-      setApartmentImages(apartmentImages.filter((image) => image.id !== photoId));
-
+      // setShowModal(true);
+      setApartmentImages(apartmentImages.filter((image) => image.image_id !== photoId));
+      
     } catch (error) {
       console.error(error);
       // Xử lý lỗi khi xóa ảnh
@@ -87,12 +97,12 @@ function EditApartment({ apartmentId, onClose }) {
   };
 
   return (
-    <Modal show={showModal} onHide={handleClose}>
+    <Modal show={showModal} onHide={handleClose} className="custom-modal">
       <Modal.Header closeButton>
         <Modal.Title>Chỉnh sửa căn hộ</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
           <div>
             <label>Mô tả:</label>
             <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
@@ -134,7 +144,7 @@ function EditApartment({ apartmentId, onClose }) {
             {apartmentImages.map((image) => (
               <div key={image.name} style={{display:"flex",flexDirection:"row", flexWrap:"wrap",gap:"1px"}}>
                       <img src={`http://localhost:8000/uploads/${image.name}`} alt="Apartment" style={{width:"5rem"}} />
-                <button onClick={() => handleDeletePhoto(image.image_id)} style={{height:"2rem"}}>x</button>
+                <button onClick={(e) => handleDeletePhoto(e, image.image_id)} style={{height:"2rem"}}>x</button>
               </div>
             ))}
             <Button variant="success" onClick={handleAddPhoto}>
