@@ -19,6 +19,7 @@
 }
 .nu-co-working-l {
   margin: 0;
+  color:#000
 }
 .nu-co-working-l-container {
   position: absolute;
@@ -28,6 +29,7 @@
   display: inline-block;
   width: 752px;
   height: 381px;
+  color:#000
 }
 .blank-line1 {
   margin: 0;
