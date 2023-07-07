@@ -639,7 +639,7 @@ height: 19px;
 .v-sao-jinjoo {
     position: absolute;
     top: 37px;
-    left: 113px;
+    left: 443px;
     font-size: var(--font-size-5xl);
   }
   .image-48-icon {
@@ -674,8 +674,11 @@ height: 19px;
     height: 153.64px;
   }
   .nhiu-nim-vui {
-    margin: 0;
+    margin-left: 20px;
+    color: black;
+    font-weight:bold;
   }
+  
   .ngun-nng-lng-container,
   .nhiu-nim-vui-container {
     position: absolute;
@@ -690,6 +693,7 @@ height: 19px;
     position: absolute;
     top: 322px;
     left: 1038px;
+    margin-left: 30px;
   }
   .desktop-13-child {
     position: absolute;
