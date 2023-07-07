@@ -44,14 +44,14 @@
     display: inline-block;
   }
   .tr-s-chnh {
-    top: 1614px;
+    top: 1414px;
     left: 90px;
     font-weight: 600;
     width: 268px;
     height: 53px;
   }
   .cng-ty-tnhh-container {
-    top: 1690px;
+    top: 1470px;
     left: 92px;
     line-height: 25px;
     width: 532px;
@@ -59,7 +59,7 @@
   }
   .map {
     position: absolute;
-    top: 1667px;
+    top: 1470px;
     left: 800px;
     width: 743px;
     height: 376px;
