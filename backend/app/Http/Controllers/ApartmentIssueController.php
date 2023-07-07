@@ -28,7 +28,7 @@ public function store(Request $request)
         $apartmentIssue->apartment_id = $data['apartment_id'];
         $apartmentIssue->description = $data['description'];
         $apartmentIssue->report_date = Carbon::now(); 
-        $apartmentIssue->resolved = 'Chờ xác nhận';
+        $apartmentIssue->resolved = 'Chờ giải quyết';
         $apartmentIssue->save();
 
         return response()->json($apartmentIssue, 201);
@@ -37,5 +37,32 @@ public function store(Request $request)
     }
 }
 
+///------------Get apartmentIssue----------///
+public function getApartmentissue($userId)
+{
+    $issues = apartmentIssue::with('apartments', 'users')
+        ->whereHas('apartments', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+        ->get();
+
+    return response()->json($issues);
+}
+
+//---update status---////
+public function confirmIssue(Request $request, $id)
+{
+    // Lấy thông tin cần cập nhật từ request
+    $resolved = $request->input('resolved');
+
+    // Cập nhật trạng thái cuộc hẹn trong cơ sở dữ liệu
+    $issue = apartmentIssue::find($id);
+    if (!$issue) {
+        return response()->json(['message' => 'Appointment not found'], 404);
+    }
+    $issue->update(['resolved' => $resolved]);
+
+    return response()->json(['message' => 'Appointment status updated successfully']);
+}
 
 }

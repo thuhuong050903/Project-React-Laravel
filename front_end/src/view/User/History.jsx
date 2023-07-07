@@ -4,6 +4,7 @@ import "../../assets/style/History.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { Modal } from 'react-bootstrap';
+import { isBefore, parseISO } from 'date-fns';
 
 const History = () => {
   const [apartments, setApartments] = useState([]);
@@ -97,7 +98,7 @@ const History = () => {
                 <div key={apartment.book_id} className="col-md-12">
                   <div className="row card-history ">
                     <div className="col-md-3  ">
-                    <img src={`http://localhost:8000/uploads/${apartment.apartments.apartment_image[0].name}`} alt="Apartment" style={{width:"16rem"}} />
+                      <img src={`http://localhost:8000/uploads/${apartment.apartments.apartment_image[0].name}`} alt="Apartment" style={{ width: "16rem" }} />
                     </div>
                     <div className="col-md-7 card-body ">
                       <div className="card-subtitle ">
@@ -114,7 +115,7 @@ const History = () => {
                       </div>
                     </div>
                     <div className="col-md-2">
-                      {apartment.status === "Đã xác nhận" && (
+                      {isBefore(parseISO(apartment.check_in_date), new Date()) && (
                         <button className="edit-button btn btn-primary" onClick={() => handleEditRequest(apartment)}>
                           Yêu cầu chỉnh sửa căn hộ
                         </button>
@@ -132,7 +133,7 @@ const History = () => {
           </div>
         )}
       </section>
-      
+
       {/* Modal yeu cau chinh sua can ho */}
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>

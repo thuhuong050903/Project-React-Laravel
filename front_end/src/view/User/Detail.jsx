@@ -41,10 +41,21 @@ function Detail() {
       });
   };
 
+
+    const totalPrice = () => {
+// viết hàm reset field
+if (!showModal || !bookingcheck_out_date || !bookingcheck_in_date) return 0;
+
+const differenceInTime = new Date( bookingcheck_out_date).getTime() - new Date (bookingcheck_in_date).getTime();
+// To calculate the no. of days between two dates
+const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+return differenceInDays * apartment.price
+    }
   const handleBookNow = () => {
     if (apartment.type_room === 'Phòng ngắn hạn') {
       if (userdetail && userdetail.id) {
         setShowModal(true);
+
       } else {
         alert('Bạn cần đăng nhập để đặt phòng');
       }
@@ -212,12 +223,16 @@ function Detail() {
               <label>Ngày trả phòng:</label>
               <input type='date' value={bookingcheck_out_date} onChange={handleBookingcheck_out_dateChange} />
             </div>
+            <div>
+              Tổng tiền: {totalPrice()}
+            </div>
+            {bookingError && <div className="error-message">{bookingError}</div>}
+
           </Modal.Body>
           <Modal.Footer>
             <Button variant='primary' onClick={handleBookingSubmit}>
               Đặt phòng
             </Button>
-            {bookingError && <div className="error-message">{bookingError}</div>}
 
           </Modal.Footer>
         </Modal>
@@ -253,9 +268,9 @@ function Detail() {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <button className='booking-submit' onClick={handleBookingSubmit}>
-              Đặt lịch dài hạn
-            </button>
+          <Button variant='primary' onClick={handleBookingSubmit}>
+              Đặt lịch
+            </Button>
 
           </Modal.Footer>
         </Modal>

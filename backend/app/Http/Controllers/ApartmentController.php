@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\apartmentImage;
 use App\Models\apartments;
+use App\Models\book_apartments;
 use App\Models\Images;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +43,7 @@ class ApartmentController extends Controller
         $apartment->street = $validatedData['street'];
         $apartment->ward = $validatedData['ward'];
         $apartment->district = $validatedData['district'];
+        $apartment-> status = 'Còn phòng';
 
 
 
@@ -218,6 +220,36 @@ public function deleteApartments($id)
     } catch (\Exception $e) {
         return response()->json(['message' => 'Đã xảy ra lỗi khi xóa căn hộ: ' . $e->getMessage()], 500);
     }
+}
+
+
+public function updateApartmentStatus()
+{
+    // Cập nhật trạng thái của book_apartments
+    book_apartments::where('status', 'Chờ xác nhận')
+        ->whereDate('check_in_date', '<=', now())
+        ->update(['status' => 'Đang sử dụng']);
+
+    book_apartments::where('status', 'Đang sử dụng')
+        ->whereDate('check_out_date', '<=', now())
+        ->update(['status' => 'Đã thanh toán']);
+
+    // Cập nhật trạng thái của apartments
+    apartments::leftJoin('book_apartments', 'apartments.apartment_id', '=', 'book_apartments.apartment_id')
+        ->whereNotNull('book_apartments.apartment_id')
+        ->update(['apartments.status' => 'Hết phòng']);
+
+    apartments::leftJoin('book_apartments', 'apartments.apartment_id', '=', 'book_apartments.apartment_id')
+        ->whereNull('book_apartments.apartment_id')
+        ->update(['apartments.status' => 'Còn phòng']);
+
+        apartments::leftJoin('contracts', 'apartments.apartment_id', '=', 'contracts.apartment_id')
+        ->whereNull('contracts.apartment_id')
+        ->update(['apartments.status' => 'Còn phòng']);
+
+        apartments::leftJoin('contracts', 'apartments.apartment_id', '=', 'contracts.apartment_id')
+        ->whereNotNull('contracts.apartment_id')
+        ->update(['apartments.status' => 'Hết phòng']);
 }
 
 }
