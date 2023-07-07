@@ -293,9 +293,7 @@
    z-index: 100%;
    width: 100%;
  }
- .container{
-  width: 100%;
- }
+ 
 
  .sticky-wrapper .site-navbar {
    -webkit-transition: .3s all ease;
