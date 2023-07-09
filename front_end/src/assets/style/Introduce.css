@@ -22,11 +22,14 @@
     width: 694px;
     height: 195px;
     color: black;
+    left: 8%;
+    
   }
   .nhim-v-s-container {
     top: 560px;
     width: 1258px;
     height: 415px;
+    left: 8%;
   }
   .cc-d-n1 {
     top: 1095px;
@@ -45,14 +48,14 @@
   }
   .tr-s-chnh {
     top: 1414px;
-    left: 90px;
+    left: 8%;
     font-weight: 600;
     width: 268px;
     height: 53px;
   }
   .cng-ty-tnhh-container {
     top: 1470px;
-    left: 92px;
+    left: 8%;
     line-height: 25px;
     width: 532px;
     height: 216px;
@@ -60,7 +63,7 @@
   .map {
     position: absolute;
     top: 1470px;
-    left: 800px;
+    left: 700px;
     width: 743px;
     height: 376px;
     object-fit: cover;
@@ -69,7 +72,7 @@
   .video_1 {
     position: absolute;
     top: 211px;
-    left: 834px;
+    left: 900px;
     background-color: var(--color-gainsboro-300);
     width: 514px;
     height: 270px;
@@ -609,7 +612,7 @@ height: 57px;
   }
   
   .card-img-top {
-    height: 200px;
+    height: 300px;
     object-fit: cover;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -658,10 +661,10 @@ height: 57px;
     background-color: #0056b3;
   }
   
-  .col-md-3 {
+  /* .col-md-3 {
     display: inline-flex;
     margin-top: 1000px;
-  }
+  } */
   
 
   

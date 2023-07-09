@@ -1,3 +1,6 @@
+<!-- server.php code here -->
+
+
 <?php
 
 $publicPath = getcwd();
