@@ -61,7 +61,8 @@ Route::get('/history-apartments/{userId}', [App\Http\Controllers\BookApartContro
 
 // Route post  apartment issues
 Route::post('/apartment-issues', [App\Http\Controllers\ApartmentIssueController::class, 'store']);
-
+Route::get('/get-Apartment_issue/{userId}', [App\Http\Controllers\ApartmentIssueController::class, 'getApartmentissue']);
+Route::put('confirm-Apartment_issue/{id}', [App\Http\Controllers\ApartmentIssueController::class, 'confirmIssue']);
 // Route related to user
 Route::put('/update-user/{id}', [App\Http\Controllers\UserController::class,'updateUser']);
 Route::get('/SeederInfo/{userId}', [App\Http\Controllers\UserController::class, 'getSeederInfo']);
@@ -89,6 +90,13 @@ Route::get('/search-apartment', [App\Http\Controllers\ApartmentController::class
 Route::delete('/delete-apartments/{apartment_id}', [App\Http\Controllers\ApartmentController::class, 'deleteApartments']);
 Route::get('/SeederApartmentPage/{id}', [App\Http\Controllers\ApartmentController::class, 'getSeederApartments']);
 Route::delete('/delete-photo/{photoId}', [App\Http\Controllers\ApartmentController::class,'deletePhoto']);
+Route::get('/get-bookapartment/{userId}', [App\Http\Controllers\BookApartController::class, 'getBookapartment']);
+Route::delete('/delete-bookapartment/{book_id}', [App\Http\Controllers\BookApartController::class, 'deletebookapartment']);
+Route::put('/update-apartment-status', [App\Http\Controllers\ApartmentController::class, 'updateApartmentStatus']);
+
+
+Route::put('appointments/{appointment_id}/confirm', [App\Http\Controllers\ApointmentController::class, 'confirm']);
+Route::put('appointments/{appointment_id}/cancel', [App\Http\Controllers\ApointmentController::class, 'cancel']);
 
 
 Route::get('/get-service',[App\Http\Controllers\ServiceController::class,'getServices']);

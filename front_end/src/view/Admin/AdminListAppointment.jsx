@@ -18,7 +18,7 @@ class AdminListAppointment extends Component {
     this.fetchAppointments();
   }
 
-  async fetchAppointments() {
+  fetchAppointments = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/get-appointments");
       const appointments = response.data;
@@ -27,25 +27,88 @@ class AdminListAppointment extends Component {
       console.error("Error fetching appointments:", error);
       this.setState({ error: "Error fetching appointments" });
     }
-  }
+  };
 
   handleSendMail = async (email1, email2) => {
     const emails = [email1, email2];
 
     try {
-      await Promise.all(emails.map((email) => axios.get(`http://127.0.0.1:8000/agree-appointment?email=${email}`)));
+      await Promise.all(emails.map((email) => axios.get(`http://localhost:8000/agree-appointment?email=${email}`)));
 
       this.setState((prevState) => ({
         sentEmails: [...prevState.sentEmails, ...emails],
       }));
 
       console.log("Emails sent successfully");
-      alert("Emails sent successfully");
     } catch (error) {
       console.error("Error sending emails:", error);
     }
   };
 
+  handleConfirmAppointment = async (row) => {
+    try {
+      if (row.status !== "confirmed") {
+        alert("Chỉ được phép xác nhận các cuộc hẹn đã được xác nhận.");
+        return;
+      }
+  
+      const { appointments } = this.state;
+      const confirmedAppointments = appointments.map((appointment) => {
+        if (appointment.appointment_id === row.appointment_id) {
+          return { ...appointment, admin_confirm: "confirmed" };
+        }
+        return appointment;
+      });
+  
+      await axios.put(`http://localhost:8000/api/appointments/${row.appointment_id}/confirm`, {
+        admin_confirm: "confirmed",
+      });
+  
+      await this.handleSendMail(row.users.email, row.apartments.users.email);
+  
+      this.setState({
+        appointments: confirmedAppointments,
+      });
+  
+      console.log("Appointment confirmed");
+      alert("Appointment confirmed");
+    } catch (error) {
+      console.error("Error confirming appointment:", error);
+      alert("Error confirming appointment");
+    }
+  };
+  
+
+  handleCancelAppointment = async (row) => {
+    try {
+      if (row.status !== "confirmed") {
+        alert("Chỉ được phép hủy các cuộc hẹn đã được xác nhận.");
+        return;
+      }
+
+      const { appointments } = this.state;
+      const canceledAppointments = appointments.map((appointment) => {
+        if (appointment.appointment_id === row.appointment_id) {
+          return { ...appointment, admin_confirm: "canceled" };
+        }
+        return appointment;
+      });
+
+      await axios.put(`http://localhost:8000/api/appointments/${row.appointment_id}/cancel`, {
+admin_confirm: "canceled",
+      });
+
+      this.setState({
+        appointments: canceledAppointments,
+      });
+
+      console.log("Appointment canceled");
+      alert("Appointment canceled"); // Hiển thị thông báo hủy thành công
+    } catch (error) {
+      console.error("Error canceling appointment:", error);
+      alert("Error canceling appointment"); // Hiển thị thông báo lỗi
+    }
+  };
   render() {
     const { appointments, error, sentEmails } = this.state;
 
@@ -112,7 +175,7 @@ class AdminListAppointment extends Component {
           },
          
           {
-name: "Seeder Birthday",
+            name: "Seeder Birthday",
             selector: "apartments.users.birthday",
             sortable: true,
           },
@@ -145,7 +208,7 @@ name: "Seeder Birthday",
             name: "Type Room",
             selector: "apartments.type_room",
             sortable: true,
-          },
+},
           {
             name: "Number Address",
             selector: "apartments.number_address",
@@ -186,22 +249,27 @@ name: "Seeder Birthday",
             selector: "status",
             sortable: true,
           },
+          {
+            name:"Confirm Admin",
+            selector: "admin_confirm",
+            sortable: true,
+          },
+          {
+            name: "Xác nhận",
+            cell: (row) => {
+              if (row.admin_confirm !== "confirmed" && row.admin_confirm !== "canceled") {
+                return (
+                  <div>
+                    <button onClick={() => this.handleConfirmAppointment(row)}>Confirm</button>
+                    <button onClick={() => this.handleCancelAppointment(row)}>Cancel</button>
+                  </div>
+                );
+              }
+              return null;
+            },
+          },
 
-      {
-        name: "Appointment agree",
-        cell: (row) => {
-          if (row.status === "confirmed") {
-            const isEmailSent = sentEmails.includes(row.users.email) && sentEmails.includes(row.apartments.users.email);
-
-            return (
-              <button disabled={isEmailSent} onClick={() => this.handleSendMail(row.users.email, row.apartments.users.email)}>
-                {isEmailSent ? "Đã gửi mail" : "Send Mail"}
-              </button>
-            );
-          }
-          return null;
-        },
-      },
+     
     ];
 
     if (error) {
@@ -209,7 +277,7 @@ name: "Seeder Birthday",
     }
 
     return (
-      <div className="list_apartment">
+      <div className="list_apartment" style={{marginLeft:"14.05rem", marginTop:"2.5rem",width:"85%", height:"50rem", backgroundColor:"white"}}>
         <DataTable
           title="List Appointments"
           columns={columns}
@@ -217,7 +285,9 @@ name: "Seeder Birthday",
           paginationPerPage={5}
           defaultSortField="appointment_id"
           pagination
+          style={{height:"50rem"}}
         />
+       
       </div>
     );
   }

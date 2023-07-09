@@ -23,6 +23,8 @@ import DashboardManagement from './view/Management/DashboardManagement';
 import LessorShowApartment from './view/Management/Shows/LessorShowApartment';
 import EditApartment from './view/Management/Shows/EditApartment';
 import History from './view/User/History';
+import ApartmentIssue from './view/Management/Shows/ApartmentIssue';
+import BookApartment from './view/Management/Shows/BookApartment';
 import ShowShortTermApartments from './view/User/ShowShortTermApartment';
 import ShowLongTermApartment from './view/User/ShowLongTermApartment';
   // Admin Routes
@@ -39,6 +41,8 @@ import ShowLongTermApartment from './view/User/ShowLongTermApartment';
   
 //user routes
   const commonRoutes = [  
+    { path: "/lessor/book_apartment", element: < BookApartment /> },
+    { path: "/lessor/apartment_issue", element: < ApartmentIssue/> },
     {path: "/lessor/dashboard", element: <DashboardManagement /> },
   { path: "/lessor/get-apartments-byLessorId/:id", element: <LessorShowApartment /> },
   { path: "/lessor/contracts", element: < Contract/> },

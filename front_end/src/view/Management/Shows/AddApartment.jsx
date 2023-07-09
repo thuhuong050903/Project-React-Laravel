@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../../../assets/style/ModalAddApartment.css'
 import { Modal, Button } from 'react-bootstrap';
+import Swal from "sweetalert";
+
 import axios from 'axios';
 
 function AddApartment({ onClose }) {
@@ -50,7 +52,11 @@ function AddApartment({ onClose }) {
         },
       });
 
-      alert("Thêm căn hộ thành công!");
+      Swal({
+        text: "Thêm thành công",
+        icon: "success",
+        button: "OK",
+      });
       window.location.reload();
 
       console.log(addApartmentResponse.data);
@@ -94,7 +100,7 @@ function AddApartment({ onClose }) {
   };
 
   return (
-    <Modal show={true} onHide={handleClose} className="custom-modal">
+    <Modal show={true} onHide={handleClose} className="custom-modal" style={{width:"120%"}}>
       <Modal.Header closeButton>
         <Modal.Title>Chỉnh sửa căn hộ</Modal.Title>
       </Modal.Header>
@@ -110,11 +116,11 @@ function AddApartment({ onClose }) {
           </div>
           <div>
             <label>Số phòng:</label>
-            <input type="text" value={number_room} onChange={(e) => setNumberRoom(e.target.value)} />
+            <input type="number" value={number_room} onChange={(e) => setNumberRoom(e.target.value)} />
           </div>
           <div>
             <label>Diện tích:</label>
-            <input type="text" value={area} onChange={(e) => setArea(e.target.value)} />
+            <input type="number" value={area} onChange={(e) => setArea(e.target.value)} />
           </div>
           <div>
             <label>Loại phòng:</label>

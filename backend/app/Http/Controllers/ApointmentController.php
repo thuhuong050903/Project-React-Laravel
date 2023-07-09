@@ -114,6 +114,8 @@ return response()->json(['message' => 'Cập nhật căn hộ thành công'], 20
 
         return response()->json(['message' => 'Appointment status updated successfully']);
     }
+
+    
         ///=----------contract update------------///////////
         public function updateContracts(Request $request, $id)
     {
@@ -132,24 +134,7 @@ return response()->json(['message' => 'Cập nhật căn hộ thành công'], 20
 
 
 
-    //---------- lấy địa chỉ-------//
-    public function getAddress()
-    {
-        $addresses = addresses::all();
-        return response()->json($addresses);
-    }
-    public function getOneAddress($id)
-    {
-        $addresses = addresses::find($id);
-        return response()->json($addresses);
-    }
-
-
-
-    // public function senMail(){
-    //     Mail::to(request(['email']))->send(new GuiEmail());
-    // }
-
+  
     //-------get contracs----//
     public function getContracts($userId)
     {
@@ -186,6 +171,27 @@ return response()->json(['message' => 'Cập nhật căn hộ thành công'], 20
         return $contracts;
     }
 
+    public function confirm(Request $request, $appointment_id)
+{
+    $appointment = Appointments::findOrFail($appointment_id);
+    $appointment->admin_confirm = 'confirmed';
+    $appointment->save();
+
+    // Gửi email xác nhận
+
+    return response()->json(['message' => 'Appointment confirmed'], 200);
+}
+
+public function cancel(Request $request, $appointment_id)
+{
+    $appointment = Appointments::findOrFail($appointment_id);
+    $appointment->admin_confirm = 'canceled';
+    $appointment->save();
+
+    return response()->json(['message' => 'Appointment canceled'], 200);
+}
+
+
     
     // user
     public function getUser()
@@ -220,7 +226,8 @@ return response()->json(['message' => 'Cập nhật căn hộ thành công'], 20
 {
     try {
         $appointments = Appointments::with('apartments','apartments.users', 'users')
-            ->select('appointment_id', 'user_id', 'apartment_id', 'desired_rent', 'desired_move_in_date', 'appointment_date_time', 'status')
+            ->select('appointment_id', 'user_id', 'apartment_id', 'desired_rent', 'desired_move_in_date', 'appointment_date_time', 'status','admin_confirm')
+            ->orderBy('appointment_id','desc')
             ->get();
 
         return response()->json($appointments);

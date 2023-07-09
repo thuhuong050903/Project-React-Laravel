@@ -1,6 +1,6 @@
 import  { useEffect, useState } from 'react';
 import axios from 'axios';
-// import "../../../assets/style/Management/Contracts.css"
+import "../../../assets/style/Management/Contracts.css"
 
 const Contract = () => {
   const [contracts, setContracts] = useState([]);
@@ -32,7 +32,7 @@ const Contract = () => {
       contracts.map(contract => (
         <div className="card contracts_card" key={contract.contract_id} style={{marginTop:"10rem"}}>
           <div className="card-body">
-            <h5 className="card-title contracts_card-title">Số thứ tự: {count+1}</h5>
+            <h5 className="card-title contracts_card-title">Contracts</h5>
             <div className="row">
               <div className="col-md-6">
                 <div className="contract-info">
@@ -59,6 +59,7 @@ const Contract = () => {
                 </div>
                 <div className="contract-info">
                   <span className="contract-label">Trạng thái:</span>
+                  <br></br>
                   <span className={`contract-value status ${contract.status.toLowerCase()}`}>{contract.status}</span>
                 </div>
               </div>

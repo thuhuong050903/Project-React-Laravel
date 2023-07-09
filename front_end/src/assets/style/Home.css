@@ -888,6 +888,7 @@ font-size: var(--font-size-5xl);
 }
 
 .slick-slide {
+  
   float: left;
   height: 100%;
   min-height: 1px;
@@ -971,4 +972,15 @@ display: none;
 
 .coLiving-slider  .coLiving-apartment-item .card{
   width: 15rem;
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.loading-icon {
+  font-size: 5rem;
 }

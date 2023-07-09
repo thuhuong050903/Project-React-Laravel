@@ -62,6 +62,7 @@ const ConfirmAppointment = () => {
         });
         setAppointments(updatedAppointments);
 
+        alert("Vui long đợi Admin xác nhận trước khi ký hợp đồng")
         console.log("Appointment status updated successfully");
 
         // Send email to the retrieved email address
@@ -222,7 +223,7 @@ const ConfirmAppointment = () => {
       selector: "contracts",
       sortable: true,
       cell: (row) => {
-        if (row.status === "confirmed") {
+        if (row.status === "confirmed" && row.admin_confirm ==="confirmed") {
           return (
             <button
               className="btn btn-sm btn-primary"
@@ -324,7 +325,7 @@ const ConfirmAppointment = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-      </form>
+      </form>                                      
     </div>
   );
 };

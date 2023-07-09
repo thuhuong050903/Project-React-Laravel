@@ -32,6 +32,8 @@ class BookAppointmentController extends Controller
             $booking->desired_move_in_date = $request->input('desired_move_in_date');
             $booking->appointment_date_time = $request->input('appointment_date_time');
             $booking->status = 'Chờ xác nhận';
+            $booking->admin_confirm = '';
+
             $booking->save();
     
             return response()->json($booking, 201);
