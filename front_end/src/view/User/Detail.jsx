@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
+import Swal from "sweetalert";
+
 import '../../assets/style/Modal_booking.css';
 import '../../assets/style/Detail.css'
 import Slider from 'react-slick';
@@ -112,7 +114,11 @@ return differenceInDays * apartment.price
             setBookingcheck_in_date('');
             setBookingcheck_out_date('');
             setShowModal(false);
-            alert("Bạn đã đặt thành công!");
+            Swal({
+              text: "Đặt phòng thành công!",
+              icon: "success",
+              button: "OK",
+            });
           })
           .catch((error) => {
             console.error('Đặt phòng ngắn hạn thất bại:', error);
@@ -148,6 +154,11 @@ return differenceInDays * apartment.price
             setDesiredRent('');
             setDesiredMoveInDate('');
             setDesiredViewingDate('');
+            Swal({
+              text: "Bạn đã đặt thành công !",
+              icon: "success",
+              button: "OK",
+            });
             setShowLongTermBookingModal(false);
       })
       .catch((error) => {
@@ -169,11 +180,11 @@ return differenceInDays * apartment.price
 
   return (
     <div className='detail' style={{marginLeft:"2rem", marginRight:"2rem"}}>
-      <div key={apartment.apartment_id} className='detail-card'>
+      <div key={apartment.apartment_id} className='detail-card' >
         <div className='detail-image-gallery'>
           <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
             {apartment.apartment_image.map((image, index) => (
-              <div key={index}>
+              <div key={index} >
                 <img style={{width:"100%", height:"30rem", marginLeft:"2rem"}} src={`http://localhost:8000/uploads/${image.name}`} alt="Apartment" />
               </div>
             ))}
@@ -181,7 +192,7 @@ return differenceInDays * apartment.price
         </div>
         <div className='detail-right'>
           <div className='apartment-title'>
-            {apartment.number_address} - {apartment.street} - {apartment.price} đ
+            {apartment.number_address} - {apartment.street} 
           </div>
           <div className='apartment-des'>{apartment.description} </div>
           <div className='service-des'>
@@ -191,18 +202,26 @@ return differenceInDays * apartment.price
           </div>
 
           <div className='apartment-room'>Số phòng: {apartment.number_room}</div>
-          <div className='apartment-area'>Diện tích: {apartment.area}</div>
+          <div className='apartment-area'>Diện tích: {apartment.area} m2</div>
+          <div className='' style={{color:"red", fontWeight:"bold"}}>Giá tiền: {apartment.price} đ</div>
+          <div className='apartment-area'>Trạng thái: {apartment.status} </div>
+
           <div className='apartment-address'>
             Địa chỉ: {apartment.number_address} - {apartment.street} - {apartment.ward} - {apartment.district}
           </div>
 
 
-          {apartment.type_room === 'Phòng ngắn hạn' && (
-            <Link onClick={handleBookNow} className="link-button">Đặt phòng</Link>
-          )}
-          {apartment.type_room === 'Phòng dài hạn' && (
-            <Link onClick={handleBookNow} className="link-button">Đặt lịch ngay</Link>
-          )}
+          {apartment.status === 'Còn phòng' && (
+  <>
+    {apartment.type_room === 'Phòng ngắn hạn' && (
+      <Link onClick={handleBookNow} className="link-button">Đặt phòng</Link>
+    )}
+    {apartment.type_room === 'Phòng dài hạn' && (
+      <Link onClick={handleBookNow} className="link-button">Đặt lịch ngay</Link>
+    )}
+  </>
+)}
+
         </div>
       </div>
       {userdetail && (

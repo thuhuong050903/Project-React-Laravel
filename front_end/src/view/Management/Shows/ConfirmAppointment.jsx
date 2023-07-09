@@ -325,7 +325,7 @@ const ConfirmAppointment = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-      </form>
+      </form>                                      
     </div>
   );
 };

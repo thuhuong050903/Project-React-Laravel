@@ -9,9 +9,7 @@ class ServiceController extends Controller
 {
     public function getServices()							
     {							
-    $services = services::all()
-    ->orderBy('service_id', 'desc');	
-    						
+    $services = services::all();							
     return response()->json($services);							
     }					
     public function getOneServices($id)

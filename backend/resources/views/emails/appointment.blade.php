@@ -10,6 +10,6 @@
     <br/>
     <p>Thank you for booking an appointment with us.</p>
     <br/>
-    <p>See you at your appointment!</p>
+    <p>See you at your appointment date!</p>
 </body>
 </html>

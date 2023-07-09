@@ -51,7 +51,7 @@ class AdminListAppointment extends Component {
         alert("Chỉ được phép xác nhận các cuộc hẹn đã được xác nhận.");
         return;
       }
-
+  
       const { appointments } = this.state;
       const confirmedAppointments = appointments.map((appointment) => {
         if (appointment.appointment_id === row.appointment_id) {
@@ -59,25 +59,25 @@ class AdminListAppointment extends Component {
         }
         return appointment;
       });
-
+  
       await axios.put(`http://localhost:8000/api/appointments/${row.appointment_id}/confirm`, {
         admin_confirm: "confirmed",
-      
       });
-
-      await this.handleSendMail(row.users.email, row.apartments.users.email); // Gửi email
-
+  
+      await this.handleSendMail(row.users.email, row.apartments.users.email);
+  
       this.setState({
         appointments: confirmedAppointments,
       });
-
+  
       console.log("Appointment confirmed");
-      alert("Appointment confirmed"); // Hiển thị thông báo xác nhận thành công
+      alert("Appointment confirmed");
     } catch (error) {
       console.error("Error confirming appointment:", error);
-      alert("Error confirming appointment"); // Hiển thị thông báo lỗi
+      alert("Error confirming appointment");
     }
   };
+  
 
   handleCancelAppointment = async (row) => {
     try {
@@ -277,7 +277,7 @@ admin_confirm: "canceled",
     }
 
     return (
-      <div className="list_apartment">
+      <div className="list_apartment" style={{marginLeft:"14.05rem", marginTop:"2.5rem",width:"85%", height:"50rem", backgroundColor:"white"}}>
         <DataTable
           title="List Appointments"
           columns={columns}
@@ -285,6 +285,7 @@ admin_confirm: "canceled",
           paginationPerPage={5}
           defaultSortField="appointment_id"
           pagination
+          style={{height:"50rem"}}
         />
        
       </div>

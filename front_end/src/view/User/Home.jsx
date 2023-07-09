@@ -1,5 +1,6 @@
 import React ,{useState, useEffect,useRef} from 'react';
 import SearchBar from './SearchBar';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 // import "../../assets/style/Co_Living.css";
 import 'slick-carousel/slick/slick.css';
@@ -14,6 +15,7 @@ import 'slick-carousel/slick/slick-theme.css';
 const Home = () => {
   const [apartments, setApartments] = useState([]);
   const sliderRef = useRef(null);
+  const [loading, setLoading] = useState(true); // Thêm biến trạng thái loading
 
   const settings = {
     dots: true,
@@ -48,17 +50,29 @@ const Home = () => {
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/get-apartment")
       .then((response) => response.json())
-      .then((data) => setApartments(data));
+      .then((data) => {
+        setApartments(data);
+        setLoading(false); // Kết thúc quá trình tải dữ liệu
+      });
   }, []);
+  // Kiểm tra nếu đang tải dữ liệu, hiển thị biểu tượng loading
+// Kiểm tra nếu đang tải dữ liệu, hiển thị biểu tượng loading
+if (loading) {
+  return (
+    <div className="loading-container">
+      <FontAwesomeIcon className="loading-icon" icon={faSpinner} spin />
+    </div>
+  );
+}
 
 
+ 
   return (
 
     <div className="homePage">
       <div className='homePage-first-img'>
         <img style={{ width: "100%", marginTop: "-15rem", marginBottom: "4rem" }} src={`http://localhost:8000/photos/Cho-thue-can-ho-img.webp`} alt="" />
         <div className="fixed-searchbar">
-          <SearchBar />
         </div>
       </div>
       <div>
@@ -70,7 +84,7 @@ const Home = () => {
             <div className="coLiving-apartment-item">
               <Link to={`/detail-apartment/${apartment.apartment_id}`} key={apartment.apartment_id} className="card">
                 <div className="coLiving-image-gallery">
-                  <Slider arrows={false} dots={false} autoplay={true} speed={5000}>
+                  <Slider arrows={false} dots={false} autoplay={true} speed={5000} >
                     {apartment.apartment_image.map((image, index) => (
                       <div key={index}>
                       <img src={`http://localhost:8000/uploads/${image.name}`} alt="Apartment" />

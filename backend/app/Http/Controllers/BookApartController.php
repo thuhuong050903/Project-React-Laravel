@@ -17,7 +17,7 @@ class BookApartController extends Controller
             'user_id' => 'required',
             'phone' => 'required',
             'apartment_id' => 'required',
-            'check_in_date' => 'required|date|after:today',
+            'check_in_date' => 'required|date|after_or_equal:today',
             'check_out_date' => 'required|date|after:check_in_date|before_or_equal:'.now()->addDays(15)->format('Y-m-d'),
         ]);
     
@@ -43,7 +43,10 @@ class BookApartController extends Controller
         $booking->total_price = $totalAmount;
         $booking->status = 'Chờ xác nhận';
         $booking->save();
-    
+        $apartment = Apartments::find($validatedData['apartment_id']);
+            $apartment->status = 'Hết phòng';
+            $apartment->save();
+        
         // Return the created booking as JSON response
         return response()->json($booking, 201);
     }

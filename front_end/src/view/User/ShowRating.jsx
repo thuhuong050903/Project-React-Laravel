@@ -18,17 +18,16 @@ const ShowRating = ({ apartmentId }) => {
 
   return (
     <div className="rating-container">
-      <h1 className="title">Rating List for Apartment ID {apartmentId}</h1>
+      <h1 className="title">Đánh giá từ khách hàng</h1>
       <ul className="rating-list">
         {ratings.map(rating => (
           <li key={rating.rating_id} className="rating-item">
             <div className="rating-header">
-              <h2 className="apartment-id">Apartment ID: {rating.apartment_id}</h2>
-              <p className="user">User: {rating.users.username}</p>
+              <p className="user">Khách hàng: {rating.users.username}</p>
             </div>
             <div className="rating-body">
-              <p className="rating">Rating: {renderStars(rating.number_rating)}</p>
-              <p className="comment">Comment: {rating.comment}</p>
+              <p className="rating">Số lượng đánh giá: {renderStars(rating.number_rating)}</p>
+              <p className="comment">Bình luận: {rating.comment}</p>
             </div>
           </li>
         ))}

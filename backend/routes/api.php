@@ -95,10 +95,8 @@ Route::delete('/delete-bookapartment/{book_id}', [App\Http\Controllers\BookApart
 Route::put('/update-apartment-status', [App\Http\Controllers\ApartmentController::class, 'updateApartmentStatus']);
 
 
-Route::put('appointments/{appointment}/confirm', [App\Http\Controllers\ApointmentController::class, 'confirm']);
-Route::put('appointments/{appointment}/cancel', [App\Http\Controllers\ApointmentController::class, 'cancel']);
-
-
+Route::put('appointments/{appointment_id}/confirm', [App\Http\Controllers\ApointmentController::class, 'confirm']);
+Route::put('appointments/{appointment_id}/cancel', [App\Http\Controllers\ApointmentController::class, 'cancel']);
 
 
 Route::get('/get-service',[App\Http\Controllers\ServiceController::class,'getServices']);

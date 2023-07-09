@@ -151,7 +151,7 @@ class AdminListService extends Component {
       return <div>{error}</div>;
     }
     return (
-      <div className="list_apartment">
+      <div className="list_apartment" style={{marginLeft:"14.05rem", marginTop:"2.5rem",width:"85%", height:"50rem", backgroundColor:"white"}}>
         <div className="button-container">
           <button className="btn btn-success" onClick={this.handleAddNew}>
             Thêm mới dịch vụ

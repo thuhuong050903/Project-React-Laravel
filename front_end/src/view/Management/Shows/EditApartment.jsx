@@ -18,7 +18,15 @@ function EditApartment({ apartmentId, onClose }) {
   const [apartmentImages, setApartmentImages] = useState([]);
   const [showAddPhotoModal, setShowAddPhotoModal] = useState(false);
   const [showModal, setShowModal] = useState(true);
-
+  const districts = [
+    "Quận Hải Châu",
+    "Quận Thanh Khê",
+    "Quận Sơn Trà",
+    "Quận Ngũ Hành Sơn",
+    "Quận Liên Chiểu",
+    "Quận Cẩm Lệ",
+    "Huyện Hòa Vang",
+  ];
   useEffect(() => {
     fetchApartmentData();
   }, []);
@@ -59,7 +67,7 @@ function EditApartment({ apartmentId, onClose }) {
         district: district,
       });
       Swal({
-        text: "Update successfully",
+        text: "Chỉnh sửa thành công",
         icon: "success",
         button: "OK",
       })
@@ -97,7 +105,7 @@ function EditApartment({ apartmentId, onClose }) {
   };
 
   return (
-    <Modal show={showModal} onHide={handleClose} className="custom-modal">
+    <Modal show={showModal} onHide={handleClose} className="custom-modal" style={{width:"120%"}}>
       <Modal.Header closeButton>
         <Modal.Title>Chỉnh sửa căn hộ</Modal.Title>
       </Modal.Header>
@@ -121,7 +129,11 @@ function EditApartment({ apartmentId, onClose }) {
           </div>
           <div>
             <label>Loại phòng:</label>
-            <input type="text" value={type_room} onChange={(e) => setTypeRoom(e.target.value)} />
+            <select value={type_room} onChange={(e) => setTypeRoom(e.target.value)}>
+              <option value="">Chọn loại phòng</option>
+              <option value="Phòng ngắn hạn">Phòng ngắn hạn</option>
+              <option value="Phòng dài hạn">Phòng dài hạn</option>
+            </select>
           </div>
           <div>
             <label>Số nhà:</label>
@@ -137,7 +149,14 @@ function EditApartment({ apartmentId, onClose }) {
           </div>
           <div>
             <label>Quận/Huyện:</label>
-            <input type="text" value={district} onChange={(e) => setDistrict(e.target.value)} />
+            <select value={district} onChange={(e) => setDistrict(e.target.value)}>
+              <option value="">Chọn quận/huyện</option>
+              {districts.map((district, index) => (
+                <option key={index} value={district}>
+                  {district}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
             <label>Hình ảnh:</label>
@@ -147,19 +166,19 @@ function EditApartment({ apartmentId, onClose }) {
                 <button onClick={(e) => handleDeletePhoto(e, image.image_id)} style={{height:"2rem"}}>x</button>
               </div>
             ))}
-            <Button variant="success" onClick={handleAddPhoto}>
-              Thêm ảnh
-            </Button>
+           
           </div>
-          <Button variant="primary" type="submit">
-            Lưu
-          </Button>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
+          
         </form>
       </Modal.Body>
       <Modal.Footer>
+      <Button variant="primary" type="submit">
+            Lưu
+          </Button>
+          
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
       </Modal.Footer>
     </Modal>
   );

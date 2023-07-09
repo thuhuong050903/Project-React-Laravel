@@ -125,8 +125,7 @@ class AddServiceForm extends Component {
           <div>
             <label>Contact Information:</label>
             <input
-              type="text"
-name="contact_info"
+              type="text"name="contact_info"
               placeholder="Nhập thông tin liên hệ"
               value={contact_info}
               onChange={this.handleInputChange}

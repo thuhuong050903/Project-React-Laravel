@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import axios from 'axios';
+import Swal from "sweetalert";
 
 function StarRating({ apartmentId, userId }) {
   const [selectedRating, setSelectedRating] = useState(0);
@@ -41,9 +42,15 @@ function StarRating({ apartmentId, userId }) {
         console.log('Rating submitted successfully:', response.data);
         setSelectedRating(0);
         setComment('');
-
+        Swal({
+          text: "Gửi đánh giá thành công !",
+          icon: "success",
+          button: "OK",
+        });
         // Gọi API để cập nhật số sao từ cơ sở dữ liệu sau khi đánh giá thành công
         fetchStarCount();
+        window.location.reload();
+
       })
       .catch((error) => {
         console.error('Rating submission failed:', error);

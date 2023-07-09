@@ -236,16 +236,14 @@ public function updateApartmentStatus()
 
     // Cập nhật trạng thái của apartments
     apartments::leftJoin('book_apartments', 'apartments.apartment_id', '=', 'book_apartments.apartment_id')
-        ->whereNotNull('book_apartments.apartment_id')
-        ->update(['apartments.status' => 'Hết phòng']);
+    ->whereNotNull('book_apartments.apartment_id')
+    ->where('book_apartments.status', 'Đã thanh toán')
+    ->update(['apartments.status' => 'Còn phòng']);
 
-    apartments::leftJoin('book_apartments', 'apartments.apartment_id', '=', 'book_apartments.apartment_id')
-        ->whereNull('book_apartments.apartment_id')
-        ->update(['apartments.status' => 'Còn phòng']);
-
-        apartments::leftJoin('contracts', 'apartments.apartment_id', '=', 'contracts.apartment_id')
-        ->whereNull('contracts.apartment_id')
-        ->update(['apartments.status' => 'Còn phòng']);
+apartments::leftJoin('book_apartments', 'apartments.apartment_id', '=', 'book_apartments.apartment_id')
+    ->whereNotNull('book_apartments.apartment_id')
+    ->where('book_apartments.status', '!=', 'Đã thanh toán')
+    ->update(['apartments.status' => 'Hết phòng']);
 
         apartments::leftJoin('contracts', 'apartments.apartment_id', '=', 'contracts.apartment_id')
         ->whereNotNull('contracts.apartment_id')
